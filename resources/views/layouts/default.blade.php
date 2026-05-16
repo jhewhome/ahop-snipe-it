@@ -1668,6 +1668,24 @@
                             </li>
                         @endcan
 
+                        @can('view', \App\Models\Patient::class)
+                            <li class="treeview{{ (request()->is('patients*') ? ' active' : '') }}" id="patients-sidenav-option">
+                                <a href="#">
+                                    <i class="fas fa-hospital-user fa-fw" aria-hidden="true"></i>
+                                    <span>{{ trans('general.health_center') }}</span>
+                                    <x-icon type="angle-left" class="pull-right fa-fw"/>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li {{ (request()->is('patients*') ? ' class="active"' : '') }}>
+                                        <a href="{{ route('patients.index') }}">
+                                            <x-icon type="circle" class="text-grey fa-fw"/>
+                                            {{ trans('general.patients') }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endcan
+
                         @can('view', \App\Models\User::class)
                                 <li class="treeview{{ (request()->is('users*') ? ' active' : '') }}" id="users-sidenav-option">
                                     <a href="#" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=6" : ''}}>

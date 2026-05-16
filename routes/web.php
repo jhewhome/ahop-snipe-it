@@ -19,6 +19,7 @@ use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\ManufacturersController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportTemplatesController;
@@ -100,6 +101,11 @@ Route::group(['middleware' => 'auth'], function () {
     * Departments
     */
     Route::resource('departments', DepartmentsController::class);
+
+    /*
+    * Patients (BHC Health Center)
+    */
+    Route::resource('patients', PatientsController::class);
 });
 
 /*

@@ -127,6 +127,8 @@ return [
     'delete_seats' => 'Deleted Seats',
     'deletion_failed' => 'Deletion failed',
     'departments' => 'Departments',
+    'patients' => 'Patients',
+    'health_center' => 'Health Center',
     'department' => 'Department',
     'deployed' => 'Deployed',
     'depreciation' => 'Depreciation',

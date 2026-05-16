@@ -301,6 +301,25 @@ return [
         ],
     ],
 
+    'Patients' => [
+        [
+            'permission' => 'patients.view',
+            'display' => true,
+        ],
+        [
+            'permission' => 'patients.create',
+            'display' => true,
+        ],
+        [
+            'permission' => 'patients.edit',
+            'display' => true,
+        ],
+        [
+            'permission' => 'patients.delete',
+            'display' => true,
+        ],
+    ],
+
     'Departments' => [
         [
             'permission' => 'departments.view',
