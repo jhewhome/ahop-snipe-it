@@ -1,39 +1,53 @@
-# AgilityCare Health Operations Platform (AHOP) — Documentation Index
+# AgilityCare Health Operations Platform (AHOP) — Documentation
 
 **Repository:** https://github.com/jhewhome/ahop-snipe-it  
 **Base platform:** Snipe-IT (Laravel 11) — customized for clinical operations  
-**Production demo:** http://35.247.142.84  
+**Live demo:** http://35.247.142.84  
 **Local development:** http://localhost/snipe-it/public  
 
 ---
 
-## Documents in this folder
+## Documentation (PDF)
 
-| Document | Purpose |
-|----------|---------|
-| [AHOP-SOURCE-CODE-AND-DOCUMENTATION.md](AHOP-SOURCE-CODE-AND-DOCUMENTATION.md) | **Main thesis deliverable** — system overview, architecture, source code structure, database, deployment, RBAC, commands |
-| [AHOP-USER-GUIDE.md](AHOP-USER-GUIDE.md) | End-user and staff workflow guide |
-| [AHOP-DEPLOYMENT-GUIDE.md](AHOP-DEPLOYMENT-GUIDE.md) | Local setup, Google Cloud deploy, Git sync |
+| Document | Description |
+|----------|-------------|
+| [AHOP-SOURCE-CODE-AND-DOCUMENTATION.pdf](AHOP-SOURCE-CODE-AND-DOCUMENTATION.pdf) | **Main thesis deliverable** — architecture, source code, database, RBAC, deployment |
+| [AHOP-USER-GUIDE.pdf](AHOP-USER-GUIDE.pdf) | Staff and end-user workflow guide |
+| [AHOP-DEPLOYMENT-GUIDE.pdf](AHOP-DEPLOYMENT-GUIDE.pdf) | Local setup, Google Cloud deploy, Git sync |
 
 ---
 
-## In-application documentation
+## Live demo (for evaluators)
+
+1. Open: http://35.247.142.84/login  
+2. **Username:** `clinicadmin`  
+3. **Password:** `demo1234`  
+
+Other demo accounts (`reception`, `physician`, `labtech`) use the same password after seeding.
+
+---
+
+## Quick setup (from source code)
+
+```bash
+git clone https://github.com/jhewhome/ahop-snipe-it.git
+cd ahop-snipe-it
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --force
+php artisan ahop:seed-all --password=demo1234
+```
+
+---
+
+## In-application help
 
 | Location | Description |
 |----------|-------------|
-| `/staff-guide` (when logged in) | Built-in Staff Guide with roles and workflows |
+| `/staff-guide` | Built-in Staff Guide (when logged in) |
 | `.env.example` | Environment variable reference |
-| `config/ahop.php` | AHOP feature flags and settings |
 
 ---
 
-## Quick links for evaluators
-
-1. Clone: `git clone https://github.com/jhewhome/ahop-snipe-it.git`
-2. Configure `.env` from `.env.example`
-3. Run: `composer install`, `php artisan migrate`, `php artisan ahop:seed-all`
-4. Login: username `clinicadmin`, password `demo1234` (after seeding)
-
----
-
-*AgilityCare Health Operations Platform — Source Code & Documentation Package*
+*AgilityCare Health Operations Platform — Source Code & Documentation*

@@ -71,3 +71,6 @@ storage/ldap_client_tls.key
 /storage/framework/testing
 
 /.phpunit.cache
+
+# Documentation: publish README + PDFs only (keep .md sources local)
+/docs/AHOP-*.md
