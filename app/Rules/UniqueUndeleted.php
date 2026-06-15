@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Validation\Validator;
+use App\Support\ClinicalDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Validation\DataAwareRule;
 
@@ -41,7 +42,9 @@ class UniqueUndeleted implements ValidationRule, ValidatorAwareRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $query = DB::table($this->table)->whereNull('deleted_at');
+        $query = DB::connection(ClinicalDatabase::connectionForTable($this->table))
+            ->table($this->table)
+            ->whereNull('deleted_at');
         $query->where($this->columns[0], '=', $value); //the first column to check
         $translation_string = 'validation.unique_undeleted'; //the normal validation string for a single-column check
         foreach (array_slice($this->columns, 1) as $column) {

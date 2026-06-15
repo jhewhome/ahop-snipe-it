@@ -1434,6 +1434,10 @@ class Helper
             'depreciations*',
         ];
 
+        if (config('ahop.clinical_sidebar_mode')) {
+            $settings[] = 'users*';
+        }
+
         return $settings;
     }
 

@@ -320,6 +320,89 @@ return [
         ],
     ],
 
+    'OPD Visits' => [
+        [
+            'permission' => 'opd_visits.view',
+            'display' => true,
+        ],
+        [
+            'permission' => 'opd_visits.create',
+            'display' => true,
+        ],
+        [
+            'permission' => 'opd_visits.edit',
+            'display' => true,
+        ],
+        [
+            'permission' => 'opd_visits.delete',
+            'display' => true,
+        ],
+    ],
+
+    'Appointments' => [
+        [
+            'permission' => 'appointments.view',
+            'display' => true,
+        ],
+        [
+            'permission' => 'appointments.create',
+            'display' => true,
+        ],
+        [
+            'permission' => 'appointments.edit',
+            'display' => true,
+        ],
+        [
+            'permission' => 'appointments.delete',
+            'display' => true,
+        ],
+    ],
+
+    'Laboratory' => [
+        [
+            'permission' => 'lab_orders.view',
+            'display' => true,
+        ],
+        [
+            'permission' => 'lab_orders.create',
+            'display' => true,
+        ],
+        [
+            'permission' => 'lab_orders.edit',
+            'display' => true,
+        ],
+        [
+            'permission' => 'lab_orders.delete',
+            'display' => true,
+        ],
+    ],
+
+    'Clinical Analytics' => [
+        [
+            'permission' => 'ai_insights.view',
+            'display' => true,
+        ],
+    ],
+
+    'Billing' => [
+        [
+            'permission' => 'billing_invoices.view',
+            'display' => true,
+        ],
+        [
+            'permission' => 'billing_invoices.create',
+            'display' => true,
+        ],
+        [
+            'permission' => 'billing_invoices.edit',
+            'display' => true,
+        ],
+        [
+            'permission' => 'billing_invoices.delete',
+            'display' => true,
+        ],
+    ],
+
     'Departments' => [
         [
             'permission' => 'departments.view',

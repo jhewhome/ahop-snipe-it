@@ -5,9 +5,15 @@
 ])
 @aware(['name', 'route'])
 
+@php
+    $boxClass = 'box box-'.$box_style;
+    if ($box_style === 'default' && config('ahop.theme_enabled') && config('ahop.ui_phase_c', true)) {
+        $boxClass .= ' ahop-panel';
+    }
+@endphp
 
 <!-- Start box component -->
-<div {{ $attributes->merge(['class' => 'box box-'.$box_style]) }}>
+<div {{ $attributes->merge(['class' => $boxClass]) }}>
 
     @if ($header)
         <div class="box-header with-border">

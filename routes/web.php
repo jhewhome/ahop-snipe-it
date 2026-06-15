@@ -19,7 +19,14 @@ use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\ManufacturersController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\ClinicalAnalyticsController;
+use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\StaffGuideController;
+use App\Http\Controllers\BillingInvoicesController;
+use App\Http\Controllers\LabOrdersController;
+use App\Http\Controllers\OpdVisitsController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\ReceptionCheckInController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportTemplatesController;
@@ -103,9 +110,76 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('departments', DepartmentsController::class);
 
     /*
-    * Patients (BHC Health Center)
+    * Reception check-in (AgilityCare AHOP)
     */
+    Route::get('reception/check-in', [ReceptionCheckInController::class, 'index'])->name('reception.check-in');
+    Route::get('reception/check-in/search', [ReceptionCheckInController::class, 'searchPatients'])->name('reception.check-in.search');
+    Route::post('reception/check-in/patient', [ReceptionCheckInController::class, 'storePatient'])->name('reception.check-in.patient');
+    Route::post('reception/check-in/walk-in', [ReceptionCheckInController::class, 'storeWalkIn'])->name('reception.check-in.walk-in');
+    Route::post('reception/check-in/appointments/{appointment}', [ReceptionCheckInController::class, 'checkInAppointment'])->name('reception.check-in.appointment');
+
+    /*
+    * Patients (AgilityCare AHOP)
+    */
+    Route::get('patients/{patient}/clinical-summary', [PatientsController::class, 'clinicalSummary'])->name('patients.clinical-summary');
     Route::resource('patients', PatientsController::class);
+
+    /*
+    * Appointments (AgilityCare AHOP — Phase 2)
+    */
+    Route::get('appointments/calendar', [AppointmentsController::class, 'calendar'])->name('appointments.calendar');
+    Route::post('appointments/{appointment}/check-in', [AppointmentsController::class, 'checkIn'])->name('appointments.check-in');
+    Route::post('appointments/{appointment}/send-reminder', [AppointmentsController::class, 'sendReminder'])->name('appointments.send-reminder');
+    Route::post('appointments/{appointment}/billing-invoice', [AppointmentsController::class, 'createBillingInvoice'])->name('appointments.billing-invoice');
+    Route::resource('appointments', AppointmentsController::class);
+
+    /*
+    * OPD visits (AgilityCare AHOP)
+    */
+    Route::get('opd-visits/queue', [OpdVisitsController::class, 'queue'])->name('opd-visits.queue');
+    Route::post('opd-visits/{opd_visit}/lab-orders', [OpdVisitsController::class, 'storeLabOrder'])->name('opd-visits.lab-orders.store');
+    Route::post('opd-visits/{opd_visit}/status', [OpdVisitsController::class, 'updateStatus'])->name('opd-visits.status');
+    Route::post('opd-visits/{opd_visit}/billing-invoice', [OpdVisitsController::class, 'createBillingInvoice'])->name('opd-visits.billing-invoice');
+    Route::get('opd-visits/{opd_visit}/medical-certificate', [OpdVisitsController::class, 'medicalCertificate'])->name('opd-visits.medical-certificate');
+    Route::resource('opd-visits', OpdVisitsController::class);
+
+    /*
+    * Laboratory orders (AgilityCare AHOP)
+    */
+    Route::post('lab-orders/{lab_order}/results', [LabOrdersController::class, 'storeResult'])->name('lab-orders.results.store');
+    Route::delete('lab-orders/{lab_order}/results/{result}', [LabOrdersController::class, 'destroyResult'])->name('lab-orders.results.destroy');
+    Route::resource('lab-orders', LabOrdersController::class);
+
+    /*
+    * Billing (AgilityCare AHOP — Priority 3)
+    */
+    Route::get('billing-invoices/{billing_invoice}/receipt', [BillingInvoicesController::class, 'receipt'])->name('billing-invoices.receipt');
+    Route::post('billing-invoices/{billing_invoice}/line-items', [BillingInvoicesController::class, 'storeLineItem'])->name('billing-invoices.line-items.store');
+    Route::delete('billing-invoices/{billing_invoice}/line-items/{line_item}', [BillingInvoicesController::class, 'destroyLineItem'])->name('billing-invoices.line-items.destroy');
+    Route::post('billing-invoices/{billing_invoice}/payments', [BillingInvoicesController::class, 'storePayment'])->name('billing-invoices.payments.store');
+    Route::delete('billing-invoices/{billing_invoice}/payments/{payment}', [BillingInvoicesController::class, 'destroyPayment'])->name('billing-invoices.payments.destroy');
+    Route::resource('billing-invoices', BillingInvoicesController::class);
+
+    /*
+    * Clinical Analytics (AgilityCare AHOP — Phase 5)
+    */
+    Route::get('clinical-analytics', [ClinicalAnalyticsController::class, 'index'])->name('clinical-analytics.index');
+    Route::get('clinical-analytics/lab-trends/export', [ClinicalAnalyticsController::class, 'exportLabTrends'])->name('clinical-analytics.lab-trends.export');
+    Route::get('clinical-analytics/patients/{patient}', [ClinicalAnalyticsController::class, 'patient'])->name('clinical-analytics.patient');
+
+    Route::get('ai-insights', fn () => redirect()->route('clinical-analytics.index', request()->query(), 301));
+    Route::get('ai-insights/lab-trends/export', fn () => redirect()->route('clinical-analytics.lab-trends.export', request()->query(), 301));
+    Route::get('ai-insights/patients/{patient}', fn (\App\Models\Patient $patient) => redirect()->route('clinical-analytics.patient', $patient, 301));
+
+    /*
+    * Staff guide (AHOP Priority 1 — adoption)
+    */
+    Route::get('staff-guide', [StaffGuideController::class, 'index'])->name('staff-guide.index');
+
+    /*
+    * Clinical dashboard auto-refresh (AHOP Phase B)
+    */
+    Route::get('ahop/dashboard-data', [DashboardController::class, 'clinicalData'])->name('ahop.dashboard.data');
 });
 
 /*
@@ -451,6 +525,15 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::group(['prefix' => 'reports', 'middleware' => ['auth']], function () {
+
+    Route::get('clinical', [\App\Http\Controllers\ClinicalReportsController::class, 'index'])
+        ->name('reports.clinical.index')
+        ->breadcrumbs(fn (Trail $trail) => $trail->parent('home')
+            ->push(trans('admin/clinical_reports/general.title'), route('reports.clinical.index')));
+
+    Route::get('clinical/export/{type}', [\App\Http\Controllers\ClinicalReportsController::class, 'export'])
+        ->name('reports.clinical.export')
+        ->where('type', '[a-z_]+');
 
     Route::get('audit', [ReportsController::class, 'audit'])
         ->name('reports.audit')

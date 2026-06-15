@@ -21,7 +21,24 @@ class Kernel extends ConsoleKernel
             $schedule->command('snipeit:expected-checkin')->daily();
             $schedule->command('snipeit:upcoming-audits')->daily();
         }
-        $schedule->command('snipeit:backup')->weekly();
+        if (config('ahop.priority1.daily_backup', true)) {
+            $schedule->command('ahop:backup')->dailyAt('02:00');
+        } else {
+            $schedule->command('snipeit:backup')->weekly();
+        }
+
+        if (config('ahop.priority1.daily_backup', true)) {
+            $schedule->command('ahop:backup-health')->dailyAt('08:00');
+        }
+
+        if (config('ahop.appointment_reminders.enabled', true)) {
+            $schedule->command('ahop:send-appointment-reminders')->hourly();
+        }
+
+        if (config('ahop.equipment_alerts.enabled', true)) {
+            $schedule->command('ahop:send-equipment-alerts')->dailyAt('07:00');
+        }
+
         $schedule->command('backup:clean')->daily();
         $schedule->command('auth:clear-resets')->everyFifteenMinutes();
         $schedule->command('saml:clear_expired_nonces')->weekly();

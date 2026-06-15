@@ -8,7 +8,9 @@ use App\Models\Company;
 use App\Models\Component;
 use App\Models\Consumable;
 use App\Models\License;
+use App\Services\Ahop\ClinicalDashboardService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
@@ -35,6 +37,10 @@ class DashboardController extends Controller
     {
         // Show the page
         if (auth()->user()->hasAccess('admin')) {
+            if (config('ahop.clinical_sidebar_mode') && config('ahop.clinical_dashboard')) {
+                return $this->clinicalDashboard();
+            }
+
             $asset_stats = null;
 
             $counts['asset'] = Asset::count();
@@ -57,5 +63,28 @@ class DashboardController extends Controller
             // Redirect to the profile page
             return redirect()->intended('account/view-assets');
         }
+    }
+
+    /**
+     * AHOP clinical operations dashboard (UI Phase B).
+     */
+    protected function clinicalDashboard(): View
+    {
+        return view('dashboard-ahop', app(ClinicalDashboardService::class)->build());
+    }
+
+    /**
+     * JSON payload for clinical dashboard auto-refresh (Phase B).
+     */
+    public function clinicalData(): JsonResponse
+    {
+        if (! auth()->user()->hasAccess('admin')) {
+            abort(403);
+        }
+
+        abort_unless(config('ahop.clinical_sidebar_mode') && config('ahop.clinical_dashboard'), 404);
+        abort_unless(config('ahop.dashboard_auto_refresh.enabled', true), 404);
+
+        return response()->json(app(ClinicalDashboardService::class)->refreshPayload());
     }
 }

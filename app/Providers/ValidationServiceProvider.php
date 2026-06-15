@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\CustomField;
 use App\Models\Location;
 use App\Models\Setting;
+use App\Support\ClinicalDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -65,6 +66,20 @@ class ValidationServiceProvider extends ServiceProvider
          * The UniqueUndeletedTrait prefills these parameters, so you can just use
          * `unique_undeleted:table,fieldname` in your rules out of the box
          */
+        Validator::extend('exists_clinical', function ($attribute, $value, $parameters, $validator) {
+            if (count($parameters) < 2 || $value === null || $value === '') {
+                return true;
+            }
+
+            $table = $parameters[0];
+            $column = $parameters[1];
+
+            return DB::connection(ClinicalDatabase::connectionForTable($table))
+                ->table($table)
+                ->where($column, $value)
+                ->exists();
+        });
+
         Validator::extend('unique_undeleted', function ($attribute, $value, $parameters, $validator) {
             if (count($parameters)) {
 
@@ -73,7 +88,8 @@ class ValidationServiceProvider extends ServiceProvider
                     return true;
                 }
 
-                $count = DB::table($parameters[0])
+                $count = DB::connection(ClinicalDatabase::connectionForTable($parameters[0]))
+                    ->table($parameters[0])
                     ->select('id')
                     ->where($attribute, '=', $value)
                     ->whereNull('deleted_at')
@@ -99,7 +115,8 @@ class ValidationServiceProvider extends ServiceProvider
 
             if (count($parameters)) {
 
-                $count = DB::table($parameters[0])
+                $count = DB::connection(ClinicalDatabase::connectionForTable($parameters[0]))
+                    ->table($parameters[0])
                     ->select('id')
                     ->where($attribute, '=', $value)
                     ->where('id', '!=', $parameters[1]);

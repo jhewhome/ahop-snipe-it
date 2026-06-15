@@ -23,6 +23,7 @@ use App\Models\Company;
 use App\Models\Consumable;
 use App\Models\License;
 use App\Models\User;
+use App\Services\PhysicianSelectService;
 use App\Notifications\CurrentInventory;
 use App\Notifications\WelcomeNotification;
 use Illuminate\Database\Eloquent\Builder;
@@ -402,6 +403,10 @@ class UsersController extends Controller
                     ->orWhere('email', 'LIKE', '%'.$request->input('search').'%')
                     ->orWhere('employee_num', 'LIKE', '%'.$request->input('search').'%');
             });
+        }
+
+        if ($request->boolean('ahopPhysicians')) {
+            $users = PhysicianSelectService::applySelectlistFilter($users);
         }
 
         $users = $users->orderBy('display_name', 'asc')->orderBy('last_name', 'asc')->orderBy('first_name', 'asc');

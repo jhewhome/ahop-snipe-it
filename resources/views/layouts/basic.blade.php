@@ -11,6 +11,7 @@
     <link rel="shortcut icon" type="image/ico" href="{{ ($snipeSettings) && ($snipeSettings->favicon!='') ?  Storage::disk('public')->url(e($snipeSettings->favicon)) : config('app.url').'/favicon.ico' }}">
     {{-- stylesheets --}}
     <link rel="stylesheet" href="{{ url(mix('css/dist/all.css')) }}">
+    @include('partials.ahop-theme-head')
 
     <script nonce="{{ csrf_token() }}">
         window.snipeit = {
@@ -43,9 +44,11 @@
 
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page{{ config('ahop.theme_enabled') ? ' ahop-login-page' : '' }}">
 
-    @if (($snipeSettings) && ($snipeSettings->logo!=''))
+    @if (config('ahop.theme_enabled'))
+        @include('partials.ahop-login-brand')
+    @elseif (($snipeSettings) && ($snipeSettings->logo!=''))
         <div class="text-center">
             <a href="{{ config('app.url') }}">
                 <img id="login-logo" src="{{ Storage::disk('public')->url('').e($snipeSettings->logo) }}" alt="{{ $snipeSettings->site_name }}">

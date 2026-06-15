@@ -12,6 +12,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
 
     <link rel="apple-touch-icon"
@@ -575,7 +576,7 @@
         .label-default,
         .label-default:hover
         {
-            background-color: var(--main-theme-color);
+            background-color: var(--main-theme-color) !important;
             color: var(--nav-primary-text-color) !important;
         }
 
@@ -1131,6 +1132,17 @@
             }
         }
 
+        @if (config('ahop.theme_enabled'))
+        /* AHOP: align Snipe CSS variables with brand (detailed rules in ahop-theme.css) */
+        body.ahop-theme {
+            --main-theme-color: {{ config('ahop.primary_color', '#0d6e7a') }};
+            --nav-primary-text-color: #ffffff;
+            --color-fg: #334155;
+            --box-bg: #ffffff;
+            --link-color: #0d6e7a;
+            --link-hover: #094a52;
+        }
+        @endif
 
     </style>
 
@@ -1140,6 +1152,8 @@
             {!! $snipeSettings->show_custom_css() !!}
         </style>
     @endif
+
+    @include('partials.ahop-theme-head')
 
 
     <script nonce="{{ csrf_token() }}">
@@ -1157,20 +1171,20 @@
 
 </head>
 
-    <body class="sidebar-mini{{ (session('menu_state')!='open') ? ' sidebar-mini sidebar-collapse' : ''  }}">
+    <body class="sidebar-mini{{ (session('menu_state')!='open') ? ' sidebar-mini sidebar-collapse' : ''  }}{{ config('ahop.theme_enabled') ? ' ahop-theme' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.modern_ui', true)) ? ' ahop-modern' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.ui_phase_c', true)) ? ' ahop-phase-c' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.clinical_sidebar_mode')) ? ' ahop-clinical-mode' : '' }}">
 
         <a class="skip-main" href="#main">{{ trans('general.skip_to_main_content') }}</a>
         <div class="wrapper">
 
-            <header class="main-header">
+            <header class="main-header"@if (config('ahop.theme_enabled')) style="background: linear-gradient(135deg, {{ config('ahop.primary_dark', '#094a52') }} 0%, {{ config('ahop.primary_color', '#0d6e7a') }} 50%, #1496a6 100%) !important;"@endif>
 
                 <!-- Logo -->
 
                 <!-- Header Navbar: style can be found in header.less -->
-                <nav class="navbar navbar-static-top" role="navigation">
+                <nav class="navbar navbar-static-top"@if (config('ahop.theme_enabled')) style="background: transparent !important; background-color: transparent !important;"@endif role="navigation">
                     <!-- Sidebar toggle button above the compact sidenav -->
-                    <a href="#" style="color: white" class="sidebar-toggle btn btn-white" data-toggle="push-menu"
-                       role="button">
+                    <a href="#" class="sidebar-toggle{{ config('ahop.theme_enabled') ? ' ahop-sidebar-toggle' : ' btn btn-white' }}" data-toggle="push-menu"
+                       role="button"{{ config('ahop.theme_enabled') ? '' : ' style="color: white"' }}>
                         <span class="sr-only">{{ trans('general.toggle_navigation') }}</span>
                     </a>
                     <div class="nav navbar-nav navbar-left">
@@ -1194,8 +1208,15 @@
                                     <span class="sr-only">{{ $snipeSettings->site_name }}</span>
                                 </a>
                             @else
-                                <a class="logo navbar-brand no-hover" href="{{ config('app.url') }}">
-                                    {{ $snipeSettings->site_name }}
+                                <a class="logo navbar-brand no-hover{{ config('ahop.theme_enabled') ? ' ahop-header-brand' : '' }}" href="{{ config('app.url') }}">
+                                    @if (config('ahop.theme_enabled'))
+                                        <span class="ahop-header-title">{{ ($snipeSettings->site_name) ?: config('ahop.default_site_name') }}</span>
+                                        @if (config('ahop.tagline'))
+                                            <small class="ahop-header-tagline">{{ config('ahop.tagline') }}</small>
+                                        @endif
+                                    @else
+                                        {{ $snipeSettings->site_name }}
+                                    @endif
                                 </a>
                             @endif
                         </div>
@@ -1204,18 +1225,68 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li aria-hidden="true">
-
+                            @if (! config('ahop.theme_enabled'))
+                                <li aria-hidden="true">
                                     <a href="#" class="sidebar-toggle-mobile visible-xs hidden-lg hidden-md" data-toggle="push-menu"
-                                   role="button">
-                                    <span class="sr-only">{{ trans('general.toggle_navigation') }}</span>
-                                    <x-icon type="nav-toggle" />
-                                </a>
+                                       role="button">
+                                        <span class="sr-only">{{ trans('general.toggle_navigation') }}</span>
+                                        <x-icon type="nav-toggle" />
+                                    </a>
+                                </li>
+                            @endif
 
-                            </li>
-
+                            @if (config('ahop.clinical_sidebar_mode'))
+                                @if (Gate::allows('view', \App\Models\Patient::class) && (Gate::allows('create', \App\Models\OpdVisit::class) || Gate::allows('index', \App\Models\Appointment::class)))
+                                    <li aria-hidden="true"{!! (request()->is('reception*') ? ' class="active"' : '') !!}>
+                                        <a href="{{ route('reception.check-in') }}" tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.reception_check_in') }}">
+                                            <i class="fas fa-door-open fa-fw" aria-hidden="true"></i>
+                                            <span class="sr-only">{{ trans('general.reception_check_in') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @can('view', \App\Models\Patient::class)
+                                    <li aria-hidden="true"{!! (request()->is('patients*') ? ' class="active"' : '') !!}>
+                                        <a href="{{ route('patients.index') }}" tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.patients') }}">
+                                            <i class="fas fa-user-injured fa-fw" aria-hidden="true"></i>
+                                            <span class="sr-only">{{ trans('general.patients') }}</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('view', \App\Models\OpdVisit::class)
+                                    <li aria-hidden="true"{!! (request()->is('opd-visits*') ? ' class="active"' : '') !!}>
+                                        <a href="{{ route('opd-visits.index') }}" tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.opd_visits') }}">
+                                            <i class="fas fa-stethoscope fa-fw" aria-hidden="true"></i>
+                                            <span class="sr-only">{{ trans('general.opd_visits') }}</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('view', \App\Models\LabOrder::class)
+                                    <li aria-hidden="true"{!! (request()->is('lab-orders*') ? ' class="active"' : '') !!}>
+                                        <a href="{{ route('lab-orders.index') }}" tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.lab_orders') }}">
+                                            <i class="fas fa-flask fa-fw" aria-hidden="true"></i>
+                                            <span class="sr-only">{{ trans('general.lab_orders') }}</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('ai_insights.view')
+                                    <li aria-hidden="true"{!! (request()->is('clinical-analytics*') ? ' class="active"' : '') !!}>
+                                        <a href="{{ route('clinical-analytics.index') }}" tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.clinical_analytics') }}">
+                                            <i class="fas fa-brain fa-fw" aria-hidden="true"></i>
+                                            <span class="sr-only">{{ trans('general.clinical_analytics') }}</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('index', \App\Models\Asset::class)
+                                    <li aria-hidden="true"{!! (request()->is('hardware*') ? ' class="active"' : '') !!}>
+                                        <a href="{{ url('hardware') }}" tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.medical_equipment') }}">
+                                            <i class="fas fa-kit-medical fa-fw" aria-hidden="true"></i>
+                                            <span class="sr-only">{{ trans('general.medical_equipment') }}</span>
+                                        </a>
+                                    </li>
+                                @endcan
+                            @else
                             @can('index', \App\Models\Asset::class)
-                                <li aria-hidden="true"{!! (request()->is('hardware*') ? ' class="active"' : '') !!}>
+                                <li aria-hidden="true"{!! (request()->is('hardware*') ? ' class="active ahop-nav-it-only"' : ' class="ahop-nav-it-only"') !!}>
                                     <a href="{{ url('hardware') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=1" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.assets') }}">
                                         <x-icon type="assets" class="fa-fw" />
                                         <span class="sr-only">{{ trans('general.assets') }}</span>
@@ -1223,7 +1294,7 @@
                                 </li>
                             @endcan
                             @can('view', \App\Models\License::class)
-                                <li aria-hidden="true"{!! (request()->is('licenses*') ? ' class="active"' : '') !!}>
+                                <li aria-hidden="true"{!! (request()->is('licenses*') ? ' class="active ahop-nav-it-only"' : ' class="ahop-nav-it-only"') !!}>
                                     <a href="{{ route('licenses.index') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=2" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.licenses') }}">
                                         <x-icon type="licenses" class="fa-fw" />
                                         <span class="sr-only">{{ trans('general.licenses') }}</span>
@@ -1231,7 +1302,7 @@
                                 </li>
                             @endcan
                             @can('index', \App\Models\Accessory::class)
-                                <li aria-hidden="true"{!! (request()->is('accessories*') ? ' class="active"' : '') !!}>
+                                <li aria-hidden="true"{!! (request()->is('accessories*') ? ' class="active ahop-nav-it-only"' : ' class="ahop-nav-it-only"') !!}>
                                     <a href="{{ route('accessories.index') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=3" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.accessories') }}">
                                         <x-icon type="accessories" class="fa-fw" />
                                         <span class="sr-only">{{ trans('general.accessories') }}</span>
@@ -1239,7 +1310,7 @@
                                 </li>
                             @endcan
                             @can('index', \App\Models\Consumable::class)
-                                <li aria-hidden="true"{!! (request()->is('consumables*') ? ' class="active"' : '') !!}>
+                                <li aria-hidden="true"{!! (request()->is('consumables*') ? ' class="active ahop-nav-it-only"' : ' class="ahop-nav-it-only"') !!}>
                                     <a href="{{ url('consumables') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=4" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.consumables') }}">
                                         <x-icon type="consumables" class="fa-fw" />
                                         <span class="sr-only">{{ trans('general.consumables') }}</span>
@@ -1247,7 +1318,7 @@
                                 </li>
                             @endcan
                             @can('view', \App\Models\Component::class)
-                                <li aria-hidden="true"{!! (request()->is('components*') ? ' class="active"' : '') !!}>
+                                <li aria-hidden="true"{!! (request()->is('components*') ? ' class="active ahop-nav-it-only"' : ' class="ahop-nav-it-only"') !!}>
                                     <a href="{{ route('components.index') }}" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=5" : ''}} tabindex="-1" data-tooltip="true" data-placement="bottom" data-title="{{ trans('general.components') }}">
                                         <x-icon type="components" class="fa-fw" />
                                         <span class="sr-only">{{ trans('general.components') }}</span>
@@ -1263,6 +1334,7 @@
                                     </a>
                                 </li>
                             @endcan
+                            @endif
 
                             @can('index', \App\Models\Asset::class)
                                 <li>
@@ -1291,6 +1363,40 @@
                                         <strong class="caret"></strong>
                                     </a>
                                     <ul class="dropdown-menu">
+                                        @if (config('ahop.clinical_sidebar_mode'))
+                                            @can('create', \App\Models\Patient::class)
+                                                <li{!! (request()->is('patients/create') ? ' class="active"' : '') !!}>
+                                                    <a href="{{ route('patients.create') }}" tabindex="-1">
+                                                        <i class="fas fa-user-injured fa-fw" aria-hidden="true"></i>
+                                                        {{ trans('admin/patients/table.create') }}
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                            @can('create', \App\Models\OpdVisit::class)
+                                                <li{!! (request()->is('opd-visits/create') ? ' class="active"' : '') !!}>
+                                                    <a href="{{ route('opd-visits.create') }}" tabindex="-1">
+                                                        <i class="fas fa-stethoscope fa-fw" aria-hidden="true"></i>
+                                                        {{ trans('admin/opd_visits/table.create') }}
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                            @can('create', \App\Models\LabOrder::class)
+                                                <li{!! (request()->is('lab-orders/create') ? ' class="active"' : '') !!}>
+                                                    <a href="{{ route('lab-orders.create') }}" tabindex="-1">
+                                                        <i class="fas fa-flask fa-fw" aria-hidden="true"></i>
+                                                        {{ trans('admin/lab_orders/table.create') }}
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                            @can('create', \App\Models\Asset::class)
+                                                <li{!! (request()->is('hardware/create') ? ' class="active"' : '') !!}>
+                                                    <a href="{{ route('hardware.create') }}" tabindex="-1">
+                                                        <i class="fas fa-kit-medical fa-fw" aria-hidden="true"></i>
+                                                        {{ trans('general.medical_equipment') }}
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                        @else
                                         @can('create', \App\Models\Asset::class)
                                             <li{!! (request()->is('hardware/create') ? ' class="active"' : '') !!}>
                                                 <a href="{{ route('hardware.create') }}" tabindex="-1">
@@ -1339,6 +1445,7 @@
                                                 </a>
                                             </li>
                                         @endcan
+                                        @endif
 
 
                                     </ul>
@@ -1467,18 +1574,25 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu" data-widget="tree" {{ \App\Helpers\Helper::determineLanguageDirection() == 'rtl' ? 'style="margin-right:12px' : '' }}>
                         @can('admin')
-                            <li {!! (\request()->route()->getName()=='home' ? ' class="active"' : '') !!} class="firstnav">
+                            <li class="firstnav{{ \request()->route()->getName()=='home' ? ' active' : '' }}">
                                 <a href="{{ route('home') }}">
                                     <x-icon type="dashboard" class="fa-fw" />
                                     <span>{{ trans('general.dashboard') }}</span>
                                 </a>
                             </li>
                         @endcan
+
+                        @include('partials.sidebar.staff-guide')
+
+                        @if(config('ahop.clinical_sidebar_mode'))
+                            @include('partials.sidebar.clinical-services')
+                        @endif
+
                         @can('index', \App\Models\Asset::class)
                             <li class="treeview{{ ((request()->is('statuslabels/*') || request()->is(['hardware*', 'maintenances*'])) ? ' active' : '') }}">
                                 <a href="#">
                                     <x-icon type="assets" class="fa-fw" />
-                                    <span>{{ trans('general.assets') }}</span>
+                                    <span>{{ config('ahop.clinical_sidebar_mode') ? trans('general.medical_equipment') : trans('general.assets') }}</span>
                                     <x-icon type="angle-left" class="pull-right fa-fw"/>
                                 </a>
                                 <ul class="treeview-menu">
@@ -1491,6 +1605,18 @@
                                             </span>
                                         </a>
                                     </li>
+
+                                    @if(config('ahop.clinical_sidebar_mode') && config('ahop.simplify_assets_menu'))
+                                        @include('partials.sidebar.medical-equipment-status')
+                                        @can('view', \App\Models\Asset::class)
+                                            <li {!! (request()->is('maintenances') ? ' class="active"' : '') !!}>
+                                                <a href="{{ route('maintenances.index') }}">
+                                                    <x-icon type="circle" class="text-grey fa-fw"/>
+                                                    {{ trans('general.maintenances') }}
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    @else
 
                                     <?php $status_navs = \App\Models\Statuslabel::where('show_in_nav', '=', 1)->withCount('assets as asset_count')->get(); ?>
                                     @if (count($status_navs) > 0)
@@ -1624,9 +1750,12 @@
                                             </a>
                                         </li>
                                     @endcan
+
+                                    @endif
                                 </ul>
                             </li>
                         @endcan
+                        @unless(config('ahop.clinical_sidebar_mode'))
                         @can('view', \App\Models\License::class)
                             <li{!! (request()->is('licenses*') ? ' class="active"' : '') !!}>
                                 <a href="{{ route('licenses.index') }}">
@@ -1640,14 +1769,6 @@
                                 <a href="{{ route('accessories.index') }}">
                                     <x-icon type="accessories" class="fa-fw" />
                                     <span>{{ trans('general.accessories') }}</span>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('view', \App\Models\Consumable::class)
-                            <li id="consumables-sidenav-option"{!! (request()->is('consumables*') ? ' class="active"' : '') !!}>
-                                <a href="{{ url('consumables') }}">
-                                    <x-icon type="consumables" class="fa-fw" />
-                                    <span>{{ trans('general.consumables') }}</span>
                                 </a>
                             </li>
                         @endcan
@@ -1667,25 +1788,24 @@
                                 </a>
                             </li>
                         @endcan
+                        @endunless
 
-                        @can('view', \App\Models\Patient::class)
-                            <li class="treeview{{ (request()->is('patients*') ? ' active' : '') }}" id="patients-sidenav-option">
-                                <a href="#">
-                                    <i class="fas fa-hospital-user fa-fw" aria-hidden="true"></i>
-                                    <span>{{ trans('general.health_center') }}</span>
-                                    <x-icon type="angle-left" class="pull-right fa-fw"/>
+                        @if(!config('ahop.clinical_sidebar_mode') || config('ahop.show_consumables'))
+                        @can('view', \App\Models\Consumable::class)
+                            <li id="consumables-sidenav-option"{!! (request()->is('consumables*') ? ' class="active"' : '') !!}>
+                                <a href="{{ url('consumables') }}">
+                                    <x-icon type="consumables" class="fa-fw" />
+                                    <span>{{ trans('general.consumables') }}</span>
                                 </a>
-                                <ul class="treeview-menu">
-                                    <li {{ (request()->is('patients*') ? ' class="active"' : '') }}>
-                                        <a href="{{ route('patients.index') }}">
-                                            <x-icon type="circle" class="text-grey fa-fw"/>
-                                            {{ trans('general.patients') }}
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                         @endcan
+                        @endif
 
+                        @unless(config('ahop.clinical_sidebar_mode'))
+                            @include('partials.sidebar.clinical-services')
+                        @endunless
+
+                        @unless(config('ahop.clinical_sidebar_mode'))
                         @can('view', \App\Models\User::class)
                                 <li class="treeview{{ (request()->is('users*') ? ' active' : '') }}" id="users-sidenav-option">
                                     <a href="#" {{$snipeSettings->shortcuts_enabled == 1 ? "accesskey=6" : ''}}>
@@ -1734,6 +1854,8 @@
                                     </ul>
                                 </li>
                         @endcan
+                        @endunless
+                        @unless(config('ahop.clinical_sidebar_mode'))
                         @can('import')
                             <li id="import-sidenav-option"{!! (request()->is('import*') ? ' class="active"' : '') !!}>
                                 <a href="{{ route('imports.index') }}">
@@ -1742,6 +1864,7 @@
                                 </a>
                             </li>
                         @endcan
+                        @endunless
 
                         @can('backend.interact')
                             <li id="settings-sidenav-option" class="treeview {!! (request()->is(App\Helpers\Helper::SettingUrls()) ? ' active' : '') !!}">
@@ -1831,6 +1954,16 @@
                                             </a>
                                         </li>
                                     @endcan
+
+                                    @if(config('ahop.clinical_sidebar_mode'))
+                                        @can('view', \App\Models\User::class)
+                                            <li {!! (request()->is('users*') ? ' class="active"' : '') !!}>
+                                                <a href="{{ route('users.index') }}">
+                                                    {{ trans('general.people') }}
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    @endif
                                 </ul>
                             </li>
                         @endcan
@@ -1844,6 +1977,13 @@
                                 </a>
 
                                 <ul class="treeview-menu">
+                                    @if(config('ahop.clinical_sidebar_mode'))
+                                    <li {{!! (request()->is('reports/clinical*') ? ' class="active"' : '') !!}}>
+                                        <a href="{{ route('reports.clinical.index') }}">
+                                            {{ trans('admin/clinical_reports/general.title') }}
+                                        </a>
+                                    </li>
+                                    @endif
                                     <li {{!! (request()->is('reports/activity') ? ' class="active"' : '') !!}}>
                                         <a href="{{ route('reports.activity') }}">
                                             {{ trans('general.activity_report') }}
@@ -1858,6 +1998,7 @@
                                         <a href="{{ route('reports.audit') }}">
                                             {{ trans('general.audit_report') }}</a>
                                     </li>
+                                    @unless(config('ahop.clinical_sidebar_mode') && config('ahop.simplify_reports_menu'))
                                     <li {{!! (request()->is('reports/depreciation') ? ' class="active"' : '') !!}}>
                                         <a href="{{ url('reports/depreciation') }}">
                                             {{ trans('general.depreciation_report') }}
@@ -1868,6 +2009,7 @@
                                             {{ trans('general.license_report') }}
                                         </a>
                                     </li>
+                                    @endunless
                                     <li {{!! (request()->is('ui.reports.maintenances') ? ' class="active"' : '') !!}}>
                                         <a href="{{ route('ui.reports.maintenances') }}">
                                             {{ trans('general.asset_maintenance_report') }}
@@ -1878,11 +2020,13 @@
                                             {{ trans('general.unaccepted_asset_report') }}
                                         </a>
                                     </li>
+                                    @unless(config('ahop.clinical_sidebar_mode') && config('ahop.simplify_reports_menu'))
                                     <li  {{!! (request()->is('reports/accessories') ? ' class="active"' : '') !!}}>
                                         <a href="{{ url('reports/accessories') }}">
                                             {{ trans('general.accessory_report') }}
                                         </a>
                                     </li>
+                                    @endunless
                                 </ul>
                             </li>
                         @endcan
@@ -2129,6 +2273,9 @@
 
         {{-- Page level javascript --}}
         @stack('js')
+        @if (config('ahop.theme_enabled') && config('ahop.ui_phase_c', true))
+            @include('partials.ahop-phase-c-foot')
+        @endif
 
         @section('moar_scripts')
         @show

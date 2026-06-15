@@ -1381,4 +1381,13 @@ Route::group(['prefix' => 'v1', 'middleware' => ['api', 'api-throttle:api']], fu
     )->name('api.files.destroy')
         ->where(['object_type' => 'accessories|assets|components|consumables|hardware|licenses|locations|maintenances|models|suppliers|users|companies|departments']);
 
+    /**
+     * AgilityCare AHOP — Laboratory (LIS integration)
+     */
+    Route::group(['prefix' => 'lab'], function () {
+        Route::get('orders', [Api\LabOrdersController::class, 'index'])->name('api.lab.orders.index');
+        Route::get('orders/{lab_order}', [Api\LabOrdersController::class, 'show'])->name('api.lab.orders.show');
+        Route::post('orders/{lab_order}/results', [Api\LabOrdersController::class, 'storeResults'])->name('api.lab.orders.results.store');
+    });
+
 }); // end API routes

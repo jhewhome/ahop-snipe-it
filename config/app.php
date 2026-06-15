@@ -404,6 +404,7 @@ return [
         LivewireServiceProvider::class,
         SamlServiceProvider::class,
         BreadcrumbsServiceProvider::class,
+        App\Providers\AhopServiceProvider::class,
 
     ],
 

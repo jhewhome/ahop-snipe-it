@@ -121,6 +121,29 @@ return [
             'schema' => 'public',
         ],
 
+        /*
+        |--------------------------------------------------------------------------
+        | AHOP clinical database (PostgreSQL)
+        |--------------------------------------------------------------------------
+        |
+        | Patients, OPD, laboratory, and future billing tables. Snipe-IT assets
+        | and users remain on the default MySQL connection.
+        |
+        */
+        'clinical' => [
+            'driver' => 'pgsql',
+            'host' => env('CLINICAL_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => (int) env('CLINICAL_DB_PORT', 5432),
+            'database' => env('CLINICAL_DB_DATABASE', 'ahop_clinical'),
+            'username' => env('CLINICAL_DB_USERNAME', 'postgres'),
+            'password' => env('CLINICAL_DB_PASSWORD', ''),
+            'charset' => env('CLINICAL_DB_CHARSET', 'utf8'),
+            'prefix' => env('CLINICAL_DB_PREFIX', ''),
+            'prefix_indexes' => true,
+            'search_path' => env('CLINICAL_DB_SCHEMA', 'public'),
+            'sslmode' => env('CLINICAL_DB_SSLMODE', 'prefer'),
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),

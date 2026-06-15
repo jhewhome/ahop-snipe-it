@@ -212,6 +212,9 @@ $(function () {
                         statusType: link.data("asset-status-type"),
                         companyId: link.data("company-id"),
                     };
+                    if (link.data("ahop-physicians")) {
+                        data.ahopPhysicians = 1;
+                    }
                     return data;
                 },
                 /* processResults: function (data, params) {

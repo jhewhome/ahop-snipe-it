@@ -72,6 +72,9 @@ $(function () {
                             page: params.page || 1,
                             statusType: link.data("asset-status-type"),
                         };
+                        if (link.data("ahop-physicians")) {
+                            data.ahopPhysicians = 1;
+                        }
                         return data;
                     },
                     /*processResults: function (data, params) {

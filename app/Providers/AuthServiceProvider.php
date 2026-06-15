@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Appointment;
 use App\Models\Accessory;
 use App\Models\Asset;
 use App\Models\AssetModel;
@@ -13,14 +14,18 @@ use App\Models\CustomField;
 use App\Models\CustomFieldset;
 use App\Models\Department;
 use App\Models\Depreciation;
+use App\Models\BillingInvoice;
+use App\Models\LabOrder;
 use App\Models\License;
 use App\Models\Location;
 use App\Models\Manufacturer;
+use App\Models\OpdVisit;
 use App\Models\Patient;
 use App\Models\PredefinedKit;
 use App\Models\Statuslabel;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Policies\AppointmentPolicy;
 use App\Policies\AccessoryPolicy;
 use App\Policies\AssetModelPolicy;
 use App\Policies\AssetPolicy;
@@ -32,9 +37,12 @@ use App\Policies\CustomFieldPolicy;
 use App\Policies\CustomFieldsetPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\DepreciationPolicy;
+use App\Policies\BillingInvoicePolicy;
+use App\Policies\LabOrderPolicy;
 use App\Policies\LicensePolicy;
 use App\Policies\LocationPolicy;
 use App\Policies\ManufacturerPolicy;
+use App\Policies\OpdVisitPolicy;
 use App\Policies\PatientPolicy;
 use App\Policies\PredefinedKitPolicy;
 use App\Policies\StatuslabelPolicy;
@@ -76,6 +84,10 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Manufacturer::class => ManufacturerPolicy::class,
         Patient::class => PatientPolicy::class,
+        OpdVisit::class => OpdVisitPolicy::class,
+        Appointment::class => AppointmentPolicy::class,
+        LabOrder::class => LabOrderPolicy::class,
+        BillingInvoice::class => BillingInvoicePolicy::class,
         Company::class => CompanyPolicy::class,
     ];
 
@@ -187,6 +199,30 @@ class AuthServiceProvider extends ServiceProvider
         // -----------------------------------------
         Gate::define('reports.view', function ($user) {
             if ($user->hasAccess('reports.view')) {
+                return true;
+            }
+        });
+
+        Gate::define('ai_insights.view', function ($user) {
+            if ($user->hasAccess('ai_insights.view') || $user->hasAccess('admin')) {
+                return true;
+            }
+        });
+
+        Gate::define('patients.view', function ($user) {
+            if ($user->hasAccess('patients.view')) {
+                return true;
+            }
+        });
+
+        Gate::define('appointments.view', function ($user) {
+            if ($user->hasAccess('appointments.view')) {
+                return true;
+            }
+        });
+
+        Gate::define('lab_orders.view', function ($user) {
+            if ($user->hasAccess('lab_orders.view')) {
                 return true;
             }
         });

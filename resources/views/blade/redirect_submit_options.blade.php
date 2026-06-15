@@ -11,7 +11,7 @@
     <div class="row">
 
         <div class="col-md-3">
-            <a class="btn btn-link" href="{{ $index_route ? route($index_route) : url()->previous() }}">{{ trans('button.cancel') }}</a>
+            <a class="btn btn-default" href="{{ $index_route ? route($index_route) : url()->previous() }}">{{ trans('button.cancel') }}</a>
         </div>
 
         <div class="col-md-9 text-right">

@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box box-default ahop-panel ahop-patients-panel">
                 <div class="box-header with-border">
                     <h2 class="box-title">{{ trans('general.patients') }}</h2>
                     <div class="box-tools pull-right">
@@ -33,10 +33,10 @@
                     </form>
 
                     <div class="table-responsive">
-                        <table class="table table-striped snipe-table">
+                        <table class="table snipe-table">
                             <thead>
                             <tr>
-                                <th>{{ trans('admin/patients/table.bhc_id') }}</th>
+                                <th>{{ trans('admin/patients/table.patient_number') }}</th>
                                 <th>{{ trans('admin/patients/table.full_name') }}</th>
                                 <th>{{ trans('admin/patients/table.sex') }}</th>
                                 <th>{{ trans('admin/patients/table.birthdate') }}</th>
@@ -48,7 +48,7 @@
                             @forelse ($patients as $patient)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('patients.show', $patient) }}">{{ $patient->bhc_id }}</a>
+                                        <a href="{{ route('patients.show', $patient) }}">{{ $patient->patient_number }}</a>
                                     </td>
                                     <td>{{ $patient->full_name }}</td>
                                     <td>{{ $patient->sex }}</td>
@@ -68,8 +68,17 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="6">{{ trans('general.no_results') }}</td>
+                                <tr class="ahop-empty-row">
+                                    <td colspan="6">
+                                        @include('partials.ahop-empty-state', [
+                                            'icon' => 'fa-user-injured',
+                                            'title' => trans('ahop.empty_patients_title'),
+                                            'message' => trans('ahop.empty_patients_message'),
+                                            'actionUrl' => auth()->user()->can('create', \App\Models\Patient::class) ? route('patients.create') : null,
+                                            'actionLabel' => auth()->user()->can('create', \App\Models\Patient::class) ? trans('admin/patients/table.create') : null,
+                                            'compact' => true,
+                                        ])
+                                    </td>
                                 </tr>
                             @endforelse
                             </tbody>

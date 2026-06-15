@@ -5,6 +5,11 @@
         <i class="fas fa-exclamation-triangle faa-pulse animated"></i>
         <strong>{{ trans('general.notification_error') }}:</strong>
          {{ trans('general.notification_error_hint') }}
+        <ul style="margin-top: 10px; margin-bottom: 0;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
 </div>
 

@@ -17,12 +17,17 @@
 <!-- row -->
 <div class="row">
     <!-- col-md-8 -->
-    <div class="{{ isset($container_classes) ? $container_classes : 'col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0'}}">
+    @php
+        $defaultContainerClasses = (isset($boxClasses) && str_contains($boxClasses, 'ahop-panel'))
+            ? 'col-md-12'
+            : 'col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0';
+    @endphp
+    <div class="{{ $container_classes ?? $defaultContainerClasses }}">
 
         <form id="create-form" class="form-horizontal" method="post" action="{{ (isset($formAction)) ? $formAction : \Request::url()  }}" autocomplete="off" role="form" enctype="multipart/form-data">
 
         <!-- box -->
-        <div class="box box-default">
+        <div class="box box-default{{ isset($boxClasses) ? ' '.$boxClasses : '' }}">
             <!-- box-header -->
             <div class="box-header with-border">
 
