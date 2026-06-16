@@ -4,7 +4,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @endif
-    <link rel="stylesheet" href="{{ asset('css/ahop-theme.css') }}?v=76">
+    <link rel="stylesheet" href="{{ asset('css/ahop-theme.css') }}?v=83">
     {{-- Load last: override Snipe global a:hover and nav-tabs-custom defaults --}}
     <style>
         body.ahop-theme .nav-tabs-custom.ahop-clinical-analytics-tabs > .nav-tabs > li > a,

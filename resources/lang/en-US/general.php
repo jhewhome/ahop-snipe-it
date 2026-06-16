@@ -219,6 +219,8 @@ return [
     'logo_size' => 'Square logos look best with Logo + Text. Logo maximum display size is 50px high x 500px wide.  ',
     'logout' => 'Logout',
     'lookup_by_tag' => 'Lookup by Asset Tag',
+    'lookup_patient' => 'Search patients',
+    'back_to_top' => 'Back to top',
     'maintenances' => 'Maintenances',
     'manage_api_keys' => 'Manage API keys',
     'manufacturer' => 'Manufacturer',

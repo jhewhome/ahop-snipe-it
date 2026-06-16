@@ -18,7 +18,9 @@
 <div class="row">
     <!-- col-md-8 -->
     @php
-        $defaultContainerClasses = (isset($boxClasses) && str_contains($boxClasses, 'ahop-panel'))
+        $useAhopFullWidth = config('ahop.theme_enabled')
+            || (isset($boxClasses) && str_contains($boxClasses, 'ahop-panel'));
+        $defaultContainerClasses = $useAhopFullWidth
             ? 'col-md-12'
             : 'col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0';
     @endphp

@@ -27,17 +27,53 @@ class PatientsController extends Controller
         $query = Patient::query()->orderByDesc('id');
 
         if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('full_name', 'like', '%'.$search.'%')
-                    ->orWhere('patient_number', 'like', '%'.$search.'%')
-                    ->orWhere('contact_number', 'like', '%'.$search.'%');
-            });
+            $this->applyPatientSearch($query, $request->input('search'));
         }
 
         $patients = $query->paginate(25)->withQueryString();
 
         return view('patients.index', compact('patients'));
+    }
+
+    public function lookup(Request $request): RedirectResponse
+    {
+        $this->authorize('index', Patient::class);
+
+        $search = trim((string) $request->input('search', ''));
+        $topsearch = $request->input('topsearch') === 'true';
+
+        if ($search === '') {
+            return redirect()->route('patients.index')
+                ->with('warning', trans('admin/patients/message.no_search'));
+        }
+
+        $exactMatches = Patient::query()
+            ->where('patient_number', '=', $search)
+            ->get();
+
+        if ($exactMatches->count() === 1) {
+            $patient = $exactMatches->first();
+            $this->authorize('view', $patient);
+
+            return redirect()->route('patients.show', $patient)->with('topsearch', $topsearch);
+        }
+
+        $matches = $this->patientSearchQuery($search)->get();
+
+        if ($matches->count() === 1) {
+            $patient = $matches->first();
+            $this->authorize('view', $patient);
+
+            return redirect()->route('patients.show', $patient)->with('topsearch', $topsearch);
+        }
+
+        if ($matches->count() === 0) {
+            return redirect()->route('patients.index', ['search' => $search])
+                ->with('warning', trans('admin/patients/message.does_not_exist_var', ['search' => $search]));
+        }
+
+        return redirect()->route('patients.index', ['search' => $search])
+            ->with('info', trans('admin/patients/message.multiple_matches', ['count' => $matches->count()]));
     }
 
     public function create(): View
@@ -153,5 +189,22 @@ class PatientsController extends Controller
         }
 
         return $data;
+    }
+
+    private function patientSearchQuery(string $search)
+    {
+        $query = Patient::query();
+        $this->applyPatientSearch($query, $search);
+
+        return $query->orderBy('full_name');
+    }
+
+    private function applyPatientSearch($query, string $search): void
+    {
+        $query->where(function ($q) use ($search) {
+            $q->where('full_name', 'like', '%'.$search.'%')
+                ->orWhere('patient_number', 'like', '%'.$search.'%')
+                ->orWhere('contact_number', 'like', '%'.$search.'%');
+        });
     }
 }

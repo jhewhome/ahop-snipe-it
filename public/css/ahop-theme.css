@@ -190,6 +190,12 @@ body.ahop-theme .main-header .navbar-form.navbar-left.form-inline {
     padding-bottom: 0;
 }
 
+@media (min-width: 768px) {
+    body.ahop-theme .navbar-form .input-group > .form-control {
+        width: 95%;
+    }
+}
+
 body.ahop-theme .main-header .navbar-form .form-control {
     background: rgba(255, 255, 255, 0.95);
     border-color: rgba(255, 255, 255, 0.4);
@@ -368,15 +374,39 @@ body.ahop-theme .ahop-patients-panel {
     max-width: none;
 }
 
-/* Clinical create/edit forms — full width (Update OPD Visit, patient registration, etc.) */
-body.ahop-theme .row > [class*="col-"]:has(> form#create-form > .ahop-panel),
+/* Create/edit forms — full width (assets, patients, OPD visits, etc.) */
+body.ahop-theme .row > [class*="col-"]:has(> form#create-form) {
+    width: 100% !important;
+    margin-left: 0 !important;
+}
+
+@media (min-width: 992px) {
+    body.ahop-theme .row > [class*="col-"]:has(> form#create-form).col-md-10 {
+        width: 100% !important;
+    }
+
+    body.ahop-theme .row > [class*="col-"]:has(> form#create-form).col-md-offset-1 {
+        margin-left: 0 !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    body.ahop-theme .row > [class*="col-"]:has(> form#create-form).col-lg-8 {
+        width: 100% !important;
+    }
+
+    body.ahop-theme .row > [class*="col-"]:has(> form#create-form).col-lg-offset-2 {
+        margin-left: 0 !important;
+    }
+}
+
 body.ahop-theme .row.ahop-reception-layout > .ahop-reception-layout__main,
 body.ahop-theme .row.ahop-reception-layout > .ahop-reception-layout__aside {
     width: auto;
     margin-left: 0;
 }
 
-body.ahop-theme form#create-form > .box.ahop-panel {
+body.ahop-theme form#create-form > .box {
     width: 100%;
     max-width: none;
 }
@@ -497,6 +527,39 @@ body.ahop-theme .ahop-clinical-detail-panel > .box-header .box-tools {
 
 body.ahop-theme .ahop-clinical-detail-panel > .box-header .box-tools .btn {
     margin: 0;
+}
+
+@media (max-width: 991px) {
+    body.ahop-theme .box-header .box-tools.pull-right {
+        position: static;
+        float: none;
+        clear: both;
+        top: auto;
+        right: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 12px;
+        padding-top: 0;
+    }
+
+    body.ahop-theme .box-header .box-tools.pull-right .btn {
+        margin: 0;
+    }
+
+    body.ahop-theme .box-header:has(.box-tools.pull-right) .box-title,
+    body.ahop-theme .box-header:has(.box-tools.pull-right) h1.box-title,
+    body.ahop-theme .box-header:has(.box-tools.pull-right) h2.box-title,
+    body.ahop-theme .box-header:has(.box-tools.pull-right) h3.box-title {
+        float: none;
+        width: 100%;
+        padding-right: 0;
+    }
+
+    body.ahop-theme .ahop-clinical-detail-panel > .box-header .box-tools.pull-right {
+        margin-top: 0;
+    }
 }
 
 /* Panel header action buttons — Print Medical Certificate, Edit, etc. on teal header */
@@ -1796,7 +1859,7 @@ body.ahop-theme .ahop-stat-icon {
 @media (min-width: 992px) {
     body.ahop-theme .ahop-stat-icon {
         right: 25%;
-        top: 25%;
+        top: 20%;
         transform: none;
     }
 }
@@ -3748,4 +3811,100 @@ body.ahop-theme select.form-control option {
 /* Account → view-assets #details — profile action sidebar buttons */
 body.ahop-theme.ahop-modern #details .info-stack-container .col-sm-push-9.info-stack .btn {
     padding: 8px 34px;
+}
+
+/* Site-wide back to top */
+body.ahop-theme .ahop-back-to-top {
+    position: fixed;
+    right: 22px;
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    z-index: 1045;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px 10px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(13, 110, 122, 0.28);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--ahop-primary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(9, 74, 82, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+body.ahop-theme .ahop-back-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+body.ahop-theme .ahop-back-to-top:hover,
+body.ahop-theme .ahop-back-to-top:focus {
+    background: #fff;
+    border-color: rgba(13, 110, 122, 0.4);
+    color: var(--ahop-primary-dark);
+    box-shadow: 0 14px 28px rgba(9, 74, 82, 0.22);
+    outline: none;
+}
+
+body.ahop-theme .ahop-back-to-top:focus-visible {
+    outline: 2px solid rgba(46, 184, 166, 0.55);
+    outline-offset: 2px;
+}
+
+body.ahop-theme .ahop-back-to-top:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+body.ahop-theme .ahop-back-to-top__icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+[data-theme="dark"] body.ahop-theme .ahop-back-to-top {
+    background: rgba(45, 49, 52, 0.96);
+    border-color: rgba(46, 184, 166, 0.35);
+    color: var(--ahop-accent);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] body.ahop-theme .ahop-back-to-top:hover,
+[data-theme="dark"] body.ahop-theme .ahop-back-to-top:focus {
+    background: #3d4144;
+    color: #e8f7f5;
+}
+
+@media (max-width: 767px) {
+    body.ahop-theme .ahop-back-to-top {
+        right: 14px;
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        padding: 10px 12px;
+    }
+
+    body.ahop-theme .ahop-back-to-top__label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.ahop-theme .ahop-back-to-top {
+        transition: none;
+    }
 }

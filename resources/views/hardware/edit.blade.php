@@ -7,6 +7,7 @@
     'helpPosition' => 'right',
     'formAction' => ($item->id) ? route('hardware.update', $item) : route('hardware.store'),
     'index_route' => 'hardware.index',
+    'boxClasses' => 'ahop-panel',
     'options' => [
                 'back' => trans('admin/hardware/form.redirect_to_type',['type' => trans('general.previous_page')]),
                 'index' => trans('admin/hardware/form.redirect_to_all', ['type' => 'assets']),

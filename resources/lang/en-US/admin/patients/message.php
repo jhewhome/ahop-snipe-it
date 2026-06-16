@@ -2,6 +2,9 @@
 
 return [
     'does_not_exist' => 'Patient does not exist.',
+    'does_not_exist_var' => 'No patient found matching ":search".',
+    'no_search' => 'Enter a patient name, number, or contact to search.',
+    'multiple_matches' => ':count patients match your search. Refine your query or pick a record below.',
     'create' => [
         'error' => 'Patient was not created, please try again.',
         'success' => 'Patient created successfully.',

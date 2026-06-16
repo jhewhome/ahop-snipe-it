@@ -1336,6 +1336,27 @@
                             @endcan
                             @endif
 
+                            @if (config('ahop.clinical_sidebar_mode'))
+                                @can('index', \App\Models\Patient::class)
+                                    <li>
+                                        <form class="navbar-form navbar-left form-inline" role="search" action="{{ route('patients.lookup') }}" method="get">
+                                            <div class="input-group col-xs-12" style="border: 0 !important;">
+                                                <label class="sr-only" for="patientSearch">
+                                                    {{ trans('general.lookup_patient') }}
+                                                </label>
+                                                <input type="text" class="form-control" id="patientSearch" name="search" placeholder="{{ trans('general.lookup_patient') }}">
+                                                <span class="input-group-btn">
+                                                    <button type="submit" id="topPatientSearchButton" class="btn btn-sm btn-theme" style="padding: 7px 10px 7px 10px;">
+                                                        <i class="fas fa-user-injured fa-fw" aria-hidden="true"></i>
+                                                        <div class="sr-only">{{ trans('general.search') }}</div>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                            <input type="hidden" name="topsearch" value="true">
+                                        </form>
+                                    </li>
+                                @endcan
+                            @else
                             @can('index', \App\Models\Asset::class)
                                 <li>
                                     <form class="navbar-form navbar-left form-inline" role="search" action="{{ route('findbytag/hardware') }}" method="get">
@@ -1355,6 +1376,7 @@
                                     </form>
                                 </li>
                             @endcan
+                            @endif
 
                             @can('admin')
                                 <li class="dropdown user-menu" aria-hidden="true">
@@ -2287,6 +2309,9 @@
         @if (config('ahop.theme_enabled') && config('ahop.ui_phase_c', true))
             @include('partials.ahop-phase-c-foot')
         @endif
+        @if (config('ahop.theme_enabled'))
+            @include('partials.ahop-back-to-top')
+        @endif
 
         @section('moar_scripts')
         @show
@@ -2704,7 +2729,7 @@
 
         @if ((session()->get('topsearch')=='true') || (request()->is('/')))
             <script nonce="{{ csrf_token() }}">
-                $("#tagSearch").focus();
+                $("#patientSearch:visible, #tagSearch:visible").first().focus();
             </script>
         @endif
 

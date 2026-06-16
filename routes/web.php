@@ -121,6 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*
     * Patients (AgilityCare AHOP)
     */
+    Route::get('patients/lookup', [PatientsController::class, 'lookup'])->name('patients.lookup');
     Route::get('patients/{patient}/clinical-summary', [PatientsController::class, 'clinicalSummary'])->name('patients.clinical-summary');
     Route::resource('patients', PatientsController::class);
 
