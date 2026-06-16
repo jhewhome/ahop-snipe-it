@@ -15,6 +15,13 @@
         backdrop.classList.toggle('is-visible', mobile && open);
     }
 
+    function resetMobileSidebar() {
+        if (window.matchMedia('(max-width: 767px)').matches) {
+            document.body.classList.remove('sidebar-open');
+        }
+        syncBackdrop();
+    }
+
     backdrop.addEventListener('click', function () {
         document.body.classList.remove('sidebar-open');
         syncBackdrop();
@@ -31,6 +38,6 @@
     var observer = new MutationObserver(syncBackdrop);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-    syncBackdrop();
+    resetMobileSidebar();
 })();
 </script>

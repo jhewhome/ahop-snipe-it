@@ -47,7 +47,7 @@
 
     @can('view', \App\Models\Patient::class)
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('patients.index') }}" class="ahop-stat-card ahop-stat-patients">
 
@@ -67,7 +67,7 @@
 
     @can('view', \App\Models\Appointment::class)
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('appointments.index') }}" class="ahop-stat-card ahop-stat-appointments">
 
@@ -87,7 +87,7 @@
 
     @can('view', \App\Models\OpdVisit::class)
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('opd-visits.index') }}" class="ahop-stat-card ahop-stat-opd">
 
@@ -101,7 +101,7 @@
 
         </div>
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('opd-visits.index', ['status' => 'in_progress']) }}" class="ahop-stat-card ahop-stat-opd-active">
 
@@ -121,7 +121,7 @@
 
     @can('view', \App\Models\LabOrder::class)
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('lab-orders.index', ['status' => 'ordered']) }}" class="ahop-stat-card ahop-stat-lab">
 
@@ -141,7 +141,7 @@
 
     @can('view', \App\Models\BillingInvoice::class)
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('billing-invoices.index') }}" class="ahop-stat-card ahop-stat-billing">
 
@@ -161,7 +161,7 @@
 
     @can('view', \App\Models\Asset::class)
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('hardware.index') }}" class="ahop-stat-card ahop-stat-equipment">
 
@@ -175,7 +175,7 @@
 
         </div>
 
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
 
             <a href="{{ route('hardware.index', ['status_type' => 'Pending']) }}" class="ahop-stat-card ahop-stat-equipment-warn">
 
@@ -192,7 +192,7 @@
     @endcan
 
     @if (config('ahop.show_consumables') && \Gate::allows('view', \App\Models\Consumable::class))
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
             <a href="{{ url('consumables') }}" class="ahop-stat-card ahop-stat-supplies{{ ($stats['supplies_low'] ?? 0) > 0 ? ' ahop-stat-supplies-warn' : '' }}">
                 <div class="ahop-stat-value" data-ahop-stat="supplies_low">{{ number_format($stats['supplies_low'] ?? 0) }}</div>
                 <div class="ahop-stat-label">{{ trans('ahop.stat_supplies_low') }}</div>
@@ -309,7 +309,7 @@
 
     @can('view', \App\Models\Appointment::class)
 
-        <div class="col-md-4">
+        <div class="col-xs-12 col-md-4">
 
             <div class="box box-default ahop-panel ahop-dashboard-widget">
 
@@ -383,7 +383,7 @@
 
     @can('view', \App\Models\OpdVisit::class)
 
-        <div class="col-md-4">
+        <div class="col-xs-12 col-md-4">
 
             <div class="box box-default ahop-panel ahop-dashboard-widget">
 
@@ -457,7 +457,7 @@
 
     @can('view', \App\Models\LabOrder::class)
 
-        <div class="col-md-4">
+        <div class="col-xs-12 col-md-4">
 
             <div class="box box-default ahop-panel ahop-dashboard-widget">
 
@@ -559,7 +559,7 @@
 
                             @foreach ($equipmentByStatus as $status)
 
-                                <div class="col-md-3 col-sm-6 ahop-equipment-status-col">
+                                <div class="col-xs-12 col-sm-6 col-md-3 ahop-equipment-status-col">
 
                                     <a href="{{ route('statuslabels.show', $status) }}" class="ahop-equipment-status-tile" data-status-id="{{ $status->id }}">
 

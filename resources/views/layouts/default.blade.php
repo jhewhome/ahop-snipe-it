@@ -1573,14 +1573,25 @@
                 <section class="sidebar">
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu" data-widget="tree" {{ \App\Helpers\Helper::determineLanguageDirection() == 'rtl' ? 'style="margin-right:12px' : '' }}>
-                        @can('admin')
-                            <li class="firstnav{{ \request()->route()->getName()=='home' ? ' active' : '' }}">
-                                <a href="{{ route('home') }}">
-                                    <x-icon type="dashboard" class="fa-fw" />
-                                    <span>{{ trans('general.dashboard') }}</span>
-                                </a>
-                            </li>
-                        @endcan
+                        @if (config('ahop.clinical_sidebar_mode') && config('ahop.clinical_dashboard'))
+                            @can('admin')
+                                <li class="firstnav{{ \request()->route()->getName()=='home' ? ' active' : '' }}">
+                                    <a href="{{ route('home') }}">
+                                        <i class="fas fa-chart-line fa-fw" aria-hidden="true"></i>
+                                        <span>{{ trans('general.dashboard') }}</span>
+                                    </a>
+                                </li>
+                            @endcan
+                        @else
+                            @can('admin')
+                                <li class="firstnav{{ \request()->route()->getName()=='home' ? ' active' : '' }}">
+                                    <a href="{{ route('home') }}">
+                                        <x-icon type="dashboard" class="fa-fw" />
+                                        <span>{{ trans('general.dashboard') }}</span>
+                                    </a>
+                                </li>
+                            @endcan
+                        @endif
 
                         @include('partials.sidebar.staff-guide')
 
