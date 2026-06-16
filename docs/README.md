@@ -2,7 +2,7 @@
 
 **Repository:** https://github.com/jhewhome/ahop-snipe-it  
 **Base platform:** Snipe-IT (Laravel 11) — customized for clinical operations  
-**Live demo:** http://35.247.142.84  
+**Live demo:** https://ahop.jhewhome.xyz  
 **Local development:** http://localhost/snipe-it/public  
 
 ---
@@ -20,7 +20,7 @@
 
 ## Live demo (for evaluators)
 
-1. Open: http://35.247.142.84/login  
+1. Open: https://ahop.jhewhome.xyz/login  
 2. **Username:** `clinicadmin`  
 3. **Password:** `demo1234`  
 
