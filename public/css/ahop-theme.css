@@ -92,10 +92,11 @@ body.ahop-theme .main-header .left-navblock {
     align-items: center;
 }
 
-body.ahop-theme .main-header .navbar-custom-menu {
-    flex: 0 0 auto;
-    float: none !important;
-}
+    body.ahop-theme .main-header .navbar-custom-menu {
+        flex: 0 0 auto;
+        float: none !important;
+        min-width: 0;
+    }
 
 body.ahop-theme .main-header .ahop-header-brand {
     display: flex;
@@ -3220,9 +3221,188 @@ body.ahop-theme.ahop-phase-c .ahop-sidebar-backdrop.is-visible {
 }
 
 @media (max-width: 767px) {
+    /*
+     * Mobile sidebar should behave like an off-canvas drawer:
+     * - hidden by default (translated left)
+     * - slides in when body.sidebar-open is present
+     * - content stays fixed (no translate on .content-wrapper)
+     */
+    body.ahop-theme {
+        --ahop-mobile-header-offset: 125px;
+    }
+
+    body.ahop-theme .main-sidebar {
+        position: fixed !important;
+        top: var(--ahop-mobile-header-offset);
+        left: 0;
+        height: calc(100vh - var(--ahop-mobile-header-offset));
+        width: 230px;
+        transform: translateX(-230px);
+        transition: transform 0.2s ease-in-out;
+        z-index: 10000;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    body.ahop-theme.sidebar-open .main-sidebar {
+        transform: translateX(0);
+    }
+
+    /* Ensure the sidebar doesn't push or shrink content */
+    body.ahop-theme .content-wrapper,
+    body.ahop-theme .main-footer {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
     body.ahop-theme.ahop-phase-c.sidebar-open .main-sidebar {
         z-index: 820;
         box-shadow: 8px 0 32px rgba(0, 0, 0, 0.35);
+    }
+
+    /*
+     * AdminLTE sidebar-mini.sidebar-collapse forces margin-left: 50px !important
+     * on .content-wrapper and .main-header .navbar at all widths — breaks mobile.
+     * Also disable the sidebar-open translate that shoves content off-screen.
+     */
+    body.ahop-theme.sidebar-mini.sidebar-collapse .content-wrapper,
+    body.ahop-theme.sidebar-mini.sidebar-collapse .main-footer,
+    body.ahop-theme.sidebar-open .content-wrapper,
+    body.ahop-theme.sidebar-open .main-footer,
+    body.ahop-theme .content-wrapper,
+    body.ahop-theme .main-footer {
+        margin-left: 0 !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    body.ahop-theme.sidebar-mini.sidebar-collapse .main-header .navbar,
+    body.ahop-theme .main-header .navbar {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        float: none !important;
+    }
+
+    body.ahop-theme .main-header {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    body.ahop-theme .wrapper {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden;
+    }
+
+    body.ahop-theme .content-wrapper {
+        min-height: calc(100vh - 50px);
+        overflow-x: hidden;
+    }
+
+    body.ahop-theme section.content,
+    body.ahop-theme section.content .row {
+        max-width: 100%;
+    }
+
+    body.ahop-theme.ahop-modern .content-wrapper .content {
+        padding: 12px 12px 24px;
+    }
+
+    body.ahop-theme.ahop-modern .content-header {
+        padding: 10px 12px 4px;
+    }
+
+    body.ahop-theme .content-header .pagetitle,
+    body.ahop-theme .content-header h1 {
+        float: none !important;
+        width: 100%;
+        font-size: 18px !important;
+        line-height: 1.3;
+        white-space: normal;
+    }
+
+    body.ahop-theme .content-header .pull-right {
+        float: none !important;
+        margin-top: 8px;
+    }
+
+    body.ahop-theme .main-header .navbar.navbar-static-top {
+        flex-wrap: wrap;
+        min-height: auto;
+        padding-bottom: 6px;
+    }
+
+    body.ahop-theme .main-header .ahop-header-tagline {
+        display: none;
+    }
+
+    body.ahop-theme .main-header .ahop-header-title {
+        font-size: 14px;
+        max-width: 46vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    body.ahop-theme .main-header .navbar-custom-menu > .navbar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        float: none !important;
+    }
+
+    body.ahop-theme .main-header .navbar-form,
+    body.ahop-theme .main-header .navbar-custom-menu .navbar-form {
+        display: none !important;
+    }
+
+    body.ahop-theme .main-header .navbar-left {
+        flex: 1 1 auto;
+        min-width: 0;
+        margin: 0 !important;
+    }
+
+    body.ahop-theme .main-header .sidebar-toggle,
+    body.ahop-theme .main-header a.sidebar-toggle {
+        margin-left: 0 !important;
+    }
+
+    body.ahop-theme .ahop-dashboard-stats > [class*="col-"] {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    body.ahop-theme a.ahop-stat-card {
+        min-height: 88px;
+        padding: 12px 10px;
+        margin-bottom: 10px;
+    }
+
+    body.ahop-theme .ahop-stat-value {
+        font-size: 22px;
+    }
+
+    body.ahop-theme .ahop-stat-label {
+        font-size: 11px;
+        line-height: 1.25;
+        padding-right: 28px;
+    }
+
+    body.ahop-theme .ahop-stat-icon {
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 22px;
+    }
+
+    body.ahop-theme .ahop-dashboard-widgets > [class*="col-"],
+    body.ahop-theme .ahop-equipment-status-col {
+        width: 100%;
+        float: none;
     }
 
     body.ahop-theme.ahop-phase-c .main-header .sidebar-toggle.ahop-sidebar-toggle {
@@ -3232,6 +3412,7 @@ body.ahop-theme.ahop-phase-c .ahop-sidebar-backdrop.is-visible {
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        margin-left: 0 !important;
     }
 
     /* AHOP uses the left header toggle only; hide Snipe's duplicate mobile toggle if present */
@@ -3241,27 +3422,40 @@ body.ahop-theme.ahop-phase-c .ahop-sidebar-backdrop.is-visible {
 
     /*
      * Snipe-IT overrides.less adds huge top gaps on small screens
-     * (.firstnav 120px, .sidebar-menu margin-top up to 160px).
+     * (.firstnav 120px, .sidebar-menu margin-top up to 160px) — hides Dashboard.
      */
+    body.ahop-theme .sidebar-menu,
     body.ahop-theme section.sidebar .sidebar-menu.tree,
     body.ahop-theme section.sidebar ul.sidebar-menu[data-widget="tree"],
     body.ahop-theme .sidebar-menu.tree {
-        margin-top: -10px !important;
+        margin-top: 0 !important;
     }
 
-    body.ahop-theme .sidebar-menu > li.firstnav {
+    body.ahop-theme .sidebar-menu > li.firstnav,
+    body.ahop-theme .firstnav {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    body.ahop-theme .main-sidebar,
+    body.ahop-theme .main-sidebar section.sidebar {
         padding-top: 0 !important;
     }
 
-    /* Light top inset on the sidebar panel (menu offset handled above) */
+    /* Clinical quick icons belong in the sidebar — not a second header row on mobile */
+    body.ahop-theme.ahop-clinical-mode .main-header .navbar-custom-menu > .navbar-nav > li[aria-hidden="true"]:not(.dropdown) {
+        display: none !important;
+    }
+
     body.ahop-theme.sidebar-open .main-sidebar section.sidebar {
         padding-top: calc(env(safe-area-inset-top, 0px) + 8px) !important;
     }
 }
 
-/* Tablet: keep firstnav flush; mobile menu offset is in the 767px block above */
+/* Tablet: keep firstnav flush */
 @media (max-width: 912px) and (min-width: 768px) {
-    body.ahop-theme .sidebar-menu > li.firstnav {
+    body.ahop-theme .sidebar-menu > li.firstnav,
+    body.ahop-theme .firstnav {
         padding-top: 0 !important;
     }
 }
@@ -3479,7 +3673,20 @@ body.ahop-theme.ahop-phase-c .ahop-dashboard-widgets {
     }
 
     body.ahop-theme .ahop-quick-actions {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 420px) {
+    body.ahop-theme .ahop-quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    body.ahop-theme .ahop-quick-action,
+    body.ahop-theme .ahop-quick-action:link,
+    body.ahop-theme .ahop-quick-action:visited {
+        min-height: 84px;
+        padding: 14px 12px;
     }
 }
 
