@@ -4,6 +4,8 @@ return [
     'visit_number' => 'Visit Number',
     'patient' => 'Patient',
     'physician' => 'Attending Physician',
+    'physician_placeholder' => 'Select attending physician',
+    'physician_help' => 'When you document this visit, you are pre-selected as the attending physician. Change only if another doctor is responsible.',
     'visit_date' => 'Visit Date & Time',
     'visit_type' => 'Visit Type',
     'status' => 'Status',

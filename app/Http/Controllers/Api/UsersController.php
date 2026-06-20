@@ -393,7 +393,7 @@ class UsersController extends Controller
                 'users.avatar',
                 'users.email',
             ]
-        )->where('show_in_list', '=', '1');
+        )->where('activated', '=', '1');
 
         if ($request->filled('search')) {
             $users = $users->where(function ($query) use ($request) {
@@ -407,6 +407,8 @@ class UsersController extends Controller
 
         if ($request->boolean('ahopPhysicians')) {
             $users = PhysicianSelectService::applySelectlistFilter($users);
+        } else {
+            $users = $users->where('show_in_list', '=', '1');
         }
 
         $users = $users->orderBy('display_name', 'asc')->orderBy('last_name', 'asc')->orderBy('first_name', 'asc');

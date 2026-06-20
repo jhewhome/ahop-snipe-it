@@ -112,15 +112,19 @@
 
 
 
-                @include ('partials.forms.edit.user-select', [
+                @include('partials.forms.edit.physician-select', [
 
                     'translated_name' => trans('admin/opd_visits/table.physician'),
 
                     'fieldname' => 'physician_id',
 
-                    'physicians_only' => true,
+                    'item' => $item,
 
-                    'placeholder' => trans('admin/reception/table.physician_placeholder'),
+                    'physicians' => $physicians ?? collect(),
+
+                    'placeholder' => trans('admin/opd_visits/table.physician_placeholder'),
+
+                    'help_text' => trans('admin/opd_visits/table.physician_help'),
 
                 ])
 

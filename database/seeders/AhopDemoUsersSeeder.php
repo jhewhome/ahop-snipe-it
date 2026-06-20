@@ -52,12 +52,13 @@ class AhopDemoUsersSeeder extends Seeder
                 $user = new User();
                 $user->username = $account['username'];
                 $user->permissions = '{}';
-                $user->activated = 1;
                 $created++;
             } else {
                 $updated++;
             }
 
+            $user->activated = 1;
+            $user->show_in_list = 1;
             $user->first_name = $account['first_name'];
             $user->last_name = $account['last_name'];
             $user->email = $account['email'];

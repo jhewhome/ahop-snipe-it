@@ -284,12 +284,11 @@
                                     <input type="hidden" name="company_id" value="{{ $activeClinicSiteId }}">
                                 @endif
 
-                                @include('partials.forms.edit.user-select', [
+                                @include('partials.forms.edit.physician-select', [
                                     'translated_name' => trans('admin/opd_visits/table.physician'),
                                     'fieldname' => 'physician_id',
-                                    'item' => (object) ['physician_id' => old('physician_id')],
-                                    'hide_new' => 'true',
-                                    'physicians_only' => true,
+                                    'item' => (object) ['physician_id' => old('physician_id', $defaultPhysicianId ?? null)],
+                                    'physicians' => $physicians ?? collect(),
                                     'placeholder' => trans('admin/reception/table.physician_placeholder'),
                                     'help_text' => trans('admin/reception/table.physician_help'),
                                 ])

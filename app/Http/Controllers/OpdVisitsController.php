@@ -18,6 +18,8 @@ use App\Services\ClinicSiteService;
 
 use App\Services\OpdVisitInvoiceService;
 
+use App\Services\PhysicianSelectService;
+
 use Carbon\Carbon;
 
 use Illuminate\Contracts\View\View;
@@ -188,15 +190,15 @@ class OpdVisitsController extends Controller
 
         }
 
-
+        PhysicianSelectService::applyDefaultPhysician($item);
 
         $patients = Patient::query()->orderBy('full_name')->get(['id', 'patient_number', 'full_name', 'allergies', 'problem_list']);
 
         $patientClinicalMap = $this->patientClinicalMap($patients);
 
+        $physicians = PhysicianSelectService::roster();
 
-
-        return view('opd_visits.edit', compact('item', 'patients', 'patientClinicalMap'));
+        return view('opd_visits.edit', compact('item', 'patients', 'patientClinicalMap', 'physicians'));
 
     }
 
@@ -484,13 +486,17 @@ class OpdVisitsController extends Controller
 
         $item = $opd_visit;
 
+        PhysicianSelectService::applyDefaultPhysician($item);
+
         $patients = Patient::query()->orderBy('full_name')->get(['id', 'patient_number', 'full_name', 'allergies', 'problem_list']);
 
         $patientClinicalMap = $this->patientClinicalMap($patients);
 
+        $physicians = PhysicianSelectService::roster($item->physician_id);
 
 
-        return view('opd_visits.edit', compact('item', 'patients', 'patientClinicalMap'));
+
+        return view('opd_visits.edit', compact('item', 'patients', 'patientClinicalMap', 'physicians'));
 
     }
 
@@ -664,6 +670,16 @@ class OpdVisitsController extends Controller
         if (($data['med_cert_remarks'] ?? '') === '') {
 
             $data['med_cert_remarks'] = null;
+
+        }
+
+        if (empty($data['physician_id'])) {
+
+            $data['physician_id'] = PhysicianSelectService::resolvePhysicianId(null);
+
+        } else {
+
+            $data['physician_id'] = PhysicianSelectService::resolvePhysicianId((int) $data['physician_id']);
 
         }
 

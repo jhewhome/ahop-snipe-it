@@ -10,6 +10,8 @@ use App\Models\Patient;
 use App\Services\AppointmentCheckInService;
 use App\Services\AppointmentInvoiceService;
 use App\Services\AppointmentReminderService;
+
+use App\Services\PhysicianSelectService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -118,9 +120,12 @@ class AppointmentsController extends Controller
             $item->patient_id = $request->integer('patient_id');
         }
 
-        $patients = Patient::query()->orderBy('full_name')->get(['id', 'patient_number', 'full_name']);
+        PhysicianSelectService::applyDefaultPhysician($item);
 
-        return view('appointments.edit', compact('item', 'patients'));
+        $patients = Patient::query()->orderBy('full_name')->get(['id', 'patient_number', 'full_name']);
+        $physicians = PhysicianSelectService::roster();
+
+        return view('appointments.edit', compact('item', 'patients', 'physicians'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -179,9 +184,13 @@ class AppointmentsController extends Controller
         $this->authorize('update', $appointment);
 
         $item = $appointment;
-        $patients = Patient::query()->orderBy('full_name')->get(['id', 'patient_number', 'full_name']);
 
-        return view('appointments.edit', compact('item', 'patients'));
+        PhysicianSelectService::applyDefaultPhysician($item);
+
+        $patients = Patient::query()->orderBy('full_name')->get(['id', 'patient_number', 'full_name']);
+        $physicians = PhysicianSelectService::roster($item->physician_id);
+
+        return view('appointments.edit', compact('item', 'patients', 'physicians'));
     }
 
     public function update(Request $request, Appointment $appointment): RedirectResponse
@@ -258,7 +267,7 @@ class AppointmentsController extends Controller
 
     private function attributesFromRequest(Request $request): array
     {
-        return $request->only([
+        $data = $request->only([
             'appointment_number',
             'patient_id',
             'physician_id',
@@ -269,5 +278,11 @@ class AppointmentsController extends Controller
             'reason',
             'notes',
         ]);
+
+        $data['physician_id'] = PhysicianSelectService::resolvePhysicianId(
+            ! empty($data['physician_id']) ? (int) $data['physician_id'] : null
+        );
+
+        return $data;
     }
 }

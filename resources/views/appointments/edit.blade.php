@@ -29,10 +29,11 @@
         </div>
     </div>
 
-    @include ('partials.forms.edit.user-select', [
+    @include('partials.forms.edit.physician-select', [
         'translated_name' => trans('admin/appointments/table.physician'),
         'fieldname' => 'physician_id',
-        'physicians_only' => true,
+        'item' => $item,
+        'physicians' => $physicians ?? collect(),
         'placeholder' => trans('admin/reception/table.physician_placeholder'),
     ])
 

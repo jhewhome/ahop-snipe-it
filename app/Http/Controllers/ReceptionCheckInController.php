@@ -8,6 +8,7 @@ use App\Models\OpdVisit;
 use App\Models\Patient;
 use App\Services\AppointmentCheckInService;
 use App\Services\ClinicSiteService;
+use App\Services\PhysicianSelectService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -86,6 +87,8 @@ class ReceptionCheckInController extends Controller
         $nextPatientNumber = Patient::generateNextPatientNumber();
         $nextVisitNumber = OpdVisit::generateNextVisitNumber();
         $canSelectClinicSite = Company::canManageUsersCompanies() && $clinicSites->count() > 1;
+        $physicians = PhysicianSelectService::roster(PhysicianSelectService::defaultPhysicianId());
+        $defaultPhysicianId = PhysicianSelectService::defaultPhysicianId();
 
         return view('reception.check-in', compact(
             'searchResults',
@@ -101,6 +104,8 @@ class ReceptionCheckInController extends Controller
             'activeClinicSiteName',
             'canSelectClinicSite',
             'searchQuery',
+            'physicians',
+            'defaultPhysicianId',
         ));
     }
 
