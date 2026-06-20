@@ -33,7 +33,7 @@ return [
         ],
 
         'Clinic Staff' => [
-            'notes' => 'Nurses and physicians: appointments, OPD documentation, and patient updates.',
+            'notes' => 'Nurses and physicians: appointments, OPD documentation, lab requests, and patient updates.',
             'permissions' => [
                 'patients.view' => '1',
                 'patients.edit' => '1',
@@ -44,6 +44,7 @@ return [
                 'opd_visits.create' => '1',
                 'opd_visits.edit' => '1',
                 'lab_orders.view' => '1',
+                'lab_orders.create' => '1',
                 'ai_insights.view' => '1',
             ],
         ],
