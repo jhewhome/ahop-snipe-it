@@ -18,6 +18,12 @@
 
 ---
 
+## Markdown sources (edit and re-export to PDF if needed)
+
+| Document | Description |
+|----------|-------------|
+| [AHOP-DEMO-SCRIPT.md](AHOP-DEMO-SCRIPT.md) | **8-minute class demo** — scripted presentation for masteral subject instructor |
+
 ## Live demo (for evaluators)
 
 1. Open: https://ahop.jhewhome.xyz/login  

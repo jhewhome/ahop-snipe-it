@@ -4,18 +4,50 @@ namespace App\Services\Ahop;
 
 use App\Models\Appointment;
 use App\Models\Asset;
+use App\Models\BillingInvoice;
 use App\Models\BillingPayment;
 use App\Models\Consumable;
 use App\Models\LabOrder;
 use App\Models\OpdVisit;
 use App\Models\Patient;
 use App\Models\Statuslabel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
 class ClinicalDashboardService
 {
+    /**
+     * Whether the current (or given) user may open the AHOP clinical dashboard.
+     * Clinical role groups do not use Snipe-IT superuser ("admin") access.
+     */
+    public static function canViewDashboard(?User $user = null): bool
+    {
+        if (! config('ahop.clinical_sidebar_mode') || ! config('ahop.clinical_dashboard')) {
+            return false;
+        }
+
+        $user = $user ?? auth()->user();
+
+        if (! $user) {
+            return false;
+        }
+
+        if ($user->hasAccess('admin')) {
+            return true;
+        }
+
+        $gate = Gate::forUser($user);
+
+        return $gate->allows('view', Patient::class)
+            || $gate->allows('view', Appointment::class)
+            || $gate->allows('view', OpdVisit::class)
+            || $gate->allows('view', LabOrder::class)
+            || $gate->allows('view', BillingInvoice::class)
+            || $gate->allows('view', Asset::class);
+    }
+
     /**
      * @return array{
      *     stats: array<string, int|float>,
