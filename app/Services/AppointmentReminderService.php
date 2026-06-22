@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 
 class AppointmentReminderService
 {
@@ -57,7 +58,35 @@ class AppointmentReminderService
             return ['sent' => false, 'reason' => 'disabled'];
         }
 
-        Mail::to($email)->send(new AppointmentReminderMail($appointment));
+        if (! Schema::hasColumn('appointments', 'reminder_sent_at')) {
+            Log::error('AHOP appointment reminder: missing appointments.reminder_sent_at column', [
+                'appointment_id' => $appointment->id,
+                'hint' => 'Run: php artisan migrate --force',
+            ]);
+
+            return ['sent' => false, 'reason' => 'schema_missing'];
+        }
+
+        $fromAddress = config('mail.from.address');
+        if (empty($fromAddress)) {
+            Log::error('AHOP appointment reminder: MAIL_FROM_ADDR is not configured', [
+                'appointment_id' => $appointment->id,
+            ]);
+
+            return ['sent' => false, 'reason' => 'mail_not_configured'];
+        }
+
+        try {
+            Mail::to($email)->send(new AppointmentReminderMail($appointment));
+        } catch (\Throwable $e) {
+            Log::error('AHOP appointment reminder mail failed', [
+                'appointment_id' => $appointment->id,
+                'patient_email' => $email,
+                'message' => $e->getMessage(),
+            ]);
+
+            return ['sent' => false, 'reason' => 'mail_failed'];
+        }
 
         $appointment->reminder_sent_at = now();
         $appointment->save();

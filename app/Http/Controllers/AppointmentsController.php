@@ -245,7 +245,15 @@ class AppointmentsController extends Controller
     {
         $this->authorize('update', $appointment);
 
-        $result = $this->reminderService->sendReminder($appointment, force: true);
+        try {
+            $result = $this->reminderService->sendReminder($appointment, force: true);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return redirect()
+                ->route('appointments.show', $appointment)
+                ->with('error', trans('admin/appointments/message.reminder.failed'));
+        }
 
         if ($result['sent']) {
             return redirect()
@@ -257,6 +265,9 @@ class AppointmentsController extends Controller
             'no_email' => 'no_email',
             'disabled' => 'disabled',
             'invalid_status' => 'invalid_status',
+            'schema_missing' => 'schema_missing',
+            'mail_not_configured' => 'mail_not_configured',
+            'mail_failed' => 'mail_failed',
             default => 'failed',
         };
 
