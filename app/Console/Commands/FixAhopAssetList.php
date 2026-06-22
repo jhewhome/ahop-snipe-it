@@ -44,10 +44,19 @@ class FixAhopAssetList extends Command
         $settings = Setting::getSettings();
         $fmcs = (string) ($settings->full_multiple_companies_support ?? '0') === '1';
 
+        if ($fmcs) {
+            $orphanAssets = $this->backfillOrphanAssetCompanies($companyId);
+            if ($orphanAssets > 0) {
+                $this->info("FMCS: {$orphanAssets} asset(s) with no company linked to clinic company id {$companyId}.");
+            }
+        }
+
         $this->newLine();
         $this->line('Diagnostics:');
         $this->line('  Full Multiple Company Support: '.($fmcs ? 'ON' : 'off'));
         $this->line('  Default clinic company id: '.($companyId ?: 'none'));
+        $this->line('  Total assets in database: '.$this->totalAssetCount());
+        $this->line('  Assets without company_id: '.$this->assetsMissingCompanyCount());
         $this->line('  Demo assets (AC-EQ / AC-IT): '.$this->demoAssetCount());
 
         foreach (['clinicadmin', 'biomedical'] as $username) {
@@ -67,11 +76,41 @@ class FixAhopAssetList extends Command
 
         $this->newLine();
         $this->info('Repair complete.');
-        $this->line('In the browser: log out/in, open Medical Equipment → List All.');
-        $this->line('If the table is still empty, clear site Local Storage (F12 → Application) for keys like assetsListingTable.*');
-        $this->line('Optional: add demo tags with --seed');
+        $this->line('In the browser: log out and log back in, then open Medical Equipment → List All.');
+        $this->line('If the table still says "No matching records":');
+        $this->line('  1. Clear the search box on the assets table (X button).');
+        $this->line('  2. F12 → Application → Local Storage → delete keys starting with assetsListingTable');
+        $this->line('  3. Hard refresh (Ctrl+F5).');
+        if ($this->demoAssetCount() === 0) {
+            $this->warn('No demo assets found — run: php artisan ahop:fix-asset-list --seed');
+        } else {
+            $this->line('Optional: recreate demo tags with php artisan ahop:fix-asset-list --seed');
+        }
 
         return self::SUCCESS;
+    }
+
+    protected function backfillOrphanAssetCompanies(?int $companyId): int
+    {
+        if (! $companyId) {
+            return 0;
+        }
+
+        return Asset::withoutGlobalScope(CompanyableScope::class)
+            ->whereNull('company_id')
+            ->update(['company_id' => $companyId]);
+    }
+
+    protected function totalAssetCount(): int
+    {
+        return Asset::withoutGlobalScope(CompanyableScope::class)->count();
+    }
+
+    protected function assetsMissingCompanyCount(): int
+    {
+        return Asset::withoutGlobalScope(CompanyableScope::class)
+            ->whereNull('company_id')
+            ->count();
     }
 
     protected function demoAssetCount(): int

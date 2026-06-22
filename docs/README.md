@@ -11,6 +11,7 @@
 
 | Document | Description |
 |----------|-------------|
+| [AHOP-SYSTEM-ACCESS-AND-INSTRUCTIONS.md](AHOP-SYSTEM-ACCESS-AND-INSTRUCTIONS.md) | **Instructor / evaluator access** — cloud URL, demo logins, guided tour, troubleshooting |
 | [AHOP-SOURCE-CODE-AND-DOCUMENTATION.pdf](AHOP-SOURCE-CODE-AND-DOCUMENTATION.pdf) | **Main thesis deliverable** — architecture, source code, database, RBAC, deployment |
 | [AHOP-USER-GUIDE.pdf](AHOP-USER-GUIDE.pdf) | Staff and end-user workflow guide |
 | [AHOP-DEPLOYMENT-GUIDE.pdf](AHOP-DEPLOYMENT-GUIDE.pdf) | Local setup, Google Cloud deploy, Git sync |
@@ -21,6 +22,7 @@
 
 | Document | Description |
 |----------|-------------|
+| [AHOP-SYSTEM-ACCESS-AND-INSTRUCTIONS.md](AHOP-SYSTEM-ACCESS-AND-INSTRUCTIONS.md) | **Instructor / evaluator** — cloud login, demo accounts, 15–20 min tour, checklist |
 | [AHOP-DEMO-SCRIPT.md](AHOP-DEMO-SCRIPT.md) | **8-minute class demo** — scripted presentation for masteral subject instructor |
 
 ## Live demo (for evaluators)
