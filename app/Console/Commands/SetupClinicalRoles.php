@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Setting;
 use App\Support\AhopRoleTemplates;
 use Illuminate\Console\Command;
 
@@ -33,6 +34,13 @@ class SetupClinicalRoles extends Command
         }
 
         $this->newLine();
+        $settings = Setting::getSettings();
+        if ((string) ($settings->profile_edit ?? '0') !== '1') {
+            $settings->profile_edit = 1;
+            $settings->save();
+            $this->line('  Enabled self-service profile editing (users may edit their own account only).');
+        }
+
         $this->info('Next steps:');
         $this->line('  1. Admin → Users → assign each staff member to one AHOP group');
         $this->line('  2. Keep Superuser for IT only (1–2 accounts)');

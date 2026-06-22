@@ -8,14 +8,17 @@
  * Permissions use Snipe-IT keys from config/permissions.php ('1' = granted).
  */
 
-$assetViewPermissions = [
+$assetListOnlyPermissions = [
     'assets.view' => '1',
+];
+
+$assetViewPermissions = array_merge($assetListOnlyPermissions, [
     'statuslabels.view' => '1',
     'models.view' => '1',
     'categories.view' => '1',
     'manufacturers.view' => '1',
     'locations.view' => '1',
-];
+]);
 
 $assetManagePermissions = array_merge($assetViewPermissions, [
     'assets.create' => '1',
@@ -31,8 +34,8 @@ return [
     'roles' => [
 
         'Reception' => [
-            'notes' => 'Front desk: patients, appointments, OPD, billing; read-only medical equipment list.',
-            'permissions' => array_merge([
+            'notes' => 'Front desk: patients, appointments, OPD, billing; no medical equipment registry access.',
+            'permissions' => [
                 'patients.view' => '1',
                 'patients.create' => '1',
                 'patients.edit' => '1',
@@ -46,7 +49,7 @@ return [
                 'billing_invoices.view' => '1',
                 'billing_invoices.create' => '1',
                 'billing_invoices.edit' => '1',
-            ], $assetViewPermissions),
+            ],
         ],
 
         'Clinic Staff' => [
@@ -63,7 +66,7 @@ return [
                 'lab_orders.view' => '1',
                 'lab_orders.create' => '1',
                 'ai_insights.view' => '1',
-            ], $assetViewPermissions),
+            ], $assetListOnlyPermissions),
         ],
 
         'Laboratory' => [
@@ -75,7 +78,7 @@ return [
                 'lab_orders.create' => '1',
                 'lab_orders.edit' => '1',
                 'ai_insights.view' => '1',
-            ], $assetViewPermissions),
+            ], $assetListOnlyPermissions),
         ],
 
         'Biomedical' => [
