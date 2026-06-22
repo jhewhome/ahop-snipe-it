@@ -1625,8 +1625,48 @@ body.ahop-theme .bootstrap-table .fixed-table-toolbar select.form-control {
 body.ahop-theme .bootstrap-table .fixed-table-toolbar .columns label,
 body.ahop-theme .bootstrap-table .fixed-table-pagination,
 body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination-detail,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination-info,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination-detail span,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list .btn,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list .btn-default,
 body.ahop-theme .bootstrap-table .page-list {
     color: #334155 !important;
+}
+
+body.ahop-theme .bootstrap-table .fixed-table-pagination {
+    background-color: #f8fafc !important;
+    border-top: 1px solid rgba(13, 110, 122, 0.12);
+    padding: 10px 6px 6px;
+}
+
+body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list .btn,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list .btn-default {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+}
+
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li > a,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li > span {
+    background-color: #ffffff !important;
+    color: var(--ahop-primary-dark) !important;
+    border-color: #cbd5e1 !important;
+}
+
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > .active > a,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > .active > span,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li > a:hover,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li > a:focus {
+    background-color: var(--ahop-primary) !important;
+    color: #ffffff !important;
+    border-color: var(--ahop-primary-dark) !important;
+}
+
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li.disabled > a,
+body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li.disabled > span {
+    background-color: #f1f5f9 !important;
+    color: #94a3b8 !important;
+    border-color: #e2e8f0 !important;
 }
 
 body.ahop-theme .bootstrap-table thead .filter-control input,
@@ -2484,17 +2524,28 @@ body.ahop-theme .ahop-dashboard-refresh-meta {
     color: #94a3b8 !important;
 }
 
-/* Pagination */
-body.ahop-theme .pagination > li > a {
+/* Pagination (global + non-bootstrap-table lists) */
+body.ahop-theme .pagination > li > a,
+body.ahop-theme .pagination > li > span {
+    background-color: #ffffff !important;
+    color: var(--ahop-primary-dark) !important;
+    border-color: #cbd5e1 !important;
+}
+
+body.ahop-theme .pagination > li > a:hover,
+body.ahop-theme .pagination > li > a:focus,
+body.ahop-theme .pagination > .active > a,
+body.ahop-theme .pagination > .active > span {
     background-color: var(--ahop-primary) !important;
     color: #ffffff !important;
     border-color: var(--ahop-primary-dark) !important;
 }
 
-body.ahop-theme .pagination > li > a:hover,
-body.ahop-theme .pagination > .active > a {
-    background-color: var(--ahop-primary-dark) !important;
-    color: #ffffff !important;
+body.ahop-theme .pagination > li.disabled > a,
+body.ahop-theme .pagination > li.disabled > span {
+    background-color: #f1f5f9 !important;
+    color: #94a3b8 !important;
+    border-color: #e2e8f0 !important;
 }
 
 /* Dark mode */
@@ -2666,8 +2717,44 @@ body.ahop-theme .pagination > .active > a {
 }
 
 [data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination,
-[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination-detail {
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination-detail,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination-info,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list .btn,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .page-list .btn-default {
     color: #e8f7f5 !important;
+}
+
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination {
+    background-color: #323131 !important;
+    border-top-color: rgba(46, 184, 166, 0.2);
+}
+
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li > a,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li > span,
+[data-theme="dark"] body.ahop-theme .pagination > li > a,
+[data-theme="dark"] body.ahop-theme .pagination > li > span {
+    background-color: #2d4549 !important;
+    color: #e8f7f5 !important;
+    border-color: rgba(46, 184, 166, 0.35) !important;
+}
+
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > .active > a,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > .active > span,
+[data-theme="dark"] body.ahop-theme .pagination > .active > a,
+[data-theme="dark"] body.ahop-theme .pagination > .active > span {
+    background-color: var(--ahop-primary) !important;
+    color: #ffffff !important;
+    border-color: var(--ahop-accent) !important;
+}
+
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li.disabled > a,
+[data-theme="dark"] body.ahop-theme .bootstrap-table .fixed-table-pagination .pagination > li.disabled > span,
+[data-theme="dark"] body.ahop-theme .pagination > li.disabled > a,
+[data-theme="dark"] body.ahop-theme .pagination > li.disabled > span {
+    background-color: #3d4144 !important;
+    color: #94a3b8 !important;
+    border-color: rgba(148, 163, 184, 0.25) !important;
 }
 
 [data-theme="dark"] body.ahop-theme a.ahop-stat-card,
@@ -3107,19 +3194,20 @@ body.ahop-theme.ahop-modern .ahop-badge {
     letter-spacing: 0.02em;
 }
 
-/* Pagination */
+/* Pagination — modern polish (inherits light/dark rules above) */
 body.ahop-theme.ahop-modern .pagination > li > a,
-body.ahop-theme.ahop-modern .pagination > li > span {
+body.ahop-theme.ahop-modern .pagination > li > span,
+body.ahop-theme.ahop-modern .bootstrap-table .fixed-table-pagination .pagination > li > a,
+body.ahop-theme.ahop-modern .bootstrap-table .fixed-table-pagination .pagination > li > span {
     border-radius: 8px;
     margin: 0 3px;
-    border-color: #e2e8f0;
-    color: var(--ahop-primary-dark);
 }
 
 body.ahop-theme.ahop-modern .pagination > .active > a,
-body.ahop-theme.ahop-modern .pagination > .active > span {
-    background: var(--ahop-primary);
-    border-color: var(--ahop-primary-dark);
+body.ahop-theme.ahop-modern .pagination > .active > span,
+body.ahop-theme.ahop-modern .bootstrap-table .fixed-table-pagination .pagination > .active > a,
+body.ahop-theme.ahop-modern .bootstrap-table .fixed-table-pagination .pagination > .active > span {
+    box-shadow: 0 1px 3px rgba(9, 74, 82, 0.2);
 }
 
 /* Select2 */

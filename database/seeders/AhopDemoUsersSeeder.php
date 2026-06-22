@@ -20,8 +20,12 @@ class AhopDemoUsersSeeder extends Seeder
     public function run(bool $force = false, ?string $password = null): void
     {
         $password = $password ?: self::DEFAULT_PASSWORD;
-        $companyId = Company::query()->value('id');
         $prefix = (string) config('ahop_roles.prefix', 'AHOP ');
+
+        $companySeeder = new AhopCompanySeeder;
+        $companySeeder->setCommand($this->command);
+        $companies = $companySeeder->run(backfillPatients: false);
+        $companyId = $companies['default_id'] ?? $this->resolveDefaultCompanyId();
 
         AhopRoleTemplates::syncAll($force);
 
@@ -74,9 +78,42 @@ class AhopDemoUsersSeeder extends Seeder
         }
 
         $this->command?->newLine();
-        $this->command?->info("Demo users: {$created} created, {$updated} updated, {$skipped} skipped.");
+        $backfilled = $this->backfillDemoUserCompanies($companyId);
+        $this->command?->info("Demo users: {$created} created, {$updated} updated, {$skipped} skipped, {$backfilled} company link(s) fixed.");
         $this->command?->line('  Password for all demo accounts: '.$password);
         $this->command?->line('  Log in at /login — use username (not email).');
+    }
+
+    protected function resolveDefaultCompanyId(): ?int
+    {
+        $name = config('ahop.default_clinic_company_name', config('ahop.default_site_name', 'AgilityCare Main Clinic'));
+
+        $id = Company::query()->where('name', $name)->value('id');
+
+        if ($id) {
+            return (int) $id;
+        }
+
+        $fallback = Company::query()->value('id');
+
+        return $fallback ? (int) $fallback : null;
+    }
+
+    protected function backfillDemoUserCompanies(?int $companyId): int
+    {
+        if (! $companyId) {
+            return 0;
+        }
+
+        $usernames = array_column($this->demoAccounts(), 'username');
+
+        return User::query()
+            ->whereIn('username', $usernames)
+            ->where(function ($query) use ($companyId) {
+                $query->whereNull('company_id')
+                    ->orWhere('company_id', '!=', $companyId);
+            })
+            ->update(['company_id' => $companyId]);
     }
 
     /**

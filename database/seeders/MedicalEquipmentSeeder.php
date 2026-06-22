@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Asset;
 use App\Models\AssetModel;
 use App\Models\Category;
+use App\Models\Company;
+use App\Models\CompanyableScope;
 use App\Models\Location;
 use App\Models\Manufacturer;
 use App\Models\Statuslabel;
@@ -37,12 +39,22 @@ class MedicalEquipmentSeeder extends Seeder
         $itManufacturer = $this->seedItManufacturer($adminId);
         $models = $this->seedAssetModels($adminId, $categories, $manufacturer, $itManufacturer);
 
+        if ($withDemoMedicalAssets || $withDemoItAssets) {
+            $companySeeder = new AhopCompanySeeder;
+            $companySeeder->setCommand($this->command);
+            $companySeeder->run(backfillPatients: false);
+        }
+
         if ($withDemoMedicalAssets) {
             $this->seedDemoMedicalAssets($adminId, $models, $locations, $statuses);
         }
 
         if ($withDemoItAssets) {
             $this->seedDemoItAssets($adminId, $models, $locations, $statuses);
+        }
+
+        if ($withDemoMedicalAssets || $withDemoItAssets) {
+            $this->backfillDemoAssetCompanies();
         }
 
         $this->command?->info('Medical equipment taxonomy seeded.');
@@ -472,9 +484,12 @@ class MedicalEquipmentSeeder extends Seeder
         string $notes,
     ): int {
         $created = 0;
+        $companyId = $this->resolveDefaultCompanyId();
 
         foreach ($assignments as $row) {
-            if (Asset::where('asset_tag', $row['tag'])->exists()) {
+            if (Asset::withoutGlobalScope(CompanyableScope::class)
+                ->where('asset_tag', $row['tag'])
+                ->exists()) {
                 continue;
             }
 
@@ -493,6 +508,7 @@ class MedicalEquipmentSeeder extends Seeder
                 'status_id' => $status->id,
                 'rtd_location_id' => $location->id,
                 'location_id' => $location->id,
+                'company_id' => $companyId,
                 'serial' => $row['serial'],
                 'purchase_date' => now()->subMonths(6)->format('Y-m-d'),
                 'purchase_cost' => 0,
@@ -504,5 +520,48 @@ class MedicalEquipmentSeeder extends Seeder
         }
 
         return $created;
+    }
+
+    protected function resolveDefaultCompanyId(): ?int
+    {
+        $name = config('ahop.default_clinic_company_name', config('ahop.default_site_name', 'AgilityCare Main Clinic'));
+        $id = Company::query()->where('name', $name)->value('id');
+
+        if ($id) {
+            return (int) $id;
+        }
+
+        $fallback = Company::query()->value('id');
+
+        return $fallback ? (int) $fallback : null;
+    }
+
+    /**
+     * When Full Multiple Company Support is enabled, assets without company_id are hidden from clinic staff.
+     */
+    public function backfillDemoAssetCompanies(): void
+    {
+        $companyId = $this->resolveDefaultCompanyId();
+
+        if (! $companyId) {
+            $this->command?->warn('No company found — demo assets may not appear under Full Multiple Company Support.');
+
+            return;
+        }
+
+        $updated = Asset::withoutGlobalScope(CompanyableScope::class)
+            ->where(function ($query) {
+                $query->where('asset_tag', 'like', 'AC-EQ-%')
+                    ->orWhere('asset_tag', 'like', 'AC-IT-%');
+            })
+            ->where(function ($query) use ($companyId) {
+                $query->whereNull('company_id')
+                    ->orWhere('company_id', '!=', $companyId);
+            })
+            ->update(['company_id' => $companyId]);
+
+        if ($updated > 0) {
+            $this->command?->info("Demo assets: {$updated} record(s) linked to clinic company for list visibility.");
+        }
     }
 }

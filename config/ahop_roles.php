@@ -3,10 +3,27 @@
 /**
  * AHOP clinical role templates for Priority 1 (security & staff adoption).
  *
- * Run: php artisan ahop:setup-clinical-roles
+ * Run: php artisan ahop:setup-clinical-roles --force
  *
  * Permissions use Snipe-IT keys from config/permissions.php ('1' = granted).
  */
+
+$assetViewPermissions = [
+    'assets.view' => '1',
+    'statuslabels.view' => '1',
+    'models.view' => '1',
+    'categories.view' => '1',
+    'manufacturers.view' => '1',
+    'locations.view' => '1',
+];
+
+$assetManagePermissions = array_merge($assetViewPermissions, [
+    'assets.create' => '1',
+    'assets.edit' => '1',
+    'assets.checkin' => '1',
+    'assets.checkout' => '1',
+]);
+
 return [
 
     'prefix' => env('AHOP_ROLE_GROUP_PREFIX', 'AHOP '),
@@ -14,8 +31,8 @@ return [
     'roles' => [
 
         'Reception' => [
-            'notes' => 'Front desk: patients, appointments, OPD, billing (create/view/edit). No delete access.',
-            'permissions' => [
+            'notes' => 'Front desk: patients, appointments, OPD, billing; read-only medical equipment list.',
+            'permissions' => array_merge([
                 'patients.view' => '1',
                 'patients.create' => '1',
                 'patients.edit' => '1',
@@ -29,12 +46,12 @@ return [
                 'billing_invoices.view' => '1',
                 'billing_invoices.create' => '1',
                 'billing_invoices.edit' => '1',
-            ],
+            ], $assetViewPermissions),
         ],
 
         'Clinic Staff' => [
-            'notes' => 'Nurses and physicians: appointments, OPD documentation, lab requests, and patient updates.',
-            'permissions' => [
+            'notes' => 'Nurses and physicians: clinical workflows plus read-only equipment registry.',
+            'permissions' => array_merge([
                 'patients.view' => '1',
                 'patients.edit' => '1',
                 'appointments.view' => '1',
@@ -46,36 +63,32 @@ return [
                 'lab_orders.view' => '1',
                 'lab_orders.create' => '1',
                 'ai_insights.view' => '1',
-            ],
+            ], $assetViewPermissions),
         ],
 
         'Laboratory' => [
-            'notes' => 'Lab technicians: orders and result entry.',
-            'permissions' => [
+            'notes' => 'Lab technicians: orders, results, and read-only lab equipment list.',
+            'permissions' => array_merge([
                 'patients.view' => '1',
                 'opd_visits.view' => '1',
                 'lab_orders.view' => '1',
                 'lab_orders.create' => '1',
                 'lab_orders.edit' => '1',
                 'ai_insights.view' => '1',
-            ],
+            ], $assetViewPermissions),
         ],
 
         'Biomedical' => [
-            'notes' => 'Medical equipment and maintenance tracking.',
-            'permissions' => [
-                'assets.view' => '1',
-                'assets.edit' => '1',
-                'assets.checkin' => '1',
-                'assets.checkout' => '1',
+            'notes' => 'Medical equipment and IT asset registry: full create, edit, checkout, and maintenance.',
+            'permissions' => array_merge($assetManagePermissions, [
                 'reports.view' => '1',
                 'ai_insights.view' => '1',
-            ],
+            ]),
         ],
 
         'Clinic Administrator' => [
             'notes' => 'Clinic manager: full clinical, billing, and medical equipment registry access.',
-            'permissions' => [
+            'permissions' => array_merge([
                 'patients.view' => '1',
                 'patients.create' => '1',
                 'patients.edit' => '1',
@@ -96,19 +109,9 @@ return [
                 'billing_invoices.create' => '1',
                 'billing_invoices.edit' => '1',
                 'billing_invoices.delete' => '1',
-                'assets.view' => '1',
-                'assets.create' => '1',
-                'assets.edit' => '1',
-                'assets.checkin' => '1',
-                'assets.checkout' => '1',
-                'statuslabels.view' => '1',
-                'models.view' => '1',
-                'categories.view' => '1',
-                'manufacturers.view' => '1',
-                'locations.view' => '1',
                 'reports.view' => '1',
                 'ai_insights.view' => '1',
-            ],
+            ], $assetManagePermissions),
         ],
 
     ],
