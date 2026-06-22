@@ -57,6 +57,21 @@
 
         /** End handling the responsive tab UI on view detail pages **/
 
+        function initBootstrapTableTooltips() {
+            $('[data-tooltip="true"]').each(function () {
+                var $el = $(this);
+
+                if ($el.data('bs.tooltip')) {
+                    $el.tooltip('destroy');
+                }
+
+                $el.tooltip({
+                    container: 'body',
+                    animation: true,
+                });
+            });
+        }
+
         $('.snipe-table').bootstrapTable('destroy').each(function () {
 
             data_export_options = $(this).attr('data-export-options');
@@ -187,8 +202,8 @@
                 locale: '{{ app()->getLocale() }}',
                 exportOptions: export_options,
                 exportTypes: ['xlsx', 'excel', 'csv', 'pdf', 'json', 'xml', 'txt', 'sql', 'doc'],
-                onLoadSuccess: function () { // possible 'fixme'? this might be for contents, not for headers?
-                    $('[data-tooltip="true"]').tooltip(); // Needed to attach tooltips after ajax call
+                onLoadSuccess: function () {
+                    initBootstrapTableTooltips();
                 },
                 onPostHeader: function () {
                     var lookup = {};
@@ -2017,14 +2032,9 @@
         searchboxHighlighter({ name:'pageload'});
         $('.search-input').keyup(searchboxHighlighter);
 
-        //  This is necessary to make the bootstrap tooltips work inside of the
-        // wenzhixin/bootstrap-table formatters
-        $('#table').on('post-body.bs.table', function () {
-            $('[data-tooltip="true"]').tooltip({
-                container: 'body'
-            });
-
-
+        // Re-attach tooltips after bootstrap-table AJAX refreshes (all Snipe tables, not only #table).
+        $('.snipe-table').on('post-body.bs.table', function () {
+            initBootstrapTableTooltips();
         });
     });
 
