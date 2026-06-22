@@ -402,8 +402,10 @@ body.ahop-theme .row > [class*="col-"]:has(> form#create-form) {
 
 body.ahop-theme .row.ahop-reception-layout > .ahop-reception-layout__main,
 body.ahop-theme .row.ahop-reception-layout > .ahop-reception-layout__aside {
-    width: auto;
+    width: 100%;
+    max-width: 100%;
     margin-left: 0;
+    float: none;
 }
 
 body.ahop-theme form#create-form > .box {
@@ -411,31 +413,26 @@ body.ahop-theme form#create-form > .box {
     max-width: none;
 }
 
-/* Reception check-in — maximize main + queue panel width */
+/* Reception check-in — stacked full-width panels */
 body.ahop-theme .ahop-reception-layout {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 16px;
+    display: block;
     margin-left: 0;
     margin-right: 0;
 }
 
-body.ahop-theme .ahop-reception-layout__main {
-    flex: 1 1 640px;
-    min-width: 0;
-    max-width: none;
-    padding-left: 0;
-    padding-right: 0;
-}
-
+body.ahop-theme .ahop-reception-layout__main,
 body.ahop-theme .ahop-reception-layout__aside {
-    flex: 0 0 320px;
-    width: 320px;
+    display: block;
+    width: 100%;
     max-width: 100%;
     min-width: 0;
     padding-left: 0;
     padding-right: 0;
+    margin-bottom: 16px;
+}
+
+body.ahop-theme .ahop-reception-layout__aside {
+    margin-bottom: 0;
 }
 
 body.ahop-theme .ahop-reception-layout__main > .ahop-reception-panel,
@@ -465,14 +462,6 @@ body.ahop-theme .ahop-reception-panel .table-responsive {
 
     body.ahop-theme .ahop-reception-panel form.form-horizontal .col-md-offset-3.col-md-8 {
         width: 75%;
-    }
-}
-
-@media (max-width: 991px) {
-    body.ahop-theme .ahop-reception-layout__main,
-    body.ahop-theme .ahop-reception-layout__aside {
-        flex: 1 1 100%;
-        width: 100%;
     }
 }
 
