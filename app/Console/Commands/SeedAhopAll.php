@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 class SeedAhopAll extends Command
 {
     protected $signature = 'ahop:seed-all
-                            {--patients=10 : Demo patients to create (max 10 predefined)}
+                            {--patients=25 : Demo patients to create (max 25 predefined)}
                             {--skip-roles : Skip AHOP role group setup}
                             {--skip-equipment : Skip medical equipment taxonomy/assets}
                             {--skip-clinical : Skip demo patients, OPD, appointments, lab, billing}
@@ -34,7 +34,7 @@ class SeedAhopAll extends Command
 
         if (! $this->option('skip-equipment')) {
             $this->info('Step 2/4 — Medical equipment (Snipe-IT assets module)');
-            $args = $this->option('no-demo-assets') ? [] : ['--demo-assets' => true];
+            $args = $this->option('no-demo-assets') ? [] : ['--demo-assets' => true, '--demo-it-assets' => true];
             $code = $this->call('ahop:seed-equipment', $args);
             if ($code !== self::SUCCESS) {
                 return $code;
@@ -68,7 +68,7 @@ class SeedAhopAll extends Command
             $this->newLine();
 
             $this->info('Step 5/6 — Clinic demo data (patients, OPD, appointments, lab, billing)');
-            $count = max(1, min(10, (int) $this->option('patients')));
+            $count = max(1, min(25, (int) $this->option('patients')));
             $code = $this->call('ahop:seed-demo', ['--patients' => $count]);
             if ($code !== self::SUCCESS) {
                 return $code;

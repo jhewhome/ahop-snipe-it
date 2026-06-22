@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Schema;
  */
 class AhopClinicalDemoSeeder extends Seeder
 {
-    public function run(int $patientCount = 10): void
+    public function run(int $patientCount = 25): void
     {
         if (! Schema::hasTable('patients')) {
             $this->command?->error('Patients table not found. Run clinical migrations first.');
@@ -69,7 +69,7 @@ class AhopClinicalDemoSeeder extends Seeder
         $this->command?->info("Demo clinical data: {$created} new patient(s).");
         $this->command?->line('  Patients → Clinical Services → Patients');
         $this->command?->line('  Billing → demo invoice on first OPD visit (if new)');
-        $this->command?->line('  Equipment → php artisan ahop:seed-equipment --demo-assets');
+        $this->command?->line('  Equipment → php artisan ahop:seed-equipment --demo-assets --demo-it-assets');
     }
 
     protected function seedOpdVisit(Patient $patient, int $index): ?OpdVisit
@@ -163,6 +163,21 @@ class AhopClinicalDemoSeeder extends Seeder
             ['patient_number' => 'AC-900008', 'full_name' => 'Paolo Castillo Fernandez', 'sex' => 'M', 'birthdate' => '1972-06-25', 'contact_number' => '09241234508', 'email' => 'demo.paolo@example.com'],
             ['patient_number' => 'AC-900009', 'full_name' => 'Bianca Rivera Domingo', 'sex' => 'F', 'birthdate' => '1999-02-17', 'contact_number' => '09251234509', 'email' => null],
             ['patient_number' => 'AC-900010', 'full_name' => 'Jerome de Guzman Test', 'sex' => 'M', 'birthdate' => '1990-05-16', 'contact_number' => '09261234510', 'email' => 'demo.jerome@example.com'],
+            ['patient_number' => 'AC-900011', 'full_name' => 'Liza Mercado Villanueva', 'sex' => 'F', 'birthdate' => '1983-08-03', 'contact_number' => '09271234511', 'email' => 'demo.liza@example.com'],
+            ['patient_number' => 'AC-900012', 'full_name' => 'Ramon Castillo Navarro', 'sex' => 'M', 'birthdate' => '1959-12-19', 'contact_number' => '09281234512', 'email' => null],
+            ['patient_number' => 'AC-900013', 'full_name' => 'Cherry Ann Lopez', 'sex' => 'F', 'birthdate' => '1997-04-27', 'contact_number' => '09291234513', 'email' => 'demo.cherry@example.com'],
+            ['patient_number' => 'AC-900014', 'full_name' => 'Edgar Tan Sy', 'sex' => 'M', 'birthdate' => '1975-10-11', 'contact_number' => '09301234514', 'email' => null],
+            ['patient_number' => 'AC-900015', 'full_name' => 'Helen Cruz Bautista', 'sex' => 'F', 'birthdate' => '1968-02-28', 'contact_number' => '09311234515', 'email' => 'demo.helen@example.com'],
+            ['patient_number' => 'AC-900016', 'full_name' => 'Francis Mendoza', 'sex' => 'M', 'birthdate' => '2003-07-09', 'contact_number' => '09321234516', 'email' => null],
+            ['patient_number' => 'AC-900017', 'full_name' => 'Rosario Espiritu', 'sex' => 'F', 'birthdate' => '1954-05-22', 'contact_number' => '09331234517', 'email' => 'demo.rosario@example.com'],
+            ['patient_number' => 'AC-900018', 'full_name' => 'Kevin Alcantara', 'sex' => 'M', 'birthdate' => '1991-11-14', 'contact_number' => '09341234518', 'email' => null],
+            ['patient_number' => 'AC-900019', 'full_name' => 'Diana Soriano', 'sex' => 'F', 'birthdate' => '1986-01-07', 'contact_number' => '09351234519', 'email' => 'demo.diana@example.com'],
+            ['patient_number' => 'AC-900020', 'full_name' => 'Alfredo Pangilinan', 'sex' => 'M', 'birthdate' => '1948-09-16', 'contact_number' => '09361234520', 'email' => null],
+            ['patient_number' => 'AC-900021', 'full_name' => 'Michelle Yu', 'sex' => 'F', 'birthdate' => '1994-06-30', 'contact_number' => '09371234521', 'email' => 'demo.michelle@example.com'],
+            ['patient_number' => 'AC-900022', 'full_name' => 'Nathaniel Ramos', 'sex' => 'M', 'birthdate' => '1980-03-25', 'contact_number' => '09381234522', 'email' => null],
+            ['patient_number' => 'AC-900023', 'full_name' => 'Camille Domingo', 'sex' => 'F', 'birthdate' => '2000-12-01', 'contact_number' => '09391234523', 'email' => 'demo.camille@example.com'],
+            ['patient_number' => 'AC-900024', 'full_name' => 'Victor Herrera', 'sex' => 'M', 'birthdate' => '1970-08-18', 'contact_number' => '09401234524', 'email' => null],
+            ['patient_number' => 'AC-900025', 'full_name' => 'Isabel Marquez', 'sex' => 'F', 'birthdate' => '1989-10-05', 'contact_number' => '09411234525', 'email' => 'demo.isabel@example.com'],
         ];
 
         return array_map(function (array $row) {

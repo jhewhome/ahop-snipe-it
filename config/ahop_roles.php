@@ -74,7 +74,7 @@ return [
         ],
 
         'Clinic Administrator' => [
-            'notes' => 'Clinic manager: full clinical and billing access, operational reports.',
+            'notes' => 'Clinic manager: full clinical, billing, and medical equipment registry access.',
             'permissions' => [
                 'patients.view' => '1',
                 'patients.create' => '1',
@@ -97,6 +97,15 @@ return [
                 'billing_invoices.edit' => '1',
                 'billing_invoices.delete' => '1',
                 'assets.view' => '1',
+                'assets.create' => '1',
+                'assets.edit' => '1',
+                'assets.checkin' => '1',
+                'assets.checkout' => '1',
+                'statuslabels.view' => '1',
+                'models.view' => '1',
+                'categories.view' => '1',
+                'manufacturers.view' => '1',
+                'locations.view' => '1',
                 'reports.view' => '1',
                 'ai_insights.view' => '1',
             ],
