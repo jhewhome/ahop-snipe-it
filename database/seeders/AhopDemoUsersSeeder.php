@@ -46,6 +46,7 @@ class AhopDemoUsersSeeder extends Seeder
             $user = User::query()->where('username', $account['username'])->first();
 
             if ($user && ! $force) {
+                $user->groups()->sync([$group->id]);
                 $skipped++;
                 $this->command?->line("  [skip] {$account['username']} ({$groupName})");
 

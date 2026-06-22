@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\CompanyableScope;
 use App\Models\Setting;
 use App\Models\User;
+use App\Support\AhopRoleTemplates;
 use Database\Seeders\AhopCompanySeeder;
 use Database\Seeders\AhopDemoUsersSeeder;
 use Database\Seeders\MedicalEquipmentSeeder;
@@ -29,6 +30,8 @@ class FixAhopAssetList extends Command
         $companySeeder->setCommand($this);
         $companies = $companySeeder->run(backfillPatients: false);
         $companyId = $companies['default_id'];
+
+        AhopRoleTemplates::syncAll(true);
 
         $userSeeder = new AhopDemoUsersSeeder;
         $userSeeder->setCommand($this);
@@ -74,7 +77,7 @@ class FixAhopAssetList extends Command
 
             auth()->guard('web')->login($user);
             $visible = Asset::query()->count();
-            $this->line("  [{$username}] company_id=".($user->company_id ?? 'null').", visible assets={$visible}, assets.view=".($user->hasAccess('assets.view') ? 'yes' : 'no'));
+            $this->line("  [{$username}] company_id=".($user->company_id ?? 'null').", visible assets={$visible}, assets.view=".($user->hasAccess('assets.view') ? 'yes' : 'no').', assets.checkout='.($user->hasAccess('assets.checkout') ? 'yes' : 'no').', assets.checkin='.($user->hasAccess('assets.checkin') ? 'yes' : 'no'));
         }
 
         auth()->guard('web')->logout();
@@ -93,6 +96,11 @@ class FixAhopAssetList extends Command
         $this->line('  2. Ensure Passport keys exist: php artisan passport:install');
         $this->line('  3. In browser F12 → Network, check /api/v1/hardware — should be 200 JSON, not 401/500 or wrong host.');
         $this->line('  4. tail storage/logs/laravel.log for PHP errors.');
+        $this->line('If Checkin/Checkout buttons are missing on the assets table:');
+        $this->line('  1. Log in as clinicadmin or biomedical (not reception/physician/labtech).');
+        $this->line('  2. Run: php artisan ahop:setup-clinical-roles --force');
+        $this->line('  3. Log out and back in, then hard refresh (Ctrl+F5).');
+        $this->line('  4. Scroll right or use Columns menu — enable "Checkin/Checkout" if hidden.');
         if ($this->demoAssetCount() === 0) {
             $this->warn('No demo assets found — run: php artisan ahop:fix-asset-list --seed');
         } else {
@@ -169,6 +177,10 @@ class FixAhopAssetList extends Command
             if ($status !== 200) {
                 $snippet = substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 180);
                 $this->warn('  API response snippet: '.$snippet);
+            } elseif (is_array($json) && isset($json['rows'][0])) {
+                $first = $json['rows'][0];
+                $actions = $first['available_actions'] ?? [];
+                $this->line('  API sample row: checkout='.($actions['checkout'] ?? 'n/a').', checkin='.($actions['checkin'] ?? 'n/a').', user_can_checkout='.($first['user_can_checkout'] ?? 'n/a'));
             }
         } catch (\Throwable $e) {
             $this->error('  API test failed: '.$e->getMessage());

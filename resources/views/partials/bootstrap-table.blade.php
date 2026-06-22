@@ -124,8 +124,6 @@
             $(this).closest('ul').toggleClass("open");
         });
 
-        /** End handling the responsive tab UI on view detail pages **/
-
         window.initBootstrapTableTooltips = function () {
             $('[data-tooltip="true"]').each(function () {
                 var $el = $(this);
@@ -138,6 +136,18 @@
                     container: 'body',
                     animation: true,
                 });
+            });
+        };
+
+        window.ensureAssetTableActionColumns = function ($table) {
+            if (! $table || ! $table.length || ! $table.data('bootstrap.table')) {
+                return;
+            }
+
+            ['checkincheckout', 'actions'].forEach(function (field) {
+                try {
+                    $table.bootstrapTable('showColumn', field);
+                } catch (e) {}
             });
         };
 
@@ -304,6 +314,9 @@
                 exportTypes: ['xlsx', 'excel', 'csv', 'pdf', 'json', 'xml', 'txt', 'sql', 'doc'],
                 onLoadSuccess: function () {
                     try {
+@if ($isAssetListingPage)
+                        window.ensureAssetTableActionColumns($table);
+@endif
                         window.initBootstrapTableTooltips();
                     } catch (tooltipError) {
                         console.error('AHOP tooltip init failed', tooltipError);
@@ -2158,6 +2171,12 @@
 
         // Re-attach tooltips after bootstrap-table AJAX refreshes (all Snipe tables, not only #table).
         $('.snipe-table').on('post-body.bs.table', function () {
+            var $table = $(this);
+@if ($isAssetListingPage)
+            if (typeof window.ensureAssetTableActionColumns === 'function') {
+                window.ensureAssetTableActionColumns($table);
+            }
+@endif
             if (typeof window.initBootstrapTableTooltips === 'function') {
                 window.initBootstrapTableTooltips();
             }
