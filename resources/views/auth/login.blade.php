@@ -24,7 +24,7 @@
                     </div>
                 @endif
 
-                @include('notifications')
+                @include('partials.ahop-auth-notifications')
 
                 @if (($snipeSettings->google_login == '1') && ($snipeSettings->google_client_id != '') && ($snipeSettings->google_client_secret != ''))
                     <a href="{{ route('google.redirect') }}" class="ahop-login-sleek-google">

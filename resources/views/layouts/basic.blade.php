@@ -58,7 +58,7 @@
   <!-- Content -->
   @yield('content')
 
-    <div class="text-center" style="padding-top: 100px;">
+    <div class="text-center ahop-login-footer">
         @if (($snipeSettings) && ($snipeSettings->privacy_policy_link!=''))
         <a target="_blank" rel="noopener" href="{{  $snipeSettings->privacy_policy_link }}" target="_new">{{ trans('admin/settings/general.privacy_policy') }}</a>
     @endif

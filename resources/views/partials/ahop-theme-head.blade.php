@@ -6,7 +6,7 @@
     @endif
     <link rel="stylesheet" href="{{ asset('css/ahop-theme.css') }}?v=90">
     @if (config('ahop.theme_variant') === 'sleek')
-        <link rel="stylesheet" href="{{ asset('css/ahop-theme-sleek-login.css') }}?v=2">
+        <link rel="stylesheet" href="{{ asset('css/ahop-theme-sleek-login.css') }}?v=3">
         <link rel="stylesheet" href="{{ asset('css/ahop-theme-sleek-app.css') }}?v=7">
     @endif
     {{-- Load last: override Snipe global a:hover and nav-tabs-custom defaults --}}

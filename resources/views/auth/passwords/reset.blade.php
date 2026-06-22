@@ -16,7 +16,7 @@
                 @include('partials.ahop-auth-sleek-brand')
                 <p class="ahop-login-sleek-subtitle">{{ trans('auth/general.reset_password_subtitle') }}</p>
 
-                @include('notifications')
+                @include('partials.ahop-auth-notifications')
 
                 <div class="ahop-login-sleek-field form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                     <label for="username">

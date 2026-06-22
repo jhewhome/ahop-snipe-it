@@ -7,14 +7,32 @@ body.ahop-login-sleek {
     background: linear-gradient(160deg, #094a52 0%, #0d6e7a 45%, #297567 100%) !important;
     min-height: 100vh;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body.ahop-login-sleek.login-page {
+    height: auto;
+    background: linear-gradient(160deg, #094a52 0%, #0d6e7a 45%, #297567 100%) !important;
+}
+
+body.ahop-login-sleek form.ahop-login-sleek-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
 }
 
 body.ahop-login-sleek .ahop-login-sleek-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 32px 20px 48px;
+    flex: 1 0 auto;
+    padding: 32px 20px;
     box-sizing: border-box;
 }
 
@@ -73,6 +91,30 @@ body.ahop-login-sleek .ahop-login-sleek-card .alert {
     border-radius: 10px;
     font-size: 13px;
     margin-bottom: 20px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-notifications {
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-notifications .col-md-12,
+body.ahop-login-sleek .ahop-login-sleek-notifications > .col-md-12 {
+    width: 100%;
+    max-width: 100%;
+    float: none;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-notifications .alert {
+    margin-bottom: 16px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-notifications .alert:last-child {
+    margin-bottom: 0;
 }
 
 body.ahop-login-sleek .ahop-login-sleek-field {
@@ -279,6 +321,20 @@ body.ahop-login-sleek .ahop-login-sleek-saml {
 body.ahop-login-sleek .ahop-login-sleek-saml a {
     color: #297567;
     font-weight: 500;
+}
+
+body.ahop-login-sleek .ahop-login-footer {
+    padding: 16px 20px 24px;
+    flex-shrink: 0;
+}
+
+body.ahop-login-sleek .ahop-login-footer a {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+}
+
+body.ahop-login-page:not(.ahop-login-sleek) .ahop-login-footer {
+    padding-top: 100px;
 }
 
 body.ahop-login-sleek .text-center[style*="padding-top: 100px"] {

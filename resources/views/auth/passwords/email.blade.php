@@ -45,7 +45,7 @@
                             {!! trans('auth/general.username_help_top') !!}
                         </div>
 
-                        @include('notifications')
+                        @include('partials.ahop-auth-notifications')
 
                         <div class="ahop-login-sleek-field form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username">
