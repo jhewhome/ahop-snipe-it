@@ -2300,10 +2300,10 @@ body.ahop-theme .box .box-body {
 body.ahop-theme .box .box-body .text-muted {
     color: #64748b !important;
 }
-
+/*
 body.ahop-theme .box .box-body a:not(.btn):not(.label):not(.ahop-equipment-status-tile) {
     color: var(--ahop-primary) !important;
-}
+} */
 
 /* Form section legends (permissions, LDAP, settings, etc.) */
 body.ahop-theme .callout.callout-legend,

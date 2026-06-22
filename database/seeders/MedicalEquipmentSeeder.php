@@ -55,6 +55,7 @@ class MedicalEquipmentSeeder extends Seeder
 
         if ($withDemoMedicalAssets || $withDemoItAssets) {
             $this->backfillDemoAssetCompanies();
+            $this->backfillDemoAssetPurchaseCosts();
         }
 
         $this->command?->info('Medical equipment taxonomy seeded.');
@@ -424,53 +425,18 @@ class MedicalEquipmentSeeder extends Seeder
 
     protected function seedDemoMedicalAssets(int $adminId, array $models, array $locations, array $statuses): void
     {
-        $assignments = [
-            ['tag' => 'AC-EQ-000001', 'model' => 'Patient Monitor (IntelliVue)', 'location' => 'Intensive Care Unit', 'status' => 'In Use', 'serial' => 'PM-2024-001'],
-            ['tag' => 'AC-EQ-000002', 'model' => 'Portable Ventilator', 'location' => 'Emergency Department', 'status' => 'Available', 'serial' => 'VENT-2024-002'],
-            ['tag' => 'AC-EQ-000003', 'model' => 'Automated External Defibrillator (AED)', 'location' => 'OPD Clinic', 'status' => 'In Use', 'serial' => 'AED-2024-003'],
-            ['tag' => 'AC-EQ-000004', 'model' => 'Infusion Pump', 'location' => 'Ward A', 'status' => 'Available', 'serial' => 'IP-2024-004'],
-            ['tag' => 'AC-EQ-000005', 'model' => 'Digital X-Ray System', 'location' => 'Radiology', 'status' => 'Out for Calibration', 'serial' => 'XR-2024-005'],
-            ['tag' => 'AC-EQ-000006', 'model' => 'Portable Ultrasound System', 'location' => 'Radiology', 'status' => 'In Use', 'serial' => 'US-2024-006'],
-            ['tag' => 'AC-EQ-000007', 'model' => '12-Lead ECG Machine', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'ECG-2024-007'],
-            ['tag' => 'AC-EQ-000008', 'model' => 'Blood Gas Analyzer', 'location' => 'Clinical Laboratory', 'status' => 'In Use', 'serial' => 'BGA-2024-008'],
-            ['tag' => 'AC-EQ-000009', 'model' => 'LED Surgical Light', 'location' => 'Operating Room', 'status' => 'Available', 'serial' => 'SL-2024-009'],
-            ['tag' => 'AC-EQ-000010', 'model' => 'Anesthesia Workstation', 'location' => 'Operating Room', 'status' => 'In Use', 'serial' => 'AW-2024-010'],
-            ['tag' => 'AC-EQ-000011', 'model' => 'Electric Hospital Bed', 'location' => 'Ward A', 'status' => 'In Use', 'serial' => 'HB-2024-011'],
-            ['tag' => 'AC-EQ-000012', 'model' => 'Transport Wheelchair', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'WC-2024-012'],
-            ['tag' => 'AC-EQ-000013', 'model' => 'Portable Pulse Oximeter', 'location' => 'Emergency Department', 'status' => 'In Use', 'serial' => 'POX-2024-013'],
-            ['tag' => 'AC-EQ-000014', 'model' => 'Laboratory Centrifuge', 'location' => 'Clinical Laboratory', 'status' => 'Available', 'serial' => 'LC-2024-014'],
-            ['tag' => 'AC-EQ-000015', 'model' => 'Clinical Microscope', 'location' => 'Clinical Laboratory', 'status' => 'In Use', 'serial' => 'CM-2024-015'],
-            ['tag' => 'AC-EQ-000016', 'model' => 'Steam Autoclave', 'location' => 'Clinical Laboratory', 'status' => 'Out for Repair', 'serial' => 'AC-2024-016'],
-            ['tag' => 'AC-EQ-000017', 'model' => 'Patient Lift (Hydraulic)', 'location' => 'Ward A', 'status' => 'Available', 'serial' => 'PL-2024-017'],
-        ];
-
-        $created = $this->seedAssetAssignments($adminId, $assignments, $models, $locations, $statuses, 'AHOP demo medical equipment');
+        $created = $this->seedAssetAssignments($adminId, $this->demoMedicalAssetAssignments(), $models, $locations, $statuses, 'AHOP demo medical equipment');
         $this->command?->info("Demo medical equipment: {$created} new asset(s).");
     }
 
     protected function seedDemoItAssets(int $adminId, array $models, array $locations, array $statuses): void
     {
-        $assignments = [
-            ['tag' => 'AC-IT-000001', 'model' => 'Clinic Workstation', 'location' => 'OPD Clinic', 'status' => 'In Use', 'serial' => 'WS-2024-001'],
-            ['tag' => 'AC-IT-000002', 'model' => 'Nurse Station PC', 'location' => 'Ward A', 'status' => 'In Use', 'serial' => 'PC-2024-002'],
-            ['tag' => 'AC-IT-000003', 'model' => 'Clinical Tablet', 'location' => 'Emergency Department', 'status' => 'Available', 'serial' => 'TAB-2024-003'],
-            ['tag' => 'AC-IT-000004', 'model' => 'Barcode Label Printer', 'location' => 'Pharmacy', 'status' => 'In Use', 'serial' => 'BP-2024-004'],
-            ['tag' => 'AC-IT-000005', 'model' => 'Network Switch (24-port)', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'SW-2024-005'],
-            ['tag' => 'AC-IT-000006', 'model' => 'Server Rack Unit', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'SR-2024-006'],
-            ['tag' => 'AC-IT-000007', 'model' => 'VoIP Desk Phone', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'VOIP-2024-007'],
-            ['tag' => 'AC-IT-000008', 'model' => 'UPS Battery Backup', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'UPS-2024-008'],
-            ['tag' => 'AC-IT-000009', 'model' => 'Wi-Fi Access Point', 'location' => 'Biomedical Engineering', 'status' => 'In Use', 'serial' => 'AP-2024-009'],
-            ['tag' => 'AC-IT-000010', 'model' => 'Document Scanner', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'SCN-2024-010'],
-            ['tag' => 'AC-IT-000011', 'model' => 'Laser Printer (A4)', 'location' => 'Ward A', 'status' => 'In Use', 'serial' => 'LP-2024-011'],
-            ['tag' => 'AC-IT-000012', 'model' => 'Network Firewall Appliance', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'FW-2024-012'],
-        ];
-
-        $created = $this->seedAssetAssignments($adminId, $assignments, $models, $locations, $statuses, 'AHOP demo IT asset');
+        $created = $this->seedAssetAssignments($adminId, $this->demoItAssetAssignments(), $models, $locations, $statuses, 'AHOP demo IT asset');
         $this->command?->info("Demo IT assets: {$created} new asset(s).");
     }
 
     /**
-     * @param  list<array{tag: string, model: string, location: string, status: string, serial: string}>  $assignments
+     * @param  list<array{tag: string, model: string, location: string, status: string, serial: string, purchase_cost?: float}>  $assignments
      * @param  array<string, AssetModel>  $models
      * @param  array<string, Location>  $locations
      * @param  array<string, Statuslabel>  $statuses
@@ -511,7 +477,7 @@ class MedicalEquipmentSeeder extends Seeder
                 'company_id' => $companyId,
                 'serial' => $row['serial'],
                 'purchase_date' => now()->subMonths(6)->format('Y-m-d'),
-                'purchase_cost' => 0,
+                'purchase_cost' => (float) ($row['purchase_cost'] ?? 0),
                 'created_by' => $adminId,
                 'notes' => $notes,
             ]);
@@ -563,5 +529,88 @@ class MedicalEquipmentSeeder extends Seeder
         if ($updated > 0) {
             $this->command?->info("Demo assets: {$updated} record(s) linked to clinic company for list visibility.");
         }
+    }
+
+    /**
+     * Set purchase cost on demo assets that were seeded with zero cost.
+     */
+    public function backfillDemoAssetPurchaseCosts(): void
+    {
+        $updated = 0;
+
+        foreach ($this->demoAssetPurchaseCostByTag() as $tag => $cost) {
+            $updated += Asset::withoutGlobalScope(CompanyableScope::class)
+                ->where('asset_tag', $tag)
+                ->where(function ($query) {
+                    $query->whereNull('purchase_cost')
+                        ->orWhere('purchase_cost', 0);
+                })
+                ->update(['purchase_cost' => $cost]);
+        }
+
+        if ($updated > 0) {
+            $this->command?->info("Demo assets: {$updated} record(s) updated with purchase cost (PHP).");
+        }
+    }
+
+    /**
+     * @return array<string, float>
+     */
+    protected function demoAssetPurchaseCostByTag(): array
+    {
+        $costs = [];
+
+        foreach (array_merge($this->demoMedicalAssetAssignments(), $this->demoItAssetAssignments()) as $row) {
+            $costs[$row['tag']] = (float) $row['purchase_cost'];
+        }
+
+        return $costs;
+    }
+
+    /**
+     * @return list<array{tag: string, model: string, location: string, status: string, serial: string, purchase_cost: float}>
+     */
+    protected function demoMedicalAssetAssignments(): array
+    {
+        return [
+            ['tag' => 'AC-EQ-000001', 'model' => 'Patient Monitor (IntelliVue)', 'location' => 'Intensive Care Unit', 'status' => 'In Use', 'serial' => 'PM-2024-001', 'purchase_cost' => 450000.00],
+            ['tag' => 'AC-EQ-000002', 'model' => 'Portable Ventilator', 'location' => 'Emergency Department', 'status' => 'Available', 'serial' => 'VENT-2024-002', 'purchase_cost' => 850000.00],
+            ['tag' => 'AC-EQ-000003', 'model' => 'Automated External Defibrillator (AED)', 'location' => 'OPD Clinic', 'status' => 'In Use', 'serial' => 'AED-2024-003', 'purchase_cost' => 95000.00],
+            ['tag' => 'AC-EQ-000004', 'model' => 'Infusion Pump', 'location' => 'Ward A', 'status' => 'Available', 'serial' => 'IP-2024-004', 'purchase_cost' => 120000.00],
+            ['tag' => 'AC-EQ-000005', 'model' => 'Digital X-Ray System', 'location' => 'Radiology', 'status' => 'Out for Calibration', 'serial' => 'XR-2024-005', 'purchase_cost' => 3500000.00],
+            ['tag' => 'AC-EQ-000006', 'model' => 'Portable Ultrasound System', 'location' => 'Radiology', 'status' => 'In Use', 'serial' => 'US-2024-006', 'purchase_cost' => 1200000.00],
+            ['tag' => 'AC-EQ-000007', 'model' => '12-Lead ECG Machine', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'ECG-2024-007', 'purchase_cost' => 180000.00],
+            ['tag' => 'AC-EQ-000008', 'model' => 'Blood Gas Analyzer', 'location' => 'Clinical Laboratory', 'status' => 'In Use', 'serial' => 'BGA-2024-008', 'purchase_cost' => 650000.00],
+            ['tag' => 'AC-EQ-000009', 'model' => 'LED Surgical Light', 'location' => 'Operating Room', 'status' => 'Available', 'serial' => 'SL-2024-009', 'purchase_cost' => 280000.00],
+            ['tag' => 'AC-EQ-000010', 'model' => 'Anesthesia Workstation', 'location' => 'Operating Room', 'status' => 'In Use', 'serial' => 'AW-2024-010', 'purchase_cost' => 2200000.00],
+            ['tag' => 'AC-EQ-000011', 'model' => 'Electric Hospital Bed', 'location' => 'Ward A', 'status' => 'In Use', 'serial' => 'HB-2024-011', 'purchase_cost' => 95000.00],
+            ['tag' => 'AC-EQ-000012', 'model' => 'Transport Wheelchair', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'WC-2024-012', 'purchase_cost' => 15000.00],
+            ['tag' => 'AC-EQ-000013', 'model' => 'Portable Pulse Oximeter', 'location' => 'Emergency Department', 'status' => 'In Use', 'serial' => 'POX-2024-013', 'purchase_cost' => 8500.00],
+            ['tag' => 'AC-EQ-000014', 'model' => 'Laboratory Centrifuge', 'location' => 'Clinical Laboratory', 'status' => 'Available', 'serial' => 'LC-2024-014', 'purchase_cost' => 145000.00],
+            ['tag' => 'AC-EQ-000015', 'model' => 'Clinical Microscope', 'location' => 'Clinical Laboratory', 'status' => 'In Use', 'serial' => 'CM-2024-015', 'purchase_cost' => 220000.00],
+            ['tag' => 'AC-EQ-000016', 'model' => 'Steam Autoclave', 'location' => 'Clinical Laboratory', 'status' => 'Out for Repair', 'serial' => 'AC-2024-016', 'purchase_cost' => 380000.00],
+            ['tag' => 'AC-EQ-000017', 'model' => 'Patient Lift (Hydraulic)', 'location' => 'Ward A', 'status' => 'Available', 'serial' => 'PL-2024-017', 'purchase_cost' => 75000.00],
+        ];
+    }
+
+    /**
+     * @return list<array{tag: string, model: string, location: string, status: string, serial: string, purchase_cost: float}>
+     */
+    protected function demoItAssetAssignments(): array
+    {
+        return [
+            ['tag' => 'AC-IT-000001', 'model' => 'Clinic Workstation', 'location' => 'OPD Clinic', 'status' => 'In Use', 'serial' => 'WS-2024-001', 'purchase_cost' => 65000.00],
+            ['tag' => 'AC-IT-000002', 'model' => 'Nurse Station PC', 'location' => 'Ward A', 'status' => 'In Use', 'serial' => 'PC-2024-002', 'purchase_cost' => 55000.00],
+            ['tag' => 'AC-IT-000003', 'model' => 'Clinical Tablet', 'location' => 'Emergency Department', 'status' => 'Available', 'serial' => 'TAB-2024-003', 'purchase_cost' => 32000.00],
+            ['tag' => 'AC-IT-000004', 'model' => 'Barcode Label Printer', 'location' => 'Pharmacy', 'status' => 'In Use', 'serial' => 'BP-2024-004', 'purchase_cost' => 28000.00],
+            ['tag' => 'AC-IT-000005', 'model' => 'Network Switch (24-port)', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'SW-2024-005', 'purchase_cost' => 45000.00],
+            ['tag' => 'AC-IT-000006', 'model' => 'Server Rack Unit', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'SR-2024-006', 'purchase_cost' => 185000.00],
+            ['tag' => 'AC-IT-000007', 'model' => 'VoIP Desk Phone', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'VOIP-2024-007', 'purchase_cost' => 8500.00],
+            ['tag' => 'AC-IT-000008', 'model' => 'UPS Battery Backup', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'UPS-2024-008', 'purchase_cost' => 22000.00],
+            ['tag' => 'AC-IT-000009', 'model' => 'Wi-Fi Access Point', 'location' => 'Biomedical Engineering', 'status' => 'In Use', 'serial' => 'AP-2024-009', 'purchase_cost' => 12000.00],
+            ['tag' => 'AC-IT-000010', 'model' => 'Document Scanner', 'location' => 'OPD Clinic', 'status' => 'Available', 'serial' => 'SCN-2024-010', 'purchase_cost' => 18000.00],
+            ['tag' => 'AC-IT-000011', 'model' => 'Laser Printer (A4)', 'location' => 'Ward A', 'status' => 'In Use', 'serial' => 'LP-2024-011', 'purchase_cost' => 15000.00],
+            ['tag' => 'AC-IT-000012', 'model' => 'Network Firewall Appliance', 'location' => 'IT Office / Server Room', 'status' => 'In Use', 'serial' => 'FW-2024-012', 'purchase_cost' => 95000.00],
+        ];
     }
 }

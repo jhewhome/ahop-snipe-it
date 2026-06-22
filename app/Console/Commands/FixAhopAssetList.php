@@ -38,6 +38,7 @@ class FixAhopAssetList extends Command
             $equipmentSeeder->run(withDemoMedicalAssets: true, withDemoItAssets: true);
         } else {
             $equipmentSeeder->backfillDemoAssetCompanies();
+            $equipmentSeeder->backfillDemoAssetPurchaseCosts();
         }
 
         $settings = Setting::getSettings();
