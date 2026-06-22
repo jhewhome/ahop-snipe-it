@@ -14,7 +14,6 @@
 | [AHOP-SOURCE-CODE-AND-DOCUMENTATION.pdf](AHOP-SOURCE-CODE-AND-DOCUMENTATION.pdf) | **Main thesis deliverable** — architecture, source code, database, RBAC, deployment |
 | [AHOP-USER-GUIDE.pdf](AHOP-USER-GUIDE.pdf) | Staff and end-user workflow guide |
 | [AHOP-DEPLOYMENT-GUIDE.pdf](AHOP-DEPLOYMENT-GUIDE.pdf) | Local setup, Google Cloud deploy, Git sync |
-| [AHOP-DEFENSE-FAQ.pdf](AHOP-DEFENSE-FAQ.pdf) | **Thesis defense** — one-page FAQ: demo script, AI scope, panel Q&A |
 
 ---
 

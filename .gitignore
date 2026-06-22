@@ -74,3 +74,4 @@ storage/ldap_client_tls.key
 
 # Documentation: publish README + PDFs only (keep .md sources local)
 /docs/AHOP-*.md
+/docs/AHOP-DEFENSE-FAQ.pdf
