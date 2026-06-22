@@ -88,8 +88,8 @@ return [
         ],
 
         'Clinic Staff' => [
-            'notes' => 'Nurses and physicians: clinical workflows plus read-only equipment registry.',
-            'permissions' => array_merge([
+            'notes' => 'Nurses and physicians: clinical workflows (no medical equipment registry).',
+            'permissions' => [
                 'patients.view' => '1',
                 'patients.edit' => '1',
                 'appointments.view' => '1',
@@ -101,7 +101,7 @@ return [
                 'lab_orders.view' => '1',
                 'lab_orders.create' => '1',
                 'ai_insights.view' => '1',
-            ], $assetListOnlyPermissions),
+            ],
         ],
 
         'Laboratory' => [
