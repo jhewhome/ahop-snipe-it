@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default ahop-panel ahop-clinical-detail-panel">
+            <div class="box box-default ahop-panel ahop-clinical-detail-panel ahop-appointments-panel">
                 <div class="box-header with-border">
                     <h2 class="box-title">{{ trans('admin/appointments/table.appointment_number') }}: {{ $appointment->appointment_number }}</h2>
                     <div class="box-tools pull-right">

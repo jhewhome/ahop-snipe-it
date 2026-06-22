@@ -208,10 +208,15 @@ body.ahop-theme .main-header .navbar-form .btn-theme {
     color: var(--ahop-primary-dark) !important;
 }
 
-body.ahop-theme .main-header .dropdown-menu {
-    border-radius: 6px;
-    border-top: 3px solid var(--ahop-accent);
-    box-shadow: var(--ahop-shadow);
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-top: 3px solid #297567 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 32px rgba(9, 74, 82, 0.14) !important;
+    padding: 6px 0;
+    min-width: 220px;
+    margin-top: 4px;
 }
 
 body.ahop-theme.ahop-clinical-mode .navbar-nav > li.ahop-nav-it-only {
@@ -689,6 +694,134 @@ body.ahop-theme .ahop-opd-clinical-panel.ahop-clinical-context-callout small.tex
 
 [data-theme="dark"] body.ahop-theme .ahop-opd-clinical-panel.ahop-clinical-context-callout h4 {
     color: #f0d78c !important;
+}
+
+/* Appointments — list, calendar, detail */
+body.ahop-theme .ahop-appointments-panel > .box-body {
+    overflow: visible;
+}
+
+body.ahop-theme .ahop-appointments-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ahop-primary-dark);
+    margin: 0 0 12px;
+}
+
+body.ahop-theme .ahop-appointments-filters {
+    margin-bottom: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+body.ahop-theme .ahop-appointments-filters .form-group {
+    margin: 0;
+}
+
+body.ahop-theme .ahop-appointments-queue {
+    margin-bottom: 24px;
+}
+
+body.ahop-theme .ahop-appointments-calendar-nav {
+    margin-bottom: 18px;
+}
+
+body.ahop-theme .ahop-appointments-calendar-col {
+    margin-bottom: 16px;
+}
+
+body.ahop-theme .ahop-appointments-day-card {
+    border: 1px solid rgba(13, 110, 122, 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--ahop-shadow, 0 1px 3px rgba(9, 74, 82, 0.08));
+    margin: 0;
+}
+
+body.ahop-theme .ahop-appointments-day-header {
+    background: linear-gradient(90deg, var(--ahop-primary-dark) 0%, var(--ahop-primary) 100%);
+    color: #fff;
+    padding: 10px 12px;
+    border: none;
+}
+
+body.ahop-theme .ahop-appointments-day-header .badge {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+}
+
+body.ahop-theme .ahop-appointments-day-body {
+    padding: 8px;
+    min-height: 80px;
+    background: #fff;
+}
+
+body.ahop-theme .ahop-appointments-day-item {
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--ahop-accent, #2eb8a6);
+    background: #f4f8fa;
+    border-radius: 4px;
+}
+
+body.ahop-theme .ahop-appointments-day-item:last-child {
+    margin-bottom: 0;
+}
+
+body.ahop-theme .ahop-appointments-day-empty {
+    margin: 0;
+}
+
+body.ahop-theme .ahop-appointments-panel .table > thead > tr > th {
+    background: #f4f8fa;
+    color: var(--ahop-primary-dark);
+    font-weight: 700;
+    border-bottom: 1px solid rgba(13, 110, 122, 0.12);
+}
+
+body.ahop-theme .ahop-appointments-panel .ahop-clinical-detail-panel > .box-body .table > tbody > tr > th,
+body.ahop-theme .ahop-appointments-panel.ahop-clinical-detail-panel > .box-body .table > tbody > tr > th {
+    color: #64748b;
+    font-weight: 600;
+    width: 30%;
+}
+
+/* Patients — list, detail, forms */
+body.ahop-theme .ahop-patients-panel > .box-body {
+    overflow: visible;
+}
+
+body.ahop-theme .ahop-patients-filters {
+    margin-bottom: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+body.ahop-theme .ahop-patients-filters .form-group {
+    margin: 0;
+}
+
+body.ahop-theme .ahop-patients-panel .table > thead > tr > th {
+    background: #f4f8fa;
+    color: var(--ahop-primary-dark);
+    font-weight: 700;
+    border-bottom: 1px solid rgba(13, 110, 122, 0.12);
+}
+
+body.ahop-theme .ahop-patients-panel.ahop-clinical-detail-panel > .box-body > .table > tbody > tr > th {
+    color: #64748b;
+    font-weight: 600;
+    width: 35%;
+}
+
+body.ahop-theme .ahop-patients-panel > .box-footer {
+    background: #f8fafc;
+    border-top: 1px solid rgba(13, 110, 122, 0.12);
+    padding: 14px 20px;
 }
 
 /* Reception check-in — clinic / site selector */
@@ -2528,25 +2661,70 @@ body.ahop-theme .fixed-table-toolbar .dropdown-menu > li:hover {
     background-color: transparent !important;
 }
 
-/* Header Create / user dropdowns — teal menu, white text */
-body.ahop-theme .main-header .dropdown-menu {
-    background-color: var(--ahop-primary) !important;
-    border-top: 3px solid var(--ahop-accent) !important;
+/* Header user / create dropdowns — white card menu (classic + sleek) */
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li {
+    background: transparent !important;
 }
 
-body.ahop-theme .main-header .dropdown-menu > li {
-    background-color: transparent !important;
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a:link,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a:visited,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > .btn-link.btn-anchor {
+    background: transparent !important;
+    color: #094a52 !important;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 18px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
 }
 
-body.ahop-theme .main-header .dropdown-menu > li > a,
-body.ahop-theme .main-header .dropdown-menu > li > a:link,
-body.ahop-theme .main-header .dropdown-menu > li > a:visited {
-    background-color: var(--ahop-primary) !important;
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a i,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a .fa,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a svg {
+    color: #297567 !important;
+    fill: currentColor;
+    width: 1.1em;
+    margin-right: 8px;
+}
+
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a:hover,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a:focus,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li:hover > a,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li.active > a,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li.active > a:hover,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li.active > a:focus {
+    background: #e8f7f5 !important;
+    color: #094a52 !important;
+}
+
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a:hover i,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li > a:hover svg,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li.active > a i,
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > li.active > a svg {
+    color: #297567 !important;
+}
+
+body.ahop-theme .main-header .navbar-custom-menu .dropdown-menu > .divider {
+    background-color: #e2e8f0 !important;
+    margin: 6px 0;
+    height: 1px;
+}
+
+/* Open menu trigger — classic teal header */
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a,
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.dropdown.user-menu.open > a {
+    background: rgba(255, 255, 255, 0.18) !important;
     color: #ffffff !important;
 }
 
-body.ahop-theme .main-header .dropdown-menu > li > a:hover {
-    background-color: var(--ahop-primary-dark) !important;
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a .hidden-xs,
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a i,
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a svg,
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.dropdown.user-menu.open > a i,
+body.ahop-theme:not(.ahop-sleek) .main-header .navbar-custom-menu > .navbar-nav > li.dropdown.user-menu.open > a svg {
     color: #ffffff !important;
 }
 

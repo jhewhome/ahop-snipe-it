@@ -2,7 +2,7 @@
     'createText' => trans('admin/patients/table.create'),
     'updateText' => trans('admin/patients/table.update'),
     'formAction' => (isset($item->id)) ? route('patients.update', ['patient' => $item->id]) : route('patients.store'),
-    'boxClasses' => 'ahop-panel',
+    'boxClasses' => 'ahop-panel ahop-patients-panel',
 ])
 
 @section('inputFields')

@@ -1,0 +1,1002 @@
+/**
+ * AHOP Sleek theme — in-app (dashboard, reception check-in, shared panels)
+ */
+
+body.ahop-theme.ahop-sleek {
+    --sleek-primary: #297567;
+    --sleek-primary-dark: #094a52;
+    --sleek-accent-soft: #e8f7f5;
+    --sleek-surface: #f1f5f9;
+    --sleek-card-radius: 16px;
+    --sleek-shadow: 0 10px 40px rgba(9, 74, 82, 0.08);
+    --sleek-border: rgba(9, 74, 82, 0.1);
+    font-family: 'Inter', var(--ahop-font, system-ui, sans-serif);
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper {
+    background: var(--sleek-surface) !important;
+}
+
+body.ahop-theme.ahop-sleek .content-header {
+    padding: 18px 20px 8px;
+}
+
+body.ahop-theme.ahop-sleek .content-header h1,
+body.ahop-theme.ahop-sleek .content-header .pagetitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--sleek-primary-dark);
+    letter-spacing: -0.02em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Sleek shell — clearly different from classic (white header vs teal bar)      */
+/* -------------------------------------------------------------------------- */
+
+body.ahop-theme.ahop-sleek .main-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(15, 42, 48, 0.06) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .ahop-header-title {
+    color: var(--sleek-primary-dark) !important;
+    font-size: 18px;
+}
+
+body.ahop-theme.ahop-sleek .main-header .ahop-header-tagline {
+    color: #64748b !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar .nav > li > a,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a {
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a i,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a .fa,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a svg,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a i,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a .fa,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a svg {
+    color: var(--sleek-primary-dark) !important;
+    fill: currentColor;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a:hover,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.active > a,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a:hover,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li.active > a {
+    background-color: var(--sleek-accent-soft) !important;
+    color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a:hover i,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a:hover .fa,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li > a:hover svg,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.active > a i,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.active > a .fa,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.active > a svg,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a:hover i,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a:hover svg,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li.active > a i,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li.active > a svg {
+    color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-nav .caret {
+    border-top-color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li > a:hover .caret,
+body.ahop-theme.ahop-sleek .main-header .navbar-nav > li.open > a .caret {
+    border-top-color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-form .form-control {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    color: var(--sleek-primary-dark);
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-form .btn-theme {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+    color: #ffffff !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-form .btn-theme i,
+body.ahop-theme.ahop-sleek .main-header .navbar-form .btn-theme svg {
+    color: #ffffff !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .user-menu > a .fa,
+body.ahop-theme.ahop-sleek .main-header .user-menu > a svg,
+body.ahop-theme.ahop-sleek .main-header .user.user-menu > a .fa,
+body.ahop-theme.ahop-sleek .main-header .user.user-menu > a svg {
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .user.user-menu > a .hidden-xs {
+    color: var(--sleek-primary-dark) !important;
+    font-weight: 600;
+}
+
+/* Sleek open menu trigger — white header */
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.dropdown.user-menu.open > a {
+    background: var(--sleek-accent-soft) !important;
+    color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a .hidden-xs,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a i,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.user.user-menu.open > a svg,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.dropdown.user-menu.open > a i,
+body.ahop-theme.ahop-sleek .main-header .navbar-custom-menu > .navbar-nav > li.dropdown.user-menu.open > a svg {
+    color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .sidebar-toggle.ahop-sidebar-toggle,
+body.ahop-theme.ahop-sleek .main-header a.sidebar-toggle.ahop-sidebar-toggle {
+    color: var(--sleek-primary-dark) !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+body.ahop-theme.ahop-sleek .main-header .sidebar-toggle.ahop-sidebar-toggle:hover,
+body.ahop-theme.ahop-sleek .main-header a.sidebar-toggle.ahop-sidebar-toggle:hover {
+    background: var(--sleek-accent-soft) !important;
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .main-sidebar {
+    background: linear-gradient(180deg, #163a42 0%, #0c2429 100%) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.ahop-theme.ahop-sleek .content .box.box-default {
+    border: 1px solid var(--sleek-border) !important;
+    border-radius: var(--sleek-card-radius) !important;
+    box-shadow: var(--sleek-shadow) !important;
+    border-top: 1px solid var(--sleek-border) !important;
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper .btn-primary,
+body.ahop-theme.ahop-sleek .content-wrapper .btn-primary:hover,
+body.ahop-theme.ahop-sleek .content-wrapper .btn-primary:focus {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(41, 117, 103, 0.25);
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper .btn-primary:hover {
+    background: #236658 !important;
+    border-color: #236658 !important;
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper .btn-success {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper .btn-default {
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    font-weight: 600;
+    color: var(--sleek-primary-dark);
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper .form-control,
+body.ahop-theme.ahop-sleek .content-wrapper select.form-control {
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    box-shadow: none;
+    min-height: 40px;
+}
+
+body.ahop-theme.ahop-sleek .content-wrapper .form-control:focus,
+body.ahop-theme.ahop-sleek .content-wrapper select.form-control:focus {
+    border-color: var(--sleek-primary);
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.14);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Dashboard                                                                  */
+/* -------------------------------------------------------------------------- */
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-hero,
+body.ahop-theme.ahop-sleek .ahop-dashboard-header {
+    border: 1px solid var(--sleek-border) !important;
+    border-radius: var(--sleek-card-radius) !important;
+    box-shadow: var(--sleek-shadow) !important;
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-hero .box-body,
+body.ahop-theme.ahop-sleek .ahop-dashboard-header .box-body {
+    background: #ffffff !important;
+    padding: 28px 28px 24px !important;
+    border-left: 4px solid var(--sleek-primary);
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-title {
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    color: var(--sleek-primary-dark) !important;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-subtitle {
+    font-size: 14px !important;
+    color: #64748b !important;
+    margin: 0 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-refresh-meta {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--sleek-accent-soft);
+    color: var(--sleek-primary);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek a.ahop-stat-card,
+body.ahop-theme.ahop-sleek a.ahop-stat-card:link,
+body.ahop-theme.ahop-sleek a.ahop-stat-card:visited {
+    border: 1px solid var(--sleek-border) !important;
+    border-top: 1px solid var(--sleek-border) !important;
+    border-left: 4px solid var(--sleek-primary) !important;
+    border-radius: 14px !important;
+    box-shadow: var(--sleek-shadow) !important;
+    min-height: 108px;
+    padding: 18px 16px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+body.ahop-theme.ahop-sleek a.ahop-stat-card:hover,
+body.ahop-theme.ahop-sleek a.ahop-stat-card:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(9, 74, 82, 0.12) !important;
+    border-color: rgba(41, 117, 103, 0.35) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-stat-icon {
+    opacity: 0.18;
+    color: var(--sleek-primary);
+    font-size: 32px;
+}
+
+body.ahop-theme.ahop-sleek a.ahop-stat-appointments { border-left-color: #6366f1 !important; }
+body.ahop-theme.ahop-sleek a.ahop-stat-opd { border-left-color: #2563eb !important; }
+body.ahop-theme.ahop-sleek a.ahop-stat-opd-active { border-left-color: #ea580c !important; }
+body.ahop-theme.ahop-sleek a.ahop-stat-lab { border-left-color: #7c3aed !important; }
+body.ahop-theme.ahop-sleek a.ahop-stat-billing { border-left-color: #059669 !important; }
+body.ahop-theme.ahop-sleek a.ahop-stat-equipment-warn { border-left-color: #d97706 !important; }
+body.ahop-theme.ahop-sleek a.ahop-stat-supplies-warn { border-left-color: #dc2626 !important; }
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-widget,
+body.ahop-theme.ahop-sleek .ahop-panel.box {
+    border: 1px solid var(--sleek-border) !important;
+    border-radius: var(--sleek-card-radius) !important;
+    box-shadow: var(--sleek-shadow) !important;
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-widget > .box-header,
+body.ahop-theme.ahop-sleek .ahop-panel > .box-header,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-panel > .box-header,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-reception-panel > .box-header,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-reception-queue-panel > .box-header,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 16px 20px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-widget > .box-header .box-title,
+body.ahop-theme.ahop-sleek .ahop-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek .ahop-dashboard-widget > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek .ahop-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek .ahop-panel > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-panel > .box-header h1.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-panel > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-reception-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-reception-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-reception-queue-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-reception-queue-panel > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header h1.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header h1.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header h3.box-title {
+    color: var(--sleek-primary-dark) !important;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-dashboard-widget > .box-body,
+body.ahop-theme.ahop-sleek .ahop-panel > .box-body {
+    background: #ffffff;
+    padding: 20px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-quick-action,
+body.ahop-theme.ahop-sleek .ahop-quick-action:link,
+body.ahop-theme.ahop-sleek .ahop-quick-action:visited {
+    background: var(--sleek-primary) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 14px rgba(41, 117, 103, 0.28);
+    min-height: 92px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-quick-action:hover,
+body.ahop-theme.ahop-sleek .ahop-quick-action:focus {
+    background: #236658 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(41, 117, 103, 0.32);
+}
+
+body.ahop-theme.ahop-sleek .ahop-quick-action--muted,
+body.ahop-theme.ahop-sleek .ahop-quick-action--muted:link,
+body.ahop-theme.ahop-sleek .ahop-quick-action--muted:visited {
+    background: #475569 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-activity-list li {
+    border-bottom-color: #e2e8f0;
+    padding: 12px 0;
+}
+
+body.ahop-theme.ahop-sleek .ahop-empty-state {
+    padding: 28px 16px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-empty-state__icon {
+    color: var(--sleek-primary);
+    opacity: 0.35;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reception check-in                                                         */
+/* -------------------------------------------------------------------------- */
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel {
+    border: 1px solid var(--sleek-border) !important;
+    border-radius: var(--sleek-card-radius) !important;
+    box-shadow: var(--sleek-shadow) !important;
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel > .box-header,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel > .box-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 18px 22px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek .ahop-reception-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel > .box-header h3.box-title {
+    color: var(--sleek-primary-dark) !important;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel > .box-body,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel > .box-body {
+    padding: 22px;
+    background: #ffffff;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel > .box-header .box-tools .btn-default {
+    border-radius: 8px;
+    border-color: #e2e8f0;
+    color: var(--sleek-primary-dark);
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-clinic-site {
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    background: #f8fafc;
+    border-left: 4px solid var(--sleek-primary);
+    box-shadow: none;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-search h4,
+body.ahop-theme.ahop-sleek .ahop-reception-panel h4,
+body.ahop-theme.ahop-sleek .ahop-reception-panel .box-body > h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sleek-primary-dark) !important;
+    margin-bottom: 12px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel .text-muted,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .text-muted {
+    color: #64748b !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-clinic-site__label,
+body.ahop-theme.ahop-sleek .ahop-reception-clinic-site__label strong {
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-search__input,
+body.ahop-theme.ahop-sleek .ahop-reception-clinic-site__select,
+body.ahop-theme.ahop-sleek .ahop-reception-panel .form-control,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .form-control {
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    font-size: 14px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-search__input:focus,
+body.ahop-theme.ahop-sleek .ahop-reception-clinic-site__select:focus,
+body.ahop-theme.ahop-sleek .ahop-reception-panel .form-control:focus,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .form-control:focus {
+    border-color: var(--sleek-primary);
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.16);
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-search__suggestions {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 12px 32px rgba(9, 74, 82, 0.12);
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-search__suggestion:hover,
+body.ahop-theme.ahop-sleek .ahop-reception-patient-search__suggestion:focus {
+    background: var(--sleek-accent-soft);
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-table > thead > tr > th {
+    background: #f8fafc;
+    color: var(--sleek-primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-patient-table > tbody > tr:hover {
+    background: var(--sleek-accent-soft);
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .table > thead > tr > th {
+    background: #f8fafc;
+    color: var(--sleek-primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel .btn-primary,
+body.ahop-theme.ahop-sleek .ahop-reception-panel .btn-success,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .btn-success,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .btn-primary {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 9px 16px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel .btn-primary:hover,
+body.ahop-theme.ahop-sleek .ahop-reception-panel .btn-success:hover,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .btn-success:hover,
+body.ahop-theme.ahop-sleek .ahop-reception-queue-panel .btn-primary:hover {
+    background: #236658 !important;
+    border-color: #236658 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-detail-table > tbody > tr > th {
+    color: #64748b;
+    font-weight: 600;
+    width: 38%;
+}
+
+body.ahop-theme.ahop-sleek .ahop-reception-search-empty {
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    color: #64748b;
+    padding: 24px;
+    text-align: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shared form polish on these pages                                          */
+/* -------------------------------------------------------------------------- */
+
+body.ahop-theme.ahop-sleek .ahop-reception-panel hr {
+    border-color: #e2e8f0;
+    margin: 24px 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Appointments                                                               */
+/* -------------------------------------------------------------------------- */
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel {
+    border: 1px solid var(--sleek-border) !important;
+    border-radius: var(--sleek-card-radius) !important;
+    box-shadow: var(--sleek-shadow) !important;
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 18px 22px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel.ahop-clinical-detail-panel > .box-header {
+    gap: 12px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header h1.box-title,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-appointments-panel > .box-header h2.box-title {
+    color: var(--sleek-primary-dark) !important;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-body {
+    padding: 22px;
+    background: #ffffff;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-tools .btn,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel.ahop-clinical-detail-panel > .box-header .box-tools .btn {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-tools .btn-default,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel.ahop-clinical-detail-panel > .box-header .box-tools .btn-default {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-tools .btn-primary,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-tools a.btn-primary {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-tools .btn-primary:hover,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-header .box-tools a.btn-primary:hover {
+    background: #236658 !important;
+    border-color: #236658 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sleek-primary-dark) !important;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-filters .form-control {
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    font-size: 14px;
+    min-width: 140px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-filters .form-control:focus {
+    border-color: var(--sleek-primary);
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.16);
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-filters .btn-default {
+    height: 42px;
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    color: var(--sleek-primary-dark);
+    font-weight: 600;
+    padding: 0 16px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-calendar-nav .btn {
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    font-weight: 600;
+    color: var(--sleek-primary-dark);
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-calendar-nav .btn.disabled {
+    background: #f8fafc;
+    opacity: 1;
+    color: #64748b;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-card {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    box-shadow: var(--sleek-shadow) !important;
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-header {
+    background: #f8fafc !important;
+    color: var(--sleek-primary-dark) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 12px 14px;
+    font-size: 14px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-header .badge {
+    background: var(--sleek-primary) !important;
+    color: #fff !important;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 3px 8px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-body {
+    padding: 10px;
+    background: #ffffff;
+    min-height: 88px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-item {
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--sleek-primary);
+    background: var(--sleek-accent-soft, #e8f7f5);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-item a {
+    color: var(--sleek-primary-dark);
+    font-weight: 700;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-day-empty {
+    color: #94a3b8 !important;
+    font-size: 13px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .table > thead > tr > th {
+    background: #f8fafc;
+    color: var(--sleek-primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .table > tbody > tr:hover {
+    background: var(--sleek-accent-soft, #e8f7f5);
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel.ahop-clinical-detail-panel > .box-body .table > tbody > tr > th {
+    color: #64748b;
+    font-weight: 600;
+    border-top: none;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel.ahop-clinical-detail-panel > .box-body .table > tbody > tr > td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    color: #1e293b;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .btn-primary,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .btn-success {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .btn-primary:hover,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .btn-success:hover {
+    background: #236658 !important;
+    border-color: #236658 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel form.form-horizontal .form-control,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .form-control {
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    min-height: 42px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel form.form-horizontal .form-control:focus,
+body.ahop-theme.ahop-sleek .ahop-appointments-panel .form-control:focus {
+    border-color: var(--sleek-primary);
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.16);
+}
+
+body.ahop-theme.ahop-sleek .ahop-appointments-panel hr {
+    border-color: #e2e8f0;
+    margin: 24px 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Patients                                                                   */
+/* -------------------------------------------------------------------------- */
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel {
+    border: 1px solid var(--sleek-border) !important;
+    border-radius: var(--sleek-card-radius) !important;
+    box-shadow: var(--sleek-shadow) !important;
+    overflow: hidden;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 18px 22px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel.ahop-clinical-detail-panel > .box-header {
+    gap: 12px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header h1.box-title,
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header h2.box-title,
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header h3.box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header .box-title,
+body.ahop-theme.ahop-sleek.ahop-modern .content .box.box-default.ahop-patients-panel > .box-header h2.box-title {
+    color: var(--sleek-primary-dark) !important;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-body {
+    padding: 22px;
+    background: #ffffff;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-tools .btn,
+body.ahop-theme.ahop-sleek .ahop-patients-panel.ahop-clinical-detail-panel > .box-header .box-tools .btn {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-tools .btn-default,
+body.ahop-theme.ahop-sleek .ahop-patients-panel.ahop-clinical-detail-panel > .box-header .box-tools .btn-default {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: var(--sleek-primary-dark) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-tools .btn-primary,
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-tools a.btn-primary {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-tools .btn-primary:hover,
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-header .box-tools a.btn-primary:hover {
+    background: #236658 !important;
+    border-color: #236658 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-filters .form-control {
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    font-size: 14px;
+    min-width: 220px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-filters .form-control:focus {
+    border-color: var(--sleek-primary);
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.16);
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-filters .btn-default {
+    height: 42px;
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    color: var(--sleek-primary-dark);
+    font-weight: 600;
+    padding: 0 16px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-filters .btn-link {
+    color: var(--sleek-primary);
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .table.snipe-table > thead > tr > th,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .table-responsive > .table > thead > tr > th {
+    background: #f8fafc;
+    color: var(--sleek-primary-dark);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .table.snipe-table > tbody > tr:hover,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .table-responsive > .table.table-bordered > tbody > tr:hover {
+    background: var(--sleek-accent-soft, #e8f7f5) !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel.ahop-clinical-detail-panel > .box-body > .table > tbody > tr > th {
+    color: #64748b;
+    font-weight: 600;
+    border-top: none;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel.ahop-clinical-detail-panel > .box-body > .table > tbody > tr > td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    color: #1e293b;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .ahop-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sleek-primary-dark) !important;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .ahop-section-title + .btn,
+body.ahop-theme.ahop-sleek .ahop-patients-panel h4.ahop-section-title + a.btn {
+    margin-bottom: 12px !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .ahop-ai-risk-panel {
+    border-radius: 12px;
+    border-width: 1px;
+    padding: 16px 18px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .text-muted,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .text-muted small {
+    color: #64748b !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .btn-primary,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .btn-success {
+    background: var(--sleek-primary) !important;
+    border-color: var(--sleek-primary) !important;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel .btn-primary:hover,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .btn-success:hover {
+    background: #236658 !important;
+    border-color: #236658 !important;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel form.form-horizontal .form-control,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .form-control {
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: none;
+    min-height: 42px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel form.form-horizontal .form-control:focus,
+body.ahop-theme.ahop-sleek .ahop-patients-panel .form-control:focus {
+    border-color: var(--sleek-primary);
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.16);
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel form.form-horizontal textarea.form-control {
+    min-height: 88px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-footer {
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 16px 22px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-footer .btn-default {
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    color: var(--sleek-primary-dark);
+    font-weight: 600;
+    padding: 9px 18px;
+}
+
+body.ahop-theme.ahop-sleek .ahop-patients-panel hr {
+    border-color: #e2e8f0;
+    margin: 24px 0;
+}
+
+@media (max-width: 767px) {
+    body.ahop-theme.ahop-sleek .ahop-dashboard-hero .box-body,
+    body.ahop-theme.ahop-sleek .ahop-dashboard-header .box-body {
+        padding: 22px 18px !important;
+    }
+
+    body.ahop-theme.ahop-sleek .ahop-dashboard-title {
+        font-size: 22px !important;
+    }
+
+    body.ahop-theme.ahop-sleek a.ahop-stat-card {
+        min-height: 96px;
+    }
+
+    body.ahop-theme.ahop-sleek .ahop-reception-panel > .box-body,
+    body.ahop-theme.ahop-sleek .ahop-reception-queue-panel > .box-body {
+        padding: 18px 16px;
+    }
+
+    body.ahop-theme.ahop-sleek .ahop-appointments-panel > .box-body {
+        padding: 18px 16px;
+    }
+
+    body.ahop-theme.ahop-sleek .ahop-appointments-filters .form-control {
+        width: 100%;
+        min-width: 0;
+    }
+
+    body.ahop-theme.ahop-sleek .ahop-patients-panel > .box-body {
+        padding: 18px 16px;
+    }
+
+    body.ahop-theme.ahop-sleek .ahop-patients-filters .form-control {
+        width: 100%;
+        min-width: 0;
+    }
+}

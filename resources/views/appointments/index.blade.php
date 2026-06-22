@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default ahop-panel">
+            <div class="box box-default ahop-panel ahop-appointments-panel">
                 <div class="box-header with-border">
                     <h2 class="box-title">{{ trans('general.appointments') }}</h2>
                     <div class="box-tools pull-right">
@@ -27,8 +27,8 @@
 
                 <div class="box-body">
                     @if ($todayQueue->count())
-                        <h4>{{ trans('admin/appointments/table.today_queue') }}</h4>
-                        <div class="table-responsive" style="margin-bottom: 24px;">
+                        <h4 class="ahop-appointments-section-title">{{ trans('admin/appointments/table.today_queue') }}</h4>
+                        <div class="table-responsive ahop-appointments-queue">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -71,7 +71,7 @@
                         <hr>
                     @endif
 
-                    <form method="get" action="{{ route('appointments.index') }}" class="form-inline" style="margin-bottom: 15px;">
+                    <form method="get" action="{{ route('appointments.index') }}" class="form-inline ahop-appointments-filters">
                         <div class="form-group">
                             <input type="date" name="date" class="form-control" value="{{ request('date', $day->format('Y-m-d')) }}">
                         </div>
@@ -89,7 +89,7 @@
                         <button type="submit" class="btn btn-default" style="margin-left: 8px;">{{ trans('general.search') }}</button>
                     </form>
 
-                    <h4>{{ trans('admin/appointments/table.list_for_day', ['date' => $day->format('M j, Y')]) }}</h4>
+                    <h4 class="ahop-appointments-section-title">{{ trans('admin/appointments/table.list_for_day', ['date' => $day->format('M j, Y')]) }}</h4>
 
                     <div class="table-responsive">
                         <table class="table table-bordered snipe-table">

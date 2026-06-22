@@ -1,10 +1,14 @@
-@if (config('ahop.theme_enabled'))
-    @if (config('ahop.modern_ui', true))
+    @if (config('ahop.theme_enabled'))
+    @if (config('ahop.theme_variant') === 'sleek' || config('ahop.modern_ui', true))
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @endif
-    <link rel="stylesheet" href="{{ asset('css/ahop-theme.css') }}?v=87">
+    <link rel="stylesheet" href="{{ asset('css/ahop-theme.css') }}?v=90">
+    @if (config('ahop.theme_variant') === 'sleek')
+        <link rel="stylesheet" href="{{ asset('css/ahop-theme-sleek-login.css') }}?v=2">
+        <link rel="stylesheet" href="{{ asset('css/ahop-theme-sleek-app.css') }}?v=7">
+    @endif
     {{-- Load last: override Snipe global a:hover and nav-tabs-custom defaults --}}
     <style>
         body.ahop-theme .nav-tabs-custom.ahop-clinical-analytics-tabs > .nav-tabs > li > a,

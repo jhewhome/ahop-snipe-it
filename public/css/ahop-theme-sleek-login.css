@@ -1,0 +1,303 @@
+/**
+ * AHOP Sleek theme — login (Option A: centered card)
+ */
+
+body.ahop-login-sleek {
+    font-family: 'Inter', var(--ahop-font, system-ui, sans-serif);
+    background: linear-gradient(160deg, #094a52 0%, #0d6e7a 45%, #297567 100%) !important;
+    min-height: 100vh;
+    margin: 0;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 20px 48px;
+    box-sizing: border-box;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(9, 74, 82, 0.28);
+    padding: 40px 36px 32px;
+    box-sizing: border-box;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-brand {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-brand img {
+    max-height: 64px;
+    width: auto;
+    margin-bottom: 12px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-brand .ahop-login-sleek-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e8f7f5 0%, #d4f0ec 100%);
+    color: #297567;
+    font-size: 26px;
+    margin-bottom: 14px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-brand h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #094a52;
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 28px;
+    line-height: 1.45;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-card .alert {
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field {
+    margin-bottom: 18px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field label i,
+body.ahop-login-sleek .ahop-login-sleek-field label svg {
+    margin-right: 6px;
+    color: #297567;
+    opacity: 0.9;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field .form-control {
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 10px 14px;
+    font-size: 15px;
+    box-shadow: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field .form-control:focus {
+    border-color: #297567;
+    box-shadow: 0 0 0 3px rgba(41, 117, 103, 0.18);
+    outline: none;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field.has-error .form-control {
+    border-color: #dc3545;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-field .alert-msg {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #dc3545;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-remember {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+    border: none;
+    padding: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-remember input {
+    margin: 0;
+    accent-color: #297567;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-forgot {
+    font-size: 13px;
+    font-weight: 500;
+    color: #297567;
+    text-decoration: none;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-forgot:hover {
+    color: #094a52;
+    text-decoration: underline;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-submit {
+    display: block;
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: #297567;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-submit:hover,
+body.ahop-login-sleek .ahop-login-sleek-submit:focus {
+    background: #236658;
+    color: #ffffff;
+    outline: none;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-submit:active {
+    transform: scale(0.99);
+}
+
+body.ahop-login-sleek .ahop-login-sleek-divider {
+    text-align: center;
+    margin: 22px 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-google:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #094a52;
+    text-decoration: none;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-info {
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    border: none;
+    background: #e8f7f5;
+    color: #094a52;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-help {
+    margin-bottom: 22px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-help > a {
+    font-size: 13px;
+    font-weight: 500;
+    color: #297567;
+    text-decoration: none;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-help > a:hover {
+    color: #094a52;
+    text-decoration: underline;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-help .help-block {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #64748b;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-back {
+    margin-top: 20px;
+    text-align: center;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-back a {
+    font-size: 13px;
+    font-weight: 500;
+    color: #64748b;
+    text-decoration: none;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-back a:hover {
+    color: #297567;
+    text-decoration: underline;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-saml {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+}
+
+body.ahop-login-sleek .ahop-login-sleek-saml a {
+    color: #297567;
+    font-weight: 500;
+}
+
+body.ahop-login-sleek .text-center[style*="padding-top: 100px"] {
+    padding-top: 24px !important;
+    padding-bottom: 24px;
+}
+
+body.ahop-login-sleek .text-center[style*="padding-top: 100px"] a {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+}
+
+@media (max-width: 480px) {
+    body.ahop-login-sleek .ahop-login-sleek-card {
+        padding: 32px 24px 28px;
+        border-radius: 14px;
+    }
+
+    body.ahop-login-sleek .ahop-login-sleek-brand h1 {
+        font-size: 20px;
+    }
+}

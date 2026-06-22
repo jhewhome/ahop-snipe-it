@@ -57,6 +57,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Theme variant — login & future UI refresh
+    |--------------------------------------------------------------------------
+    |
+    | classic = existing AHOP login (gradient + AdminLTE box)
+    | sleek   = centered card login (Option A)
+    |
+    */
+    'theme_variant' => env('AHOP_THEME_VARIANT', 'sleek'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Modern UI refresh (Phase B)
     |--------------------------------------------------------------------------
     |

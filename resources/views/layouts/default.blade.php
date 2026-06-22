@@ -1172,7 +1172,7 @@
 
 </head>
 
-    <body class="sidebar-mini{{ (session('menu_state')!='open') ? ' sidebar-mini sidebar-collapse' : ''  }}{{ config('ahop.theme_enabled') ? ' ahop-theme' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.modern_ui', true)) ? ' ahop-modern' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.ui_phase_c', true)) ? ' ahop-phase-c' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.clinical_sidebar_mode')) ? ' ahop-clinical-mode' : '' }}">
+    <body class="sidebar-mini{{ (session('menu_state')!='open') ? ' sidebar-mini sidebar-collapse' : ''  }}{{ config('ahop.theme_enabled') ? ' ahop-theme' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.theme_variant') === 'sleek') ? ' ahop-sleek' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.theme_variant') === 'classic') ? ' ahop-classic' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.modern_ui', true)) ? ' ahop-modern' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.ui_phase_c', true)) ? ' ahop-phase-c' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.clinical_sidebar_mode')) ? ' ahop-clinical-mode' : '' }}">
 
         <a class="skip-main" href="#main">{{ trans('general.skip_to_main_content') }}</a>
         <div class="wrapper">

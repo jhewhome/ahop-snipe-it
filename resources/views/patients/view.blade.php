@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default ahop-panel ahop-patients-panel">
+            <div class="box box-default ahop-panel ahop-clinical-detail-panel ahop-patients-panel">
                 <div class="box-header with-border">
                     <h2 class="box-title">{{ $patient->full_name }}</h2>
                     <div class="box-tools pull-right">

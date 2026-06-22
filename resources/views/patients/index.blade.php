@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="box-body">
-                    <form method="get" action="{{ route('patients.index') }}" class="form-inline" style="margin-bottom: 15px;">
+                    <form method="get" action="{{ route('patients.index') }}" class="form-inline ahop-patients-filters">
                         <div class="form-group">
                             <input type="text" name="search" class="form-control" placeholder="{{ trans('general.search') }}"
                                    value="{{ request('search') }}">

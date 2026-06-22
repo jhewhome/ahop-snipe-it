@@ -44,11 +44,11 @@
 
 </head>
 
-<body class="hold-transition login-page{{ config('ahop.theme_enabled') ? ' ahop-login-page' : '' }}">
+<body class="hold-transition login-page{{ config('ahop.theme_enabled') ? ' ahop-login-page' : '' }}{{ (config('ahop.theme_enabled') && config('ahop.theme_variant') === 'sleek') ? ' ahop-login-sleek' : '' }}">
 
-    @if (config('ahop.theme_enabled'))
+    @if (config('ahop.theme_enabled') && config('ahop.theme_variant') !== 'sleek')
         @include('partials.ahop-login-brand')
-    @elseif (($snipeSettings) && ($snipeSettings->logo!=''))
+    @elseif (!config('ahop.theme_enabled') && (($snipeSettings) && ($snipeSettings->logo!='')))
         <div class="text-center">
             <a href="{{ config('app.url') }}">
                 <img id="login-logo" src="{{ Storage::disk('public')->url('').e($snipeSettings->logo) }}" alt="{{ $snipeSettings->site_name }}">
