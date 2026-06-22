@@ -11,6 +11,9 @@
 <script src="{{ url(mix('js/dist/bootstrap-table-en-US.min.js')) }}"></script>
 
 <script nonce="{{ csrf_token() }}">
+    @php
+        $isAssetListingPage = request()->is('hardware') || request()->is('hardware/*') || request()->is('statuslabels/*');
+    @endphp
     $(function () {
 
 
@@ -24,6 +27,72 @@
             }
             return false;
         }
+
+        function hideAhopTableLoading($table) {
+            var $scope = $table && $table.length
+                ? $table.closest('.bootstrap-table')
+                : $('.bootstrap-table');
+
+            $scope.find('.fixed-table-loading').hide();
+        }
+
+        function clearStaleEquipmentTableSearch() {
+            var prefixes = ['assetsListingTable', 'defaultListingTable'];
+            var storages = [];
+
+            try {
+                if (window.localStorage) {
+                    storages.push(window.localStorage);
+                }
+            } catch (e) {}
+
+            try {
+                if (window.sessionStorage) {
+                    storages.push(window.sessionStorage);
+                }
+            } catch (e) {}
+
+            storages.forEach(function (storage) {
+                var keysToRemove = [];
+
+                for (var i = 0; i < storage.length; i++) {
+                    var key = storage.key(i);
+
+                    if (!key) {
+                        continue;
+                    }
+
+                    for (var p = 0; p < prefixes.length; p++) {
+                        if (key.indexOf(prefixes[p]) === 0) {
+                            keysToRemove.push(key);
+                        }
+                    }
+                }
+
+                keysToRemove.forEach(function (key) {
+                    storage.removeItem(key);
+                });
+            });
+
+            document.cookie.split(';').forEach(function (cookie) {
+                var parts = cookie.split('=');
+                var cookieName = (parts[0] || '').trim();
+
+                if (!cookieName) {
+                    return;
+                }
+
+                for (var p = 0; p < prefixes.length; p++) {
+                    if (cookieName.indexOf(prefixes[p]) === 0) {
+                        document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                    }
+                }
+            });
+        }
+
+@if ($isAssetListingPage)
+        clearStaleEquipmentTableSearch();
+@endif
 
         /** This handles the responsive tab UI on v iew detail pages **/
         function resize() {
@@ -57,7 +126,7 @@
 
         /** End handling the responsive tab UI on view detail pages **/
 
-        function initBootstrapTableTooltips() {
+        window.initBootstrapTableTooltips = function () {
             $('[data-tooltip="true"]').each(function () {
                 var $el = $(this);
 
@@ -70,11 +139,16 @@
                     animation: true,
                 });
             });
-        }
+        };
 
-        $('.snipe-table').bootstrapTable('destroy').each(function () {
+        $('.snipe-table').each(function () {
+            var $table = $(this);
 
-            data_export_options = $(this).attr('data-export-options');
+            if ($table.data('bootstrap.table')) {
+                $table.bootstrapTable('destroy');
+            }
+
+            data_export_options = $table.attr('data-export-options');
             export_options = data_export_options ? JSON.parse(data_export_options) : {};
             export_options['htmlContent'] = false; // this is already the default; but let's be explicit about it
             export_options['jspdf'] = {
@@ -96,7 +170,6 @@
                 return htmlData
             }
 
-            // This allows us to override the table defaults set below using the data-dash attributes
             var table = this;
             var data_with_default = function (key,default_value) {
                 attrib_val = $(table).data(key);
@@ -106,20 +179,24 @@
                 return default_value;
             }
 
+            var tableApiUrl = $table.attr('data-url') || '';
 
-
-            $(this).bootstrapTable({
+            try {
+            $table.bootstrapTable({
+                url: tableApiUrl,
 
                 ajaxOptions: {
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
                     },
                     error: function (jqXHR, textStatus) {
                         if (textStatus === 'abort') {
                             return;
                         }
 
-                        $('.bootstrap-table .fixed-table-loading').hide();
+                        hideAhopTableLoading($table);
                         console.error('AHOP table AJAX error', textStatus, jqXHR.status, jqXHR.responseText);
                     }
                 },
@@ -157,8 +234,10 @@
                 paginationNextText: "{{ trans('general.next') }}",
                 paginationPreText: "{{ trans('general.previous') }}",
                 search: data_with_default('search', true),
+                @if ($isAssetListingPage)
+                cookie: false,
+                @endif
                 @php
-                    $isAssetListingPage = request()->is('hardware') || request()->is('hardware/*') || request()->is('statuslabels/*');
                     $bootstrapSearchText = $isAssetListingPage
                         ? (request()->get('assetTag') ?? '')
                         : (request()->get('assetTag') ?? session()->get('search') ?? '');
@@ -194,7 +273,20 @@
                     return newParams;
                 },
                 formatLoadingMessage: function () {
-                    return '<h2><x-icon type="spinner" /> {{ trans('general.loading') }} </h2>';
+                    return '<h2><i class="fas fa-spinner fa-spin" aria-hidden="true"></i> {{ trans('general.loading') }} </h2>';
+                },
+                responseHandler: function (res) {
+                    if (!res || typeof res !== 'object') {
+                        console.error('AHOP table: invalid API response', res);
+                        hideAhopTableLoading($table);
+                        return { total: 0, rows: [] };
+                    }
+
+                    if (!Array.isArray(res.rows)) {
+                        res.rows = [];
+                    }
+
+                    return res;
                 },
                 icons: {
                     advancedSearchIcon: 'fas fa-search-plus',
@@ -211,7 +303,17 @@
                 exportOptions: export_options,
                 exportTypes: ['xlsx', 'excel', 'csv', 'pdf', 'json', 'xml', 'txt', 'sql', 'doc'],
                 onLoadSuccess: function () {
-                    initBootstrapTableTooltips();
+                    try {
+                        window.initBootstrapTableTooltips();
+                    } catch (tooltipError) {
+                        console.error('AHOP tooltip init failed', tooltipError);
+                    } finally {
+                        hideAhopTableLoading($table);
+                    }
+                },
+                onLoadError: function (status, jqXHR) {
+                    hideAhopTableLoading($table);
+                    console.error('AHOP table load error', status, jqXHR);
                 },
                 onPostHeader: function () {
                     var lookup = {};
@@ -274,6 +376,20 @@
                 }
 
             });
+            } catch (initError) {
+                console.error('AHOP bootstrap-table failed to initialize', initError);
+                hideAhopTableLoading($table);
+                $table.closest('.box-body').prepend('<div class="alert alert-warning" style="margin-bottom:12px;">Unable to load this table. Press Ctrl+F5, or clear site storage (F12 → Application → Local Storage), then reload.</div>');
+            }
+
+            if (tableApiUrl) {
+                setTimeout(function () {
+                    if ($table.closest('.bootstrap-table').find('.fixed-table-loading:visible').length) {
+                        console.error('AHOP table still loading after timeout; API URL:', tableApiUrl);
+                        hideAhopTableLoading($table);
+                    }
+                }, 30000);
+            }
 
         });
     });
@@ -2042,7 +2158,9 @@
 
         // Re-attach tooltips after bootstrap-table AJAX refreshes (all Snipe tables, not only #table).
         $('.snipe-table').on('post-body.bs.table', function () {
-            initBootstrapTableTooltips();
+            if (typeof window.initBootstrapTableTooltips === 'function') {
+                window.initBootstrapTableTooltips();
+            }
         });
     });
 

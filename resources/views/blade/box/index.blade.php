@@ -33,7 +33,7 @@
 
 
         @if (isset($bulkactions))
-            <div id="{{ Illuminate\Support\Str::camel($name) }}ToolBar" class="pull-left" style="min-width:500px !important; padding-top: 10px;">
+            <div id="{{ Illuminate\Support\Str::camel($name) }}Toolbar" class="pull-left" style="min-width:500px !important; padding-top: 10px;">
                 {{ $bulkactions }}
             </div>
         @endif

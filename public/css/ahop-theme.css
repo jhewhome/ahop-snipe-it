@@ -2029,6 +2029,15 @@ body.ahop-theme .ahop-equipment-status-dot {
     flex-shrink: 0;
 }
 
+.col-xs-12.col-sm-6.col-md-3.ahop-equipment-status-col > .ahop-equipment-status-tile:hover span {
+    color: #FFF !important;
+}
+
+body.ahop-theme a.ahop-equipment-status-tile:hover > .ahop-equipment-status-name,
+body.ahop-theme a.ahop-equipment-status-tile:hover > .ahop-equipment-status-count {
+    color: #FFF !important;
+}
+
 body.ahop-theme a.ahop-equipment-status-tile .ahop-equipment-status-name,
 body.ahop-theme a.ahop-equipment-status-tile:link .ahop-equipment-status-name,
 body.ahop-theme a.ahop-equipment-status-tile:visited .ahop-equipment-status-name {

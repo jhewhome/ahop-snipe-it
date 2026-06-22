@@ -1014,6 +1014,7 @@
             .fixed-table-toolbar,
             .fixed-table-pagination,
             #assetsToolBar,
+            #assetsToolbar,
             .fixed-table-pagination
             {
                 display: none !important;
