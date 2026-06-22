@@ -113,6 +113,14 @@
                 ajaxOptions: {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    error: function (jqXHR, textStatus) {
+                        if (textStatus === 'abort') {
+                            return;
+                        }
+
+                        $('.bootstrap-table .fixed-table-loading').hide();
+                        console.error('AHOP table AJAX error', textStatus, jqXHR.status, jqXHR.responseText);
                     }
                 },
                 // reorderableColumns: true,

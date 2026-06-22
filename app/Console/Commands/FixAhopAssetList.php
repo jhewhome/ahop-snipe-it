@@ -10,6 +10,8 @@ use Database\Seeders\AhopCompanySeeder;
 use Database\Seeders\AhopDemoUsersSeeder;
 use Database\Seeders\MedicalEquipmentSeeder;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
+use Laravel\Passport\Passport;
 
 class FixAhopAssetList extends Command
 {
@@ -58,6 +60,9 @@ class FixAhopAssetList extends Command
         $this->line('  Total assets in database: '.$this->totalAssetCount());
         $this->line('  Assets without company_id: '.$this->assetsMissingCompanyCount());
         $this->line('  Demo assets (AC-EQ / AC-IT): '.$this->demoAssetCount());
+        $this->line('  APP_URL: '.config('app.url'));
+        $this->line('  Assets API route: '.route('api.assets.index'));
+        $this->line('  Passport private key: '.(is_readable(storage_path('oauth-private.key')) ? 'OK' : 'MISSING (run: php artisan passport:install)'));
 
         foreach (['clinicadmin', 'biomedical'] as $username) {
             $user = User::query()->where('username', $username)->first();
@@ -67,12 +72,14 @@ class FixAhopAssetList extends Command
                 continue;
             }
 
-            auth()->login($user);
+            auth()->guard('web')->login($user);
             $visible = Asset::query()->count();
             $this->line("  [{$username}] company_id=".($user->company_id ?? 'null').", visible assets={$visible}, assets.view=".($user->hasAccess('assets.view') ? 'yes' : 'no'));
         }
 
-        auth()->logout();
+        auth()->guard('web')->logout();
+
+        $this->diagnoseAssetsApi('clinicadmin');
 
         $this->newLine();
         $this->info('Repair complete.');
@@ -81,6 +88,11 @@ class FixAhopAssetList extends Command
         $this->line('  1. Clear the search box on the assets table (X button).');
         $this->line('  2. F12 → Application → Local Storage → delete keys starting with assetsListingTable');
         $this->line('  3. Hard refresh (Ctrl+F5).');
+        $this->line('If the table stays on "Loading... please wait...":');
+        $this->line('  1. Set APP_URL in .env to your live site (e.g. https://ahop.jhewhome.xyz), then: php artisan config:clear && php artisan config:cache');
+        $this->line('  2. Ensure Passport keys exist: php artisan passport:install');
+        $this->line('  3. In browser F12 → Network, check /api/v1/hardware — should be 200 JSON, not 401/500 or wrong host.');
+        $this->line('  4. tail storage/logs/laravel.log for PHP errors.');
         if ($this->demoAssetCount() === 0) {
             $this->warn('No demo assets found — run: php artisan ahop:fix-asset-list --seed');
         } else {
@@ -121,5 +133,45 @@ class FixAhopAssetList extends Command
                     ->orWhere('asset_tag', 'like', 'AC-IT-%');
             })
             ->count();
+    }
+
+    protected function diagnoseAssetsApi(string $username): void
+    {
+        $user = User::query()->where('username', $username)->first();
+
+        if (! $user) {
+            $this->warn("  API test skipped — {$username} not found.");
+
+            return;
+        }
+
+        try {
+            Passport::actingAs($user, ['*']);
+
+            $request = Request::create('/api/v1/hardware', 'GET', [
+                'limit' => 5,
+                'offset' => 0,
+                'sort' => 'created_at',
+                'order' => 'desc',
+            ], [], [], [
+                'HTTP_ACCEPT' => 'application/json',
+            ]);
+
+            $response = app()->handle($request);
+            $status = $response->getStatusCode();
+            $body = $response->getContent();
+            $json = json_decode($body, true);
+            $total = is_array($json) ? ($json['total'] ?? null) : null;
+            $rowCount = is_array($json) && isset($json['rows']) && is_array($json['rows']) ? count($json['rows']) : null;
+
+            $this->line("  API test [{$username}] HTTP {$status}, total=".($total ?? 'n/a').', rows returned='.($rowCount ?? 'n/a'));
+
+            if ($status !== 200) {
+                $snippet = substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 180);
+                $this->warn('  API response snippet: '.$snippet);
+            }
+        } catch (\Throwable $e) {
+            $this->error('  API test failed: '.$e->getMessage());
+        }
     }
 }

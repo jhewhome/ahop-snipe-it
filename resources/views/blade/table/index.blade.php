@@ -50,8 +50,14 @@
     @endif
 
     @if ($api_url)
+        @php
+            // Use a host-relative API path so bootstrap-table works even when APP_URL in .env is wrong on the server.
+            $parsedApiUrl = parse_url($api_url);
+            $relativeApiUrl = ($parsedApiUrl['path'] ?? $api_url)
+                .(isset($parsedApiUrl['query']) ? '?'.$parsedApiUrl['query'] : '');
+        @endphp
         data-side-pagination="server"
-        data-url="{!!  $api_url !!}"
+        data-url="{{ $relativeApiUrl }}"
     @endif
 
     data-export-options='{
