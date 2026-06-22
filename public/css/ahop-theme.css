@@ -256,7 +256,7 @@ body.ahop-theme .sidebar-menu > li.active > a {
 body.ahop-theme .sidebar-menu > li.treeview.active > a,
 body.ahop-theme .sidebar-menu > li.treeview.menu-open > a {
     border-left-color: var(--ahop-accent) !important;
-    background-color: rgba(46, 184, 166, 0.16) !important;
+    background-color: #297567 !important;
     color: #ffffff !important;
 }
 
@@ -280,8 +280,10 @@ body.ahop-theme .sidebar-menu .treeview-menu > li > a:hover {
 }
 
 body.ahop-theme .sidebar-menu .treeview-menu > li.active > a,
-body.ahop-theme .sidebar-menu .treeview-menu > li.active > a:hover {
-    background-color: rgba(46, 184, 166, 0.28) !important;
+body.ahop-theme .sidebar-menu .treeview-menu > li.active > a:hover,
+body.ahop-theme .sidebar-menu > li.treeview.active.menu-open .treeview-menu > li.active > a,
+body.ahop-theme .sidebar-menu > li.treeview.active.menu-open .treeview-menu > li.active > a:hover {
+    background-color: #297567 !important;
     border-left-color: var(--ahop-accent) !important;
     color: #ffffff !important;
     font-weight: 600;
@@ -3095,8 +3097,10 @@ body.ahop-theme.ahop-modern .sidebar-menu .treeview-menu > li > a {
 }
 
 body.ahop-theme.ahop-modern .sidebar-menu .treeview-menu > li.active > a,
-body.ahop-theme.ahop-modern .sidebar-menu .treeview-menu > li.active > a:hover {
-    background-color: rgba(46, 184, 166, 0.34) !important;
+body.ahop-theme.ahop-modern .sidebar-menu .treeview-menu > li.active > a:hover,
+body.ahop-theme.ahop-modern .sidebar-menu > li.treeview.active.menu-open .treeview-menu > li.active > a,
+body.ahop-theme.ahop-modern .sidebar-menu > li.treeview.active.menu-open .treeview-menu > li.active > a:hover {
+    background-color: #297567 !important;
     color: #ffffff !important;
     font-weight: 600;
 }
