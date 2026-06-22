@@ -27,6 +27,41 @@ $assetManagePermissions = array_merge($assetViewPermissions, [
     'assets.checkout' => '1',
 ]);
 
+$assetRegistrySettingsPermissions = [
+    'statuslabels.view' => '1',
+    'statuslabels.create' => '1',
+    'statuslabels.edit' => '1',
+    'models.view' => '1',
+    'models.create' => '1',
+    'models.edit' => '1',
+    'categories.view' => '1',
+    'categories.create' => '1',
+    'categories.edit' => '1',
+    'manufacturers.view' => '1',
+    'manufacturers.create' => '1',
+    'manufacturers.edit' => '1',
+    'locations.view' => '1',
+    'locations.create' => '1',
+    'locations.edit' => '1',
+    'suppliers.view' => '1',
+    'suppliers.create' => '1',
+    'suppliers.edit' => '1',
+    'departments.view' => '1',
+    'departments.create' => '1',
+    'departments.edit' => '1',
+    'depreciations.view' => '1',
+    'customfields.view' => '1',
+    'companies.view' => '1',
+];
+
+$biomedicalPermissions = array_merge([
+    'assets.view' => '1',
+    'assets.create' => '1',
+    'assets.edit' => '1',
+    'assets.checkin' => '1',
+    'assets.checkout' => '1',
+], $assetRegistrySettingsPermissions);
+
 return [
 
     'prefix' => env('AHOP_ROLE_GROUP_PREFIX', 'AHOP '),
@@ -70,23 +105,20 @@ return [
         ],
 
         'Laboratory' => [
-            'notes' => 'Lab technicians: orders, results, and read-only lab equipment list.',
-            'permissions' => array_merge([
+            'notes' => 'Lab technicians: orders and results; no medical equipment registry access.',
+            'permissions' => [
                 'patients.view' => '1',
                 'opd_visits.view' => '1',
                 'lab_orders.view' => '1',
                 'lab_orders.create' => '1',
                 'lab_orders.edit' => '1',
                 'ai_insights.view' => '1',
-            ], $assetListOnlyPermissions),
+            ],
         ],
 
         'Biomedical' => [
-            'notes' => 'Medical equipment and IT asset registry: full create, edit, checkout, and maintenance.',
-            'permissions' => array_merge($assetManagePermissions, [
-                'reports.view' => '1',
-                'ai_insights.view' => '1',
-            ]),
+            'notes' => 'Medical equipment registry: assets, maintenance, checkout/checkin, equipment dashboard, and full equipment Settings pages (create/edit status labels, models, categories, manufacturers, locations, suppliers, departments). No clinical modules or reports.',
+            'permissions' => $biomedicalPermissions,
         ],
 
         'Clinic Administrator' => [
